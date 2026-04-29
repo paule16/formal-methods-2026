@@ -1,0 +1,12 @@
+{
+    "git.enabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "anis.componentUnderTest": "<>",
+    "anis.monitorAdapters.pytestJson.tracesDir": "<>",
+    "anis.monitorAdapters.pytestJson.traceFormat": {
+        "operationName": "syscall"
+    },
+    "anis.makeDebugModules": true,
+    "anis.coverage.enabled": false,
+}

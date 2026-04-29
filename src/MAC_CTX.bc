@@ -1,0 +1,28 @@
+context MAC_CTX
+    extends DAC_CTX
+
+sets
+    LABELS
+    ACCESSES
+
+constants
+    RESERVED_LABELS
+    FLOOR
+    HAT
+    STAR
+    HUH
+    WEB
+    READ
+    WRITE
+    EXECUTE
+    CAP_MAC_ADMIN
+    CAP_MAC_OVERRIDE
+
+axioms
+    @RESERVED_LABELS_type:      RESERVED_LABELS ⊆ LABELS
+    @RESERVED_LABELS_partition: partition(RESERVED_LABELS, {FLOOR}, {HAT}, {STAR}, {HUH}, {WEB})
+    @ACCESSES_partition:        partition(ACCESSES, {READ}, {WRITE}, {EXECUTE})
+    @CAP_MAC_ADMIN_type:        CAP_MAC_ADMIN ∈ CAPABILITIES
+    @CAP_MAC_OVERRIDE_type:     CAP_MAC_OVERRIDE ∈ CAPABILITIES
+
+end
