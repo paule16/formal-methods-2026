@@ -12,6 +12,9 @@ constants
     STAR
     HUH
     WEB
+    INIT_LABEL // метка, присваиваемая первому процессу
+    ROOT_LABEL // метка, присваиваемая корневой директории 
+    INIT_EXE_LABEL // метка, присваиваемая исполняемому файлу первого процесса
     READ
     WRITE
     EXECUTE
@@ -24,5 +27,8 @@ axioms
     @ACCESSES_partition:        partition(ACCESSES, {READ}, {WRITE}, {EXECUTE})
     @CAP_MAC_ADMIN_type:        CAP_MAC_ADMIN ∈ CAPABILITIES
     @CAP_MAC_OVERRIDE_type:     CAP_MAC_OVERRIDE ∈ CAPABILITIES
+    @INIT_LABEL_type:           INIT_LABEL ∈ LABELS
+    @ROOT_LABEL_type:           ROOT_LABEL ∈ LABELS
+    @INIT_EXE_LABEL_type:       INIT_EXE_LABEL ∈ LABELS
 
 end

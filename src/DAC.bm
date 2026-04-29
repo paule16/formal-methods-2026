@@ -79,7 +79,7 @@ invariants
     @PathToRoot2:         ∀f, p · f ∈ Folders ∧ p ∈ dom(FileParents[{f}]) ⇒ PathToRoot(f) = PathToRoot(p) ∪ {p}
     @PathToRoot3:         ∀f, p · f ∈ Folders ∧ p ∈ PathToRoot(f) ⇒ PathToRoot(p) ⊆ PathToRoot(f)
     @PathToRoot4:         ∀f, p · f ∈ Folders ∧ p ∈ PathToRoot(f) ⇒ (∃c · c ∈ PathToRoot(f) ∪ {f} ∧ p ∈ dom(FileParents[{c}])) // 
-                                                                                                                                   // 
+                                                                                                                               // 
     @Files1:              card(Files) ≤ MAX_FILES // множество файлов ограничено
                                                   // 
     @SymLinks1:           SymLinks ∩ Folders = ∅
@@ -90,8 +90,8 @@ invariants
     @ProcFDs3:            ∀p, fd · p ∈ Procs ∧ p ↦ fd ∈ ProcFDs ∧ FDFile(fd) ∈ Folders ∧ O_PATH ∉ FDFlags(fd)
 	⇒ O_WRONLY ∉ FDFlags(fd) ∧ O_RDWR ∉ FDFlags(fd) // нельзя иметь открытый дескриптор директории на запись (можно, если также выставлен флаг O_PATH)
                                                     // 
-    @FileParents1:        ∀f · f ∈ Folders ∖ {ROOT} ⇒ card(FileParents[{f}]) = 1 // у директории в иерархии файлов может быть только 1 родитель
-                                                                                           // 
+    @FileParents1:        ∀f · f ∈ Folders ∖ {ROOT} ⇒ (∃p, n · p ∈ FILES ∧ n ∈ STRINGS ∧ FileParents[{f}] = {p ↦ n}) // у директории в иерархии файлов может быть только 1 родитель
+                                                                                                                     // 
     @ACL1:                ∀f, u · f ↦ u ∈ dom(UserACL) ⇒ f ∈ dom(MaskACL) // если в UserACL есть запись для файла, то у этого файла должна быть маска в MaskACL
     @ACL2:                ∀f, g · f ↦ g ∈ dom(GroupACL) ⇒ f ∈ dom(MaskACL) // если в GroupACL есть запись для файла, то у этого файла должна быть маска в MaskACL
                                                                            // 
@@ -203,14 +203,14 @@ events
                                              // 
                                              // проверка происходит по следующему алгоритму:
                                              // 1) если пользователь текущего процесса является владельцем директории,
-                                             //    то у него должно быть право доступа на выполнение к ней
+                                             // то у него должно быть право доступа на выполнение к ней
                                              // 2) иначе, если маска ACL пустая, перейти на шаг 6 (из-за  бага 2004 года: https://superuser.com/questions/1356849/why-the-access-check-algorithm-from-man-acl-does-not-correspond-to-the-actual)
                                              // 3) иначе, если пользователь не владелец, но в UserACL есть запись с директорией и пользователем,
-                                             //    то в этой записи должно быть право доступа на выполнение и маска ACL должна разрешать такой доступ
+                                             // то в этой записи должно быть право доступа на выполнение и маска ACL должна разрешать такой доступ
                                              // 4) иначе если нет записи и в UserACL, но есть в GroupACL или GroupObjACL для директории и группы пользователя,
-                                             //    то в этой записи должно быть право доступа на выполнение и маска ACL должна разрешать такой доступ
+                                             // то в этой записи должно быть право доступа на выполнение и маска ACL должна разрешать такой доступ
                                              // 5) иначе если нет маски, то есть запись о группе в GroupObjACL,
-                                             //    то в этой записи должно быть право доступа на выполнение
+                                             // то в этой записи должно быть право доступа на выполнение
                                              // 6) иначе право доступа ищется в поле other DAC
         @grd19: ProcUser(proc) ≠ ROOT_USER
 	⇒ ((ProcUser(proc) = FileUser(parent)
@@ -1529,7 +1529,7 @@ events
         @act7:  ProcEnvp ≔ {proc} ⩤ ProcEnvp
         @act8:  ProcFDs ≔ {proc} ⩤ ProcFDs
         @act9:  ProcCwd ≔ {proc} ⩤ ProcCwd
-        @act10: ProcParent ≔ {x ↦ y ∣ x ∈ Procs ∖ {INIT, proc} ∧ y ∈ {ProcParent(x), INIT} ∧ (ProcParent(x) = proc ⇔ y = INIT)}
+        @act10: ProcParent ≔ {x ↦ y ∣ x ∈ Procs ∖ {INIT, proc} ∧ y ∈ {ProcParent(x), INIT} ∧ ((ProcParent(x) ≠ proc ∧ y = ProcParent(x)) ∨ (ProcParent(x) = proc ∧ y = INIT))}
         @act11: FDs ≔ FDs ∖ fds
         @act12: FDFlags ≔ fds ⩤ FDFlags
         @act13: FDFile ≔ fds ⩤ FDFile
@@ -1896,7 +1896,7 @@ events
         @grd44: card(ran(fProcFDs)) ≤ FILE_LIMIT
         @grd45: ∀p, fd · p ∈ fProcs ∧ p ↦ fd ∈ fProcFDs ∧ fFDFile(fd) ∈ fFolders ∧ O_PATH ∉ fFDFlags(fd)
 	⇒ O_WRONLY ∉ fFDFlags(fd) ∧ O_RDWR ∉ fFDFlags(fd)
-        @grd46: ∀f · f ∈ fFolders ∖ {ROOT} ⇒ (fFileParents[{f}] ≠ ∅)
+        @grd46: ∀f · f ∈ fFolders ∖ {ROOT} ⇒ (∃p, n · p ∈ FILES ∧ n ∈ STRINGS ∧ fFileParents[{f}] = {p ↦ n})
         @grd47: ∀f, u · f ↦ u ∈ dom(fUserACL) ⇒ f ∈ dom(fMaskACL)
         @grd48: ∀f, g · f ↦ g ∈ dom(fGroupACL) ⇒ f ∈ dom(fMaskACL)
         @grd49: ∀f · f ∈ dom(fMaskACL) ⇒ fMaskACL(f) = fDACPermissions(f) ∩ GROUP_PERMISSIONS
