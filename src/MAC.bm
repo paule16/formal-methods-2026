@@ -42,7 +42,7 @@ variables
 invariants
     @inv1: ProcLabel ∈ Procs → LABELS
     @inv2: FileLabel ∈ Files → LABELS
-    @inv3: SmackRules ∈ (LABELS × LABELS) ⇸ ℙ(ACCESSES)
+    @inv3: SmackRules ⊆ LABELS × LABELS × ACCESSES
 
 events
 
@@ -63,7 +63,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории согласно правилам из
@@ -74,7 +74,7 @@ events
                 (
                     FileLabel(parent) = STAR ∨
                     ProcLabel(proc) = FileLabel(parent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(parent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
     then
@@ -91,7 +91,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -103,7 +103,7 @@ events
                     FileLabel(file) = FLOOR ∨
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    READ ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    READ ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на чтение файла
         @grd23: ProcUser(proc) ≠ ROOT_USER ∧ (O_WRONLY ∈ flags ∨ O_RDWR ∈ flags) ∧ O_PATH ∉ flags ⇒
@@ -112,7 +112,7 @@ events
                 (
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на запись в файл
     end
@@ -127,7 +127,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории согласно правилам из
@@ -138,7 +138,7 @@ events
                 (
                     FileLabel(parent) = STAR ∨
                     ProcLabel(proc) = FileLabel(parent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(parent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
     then
@@ -155,7 +155,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -167,7 +167,7 @@ events
                     FileLabel(file) = FLOOR ∨
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    READ ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    READ ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на чтение файла
         @grd28: ProcUser(proc) ≠ ROOT_USER ∧ (O_WRONLY ∈ flags ∨ O_RDWR ∈ flags) ∧ O_PATH ∉ flags ⇒
@@ -176,7 +176,7 @@ events
                 (
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на запись в файл
     end
@@ -191,7 +191,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории согласно правилам из
@@ -202,7 +202,7 @@ events
                 (
                     FileLabel(parent) = STAR ∨
                     ProcLabel(proc) = FileLabel(parent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(parent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
     then
@@ -219,7 +219,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -238,7 +238,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -254,7 +254,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -273,7 +273,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -289,7 +289,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // директории к корневой директории
@@ -305,7 +305,7 @@ events
                     FileLabel(FDFile(fd)) = FLOOR ∨
                     FileLabel(FDFile(fd)) = STAR ∨
                     ProcLabel(proc) = FileLabel(FDFile(fd)) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(FDFile(fd)))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(FDFile(fd))}]
                 )
             ) // проверка прав доступа на выполнение к директории
     end
@@ -323,7 +323,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -335,7 +335,7 @@ events
                     FileLabel(file) = FLOOR ∨
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    READ ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    READ ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на чтение файла
     end
@@ -350,7 +350,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -360,7 +360,7 @@ events
                 (
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на запись в файл
     end
@@ -375,7 +375,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -387,7 +387,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -397,7 +397,7 @@ events
                 (
                     FileLabel(newParent) = STAR ∨
                     ProcLabel(proc) = FileLabel(newParent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(newParent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(newParent)}]
                 )
             ) // проверка прав на запись в новую родительскую директорию
         @grd14: ProcUser(proc) ≠ FileUser(file) ⇒
@@ -408,7 +408,7 @@ events
                     FileLabel(file) = FLOOR ∨
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    READ ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    READ ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // TODO: проверить
         @grd15: ProcUser(proc) ≠ FileUser(file) ⇒
@@ -417,7 +417,7 @@ events
                 (
                     FileLabel(file) = STAR ∨
                     ProcLabel(proc) = FileLabel(file) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(file))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // TODO: проверить
     end
@@ -432,7 +432,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -442,9 +442,11 @@ events
                 (
                     FileLabel(parent) = STAR ∨
                     ProcLabel(proc) = FileLabel(parent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(parent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // проверка прав на запись в родительскую директорию
+    then
+        @act10: FileLabel(file) ≔ ProcLabel(proc) // TODO: directory label transition
     end
 
     event execve extends execve // TODO: support #!interpreter
@@ -457,7 +459,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории, а также к исполняемому файлу
@@ -484,7 +486,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -494,7 +496,7 @@ events
                 (
                     FileLabel(parent) = STAR ∨
                     ProcLabel(proc) = FileLabel(parent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(parent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // проверка прав на запись в родительскую директорию
     then
@@ -511,7 +513,7 @@ events
                     FileLabel(f) = FLOOR ∨
                     FileLabel(f) = STAR ∨
                     ProcLabel(proc) = FileLabel(f) ∨
-                    EXECUTE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(f))
+                    EXECUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(f)}]
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
@@ -521,7 +523,7 @@ events
                 (
                     FileLabel(parent) = STAR ∨
                     ProcLabel(proc) = FileLabel(parent) ∨
-                    WRITE ∈ SmackRules(ProcLabel(proc) ↦ FileLabel(parent))
+                    WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // проверка прав на запись в родительскую директорию
     then
@@ -555,7 +557,7 @@ events
     where
         @grd53: fProcLabel ∈ fProcs → LABELS
         @grd54: fFileLabel ∈ fFiles → LABELS
-        @grd55: fSmackRules ∈ (LABELS × LABELS) ⇸ ℙ(ACCESSES)
+        @grd55: fSmackRules ⊆ LABELS × LABELS × ACCESSES
     then
         @act33: ProcLabel ≔ fProcLabel
         @act34: FileLabel ≔ fFileLabel
