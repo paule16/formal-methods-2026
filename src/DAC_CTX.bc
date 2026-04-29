@@ -52,7 +52,7 @@ axioms
     @ROOT1:                            ROOT ≠ INIT_EXE
     @MAX_FILES_type:                   MAX_FILES ∈ ℕ1
     @FILES_finite1:                    finite(FILES)
-    @FILES_finite2:                    card(FILES) = MAX_FILES
+    @FILES_finite2:                    card(FILES) ≤ MAX_FILES
     @PROC_FILE_LIMIT_type:             PROC_FILE_LIMIT ∈ ℕ1
     @FILE_DESCRIPTORS_EXTENDED_finite: finite(FILE_DESCRIPTORS_EXTENDED)
     @FILE_LIMIT_type:                  FILE_LIMIT ∈ ℕ1
