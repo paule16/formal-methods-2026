@@ -1,4 +1,4 @@
 {
-    "anis.componentUnderTest": "MAC",
+    "anis.componentUnderTest": "MAC_EXT",
     "python.testing.pytestEnabled": true
 }
