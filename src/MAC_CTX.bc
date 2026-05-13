@@ -2,7 +2,6 @@ context MAC_CTX
     extends DAC_CTX
 
 sets
-    LABELS
     ACCESSES
 
 constants
@@ -18,17 +17,18 @@ constants
     READ
     WRITE
     EXECUTE
+    TRANSMUTE
     CAP_MAC_ADMIN
     CAP_MAC_OVERRIDE
 
 axioms
-    @RESERVED_LABELS_type:      RESERVED_LABELS ⊆ LABELS
+    @RESERVED_LABELS_type:      RESERVED_LABELS ⊆ STRINGS
     @RESERVED_LABELS_partition: partition(RESERVED_LABELS, {FLOOR}, {HAT}, {STAR}, {HUH}, {WEB})
-    @ACCESSES_partition:        partition(ACCESSES, {READ}, {WRITE}, {EXECUTE})
+    @ACCESSES_partition:        partition(ACCESSES, {READ}, {WRITE}, {EXECUTE}, {TRANSMUTE})
     @CAP_MAC_ADMIN_type:        CAP_MAC_ADMIN ∈ CAPABILITIES
     @CAP_MAC_OVERRIDE_type:     CAP_MAC_OVERRIDE ∈ CAPABILITIES
-    @INIT_LABEL_type:           INIT_LABEL ∈ LABELS
-    @ROOT_LABEL_type:           ROOT_LABEL ∈ LABELS
-    @INIT_EXE_LABEL_type:       INIT_EXE_LABEL ∈ LABELS
+    @INIT_LABEL_type:           INIT_LABEL ∈ STRINGS
+    @ROOT_LABEL_type:           ROOT_LABEL ∈ STRINGS
+    @INIT_EXE_LABEL_type:       INIT_EXE_LABEL ∈ STRINGS
 
 end
