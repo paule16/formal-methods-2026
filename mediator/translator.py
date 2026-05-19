@@ -1,78 +1,85 @@
 from os.path import dirname, isabs, join
 from re import fullmatch
 from stat import S_IRGRP, S_IRUSR, S_IWGRP, S_IWUSR, S_IXGRP, S_IXUSR
-from typing import Any, Generator, Optional
-from anis.stages.invariants import check_axioms
+from typing import Generator, Optional
 from model.machine import Machine
 from anis.model.lazy import assert_is_not_none
 from anis.stages.mediator import ModelTraceConsumer
 from mediator.builder import EventsBuilder
 from mediator.state import Inode, MediatorState, ProcFD
-from mediator.snapshot import Snapshot
 
 
 class TraceTranslator:
 
-    def __init__(self, model_trace: ModelTraceConsumer, initial: dict[str, Any], m: Machine):
+    def __init__(self, *, model_trace: ModelTraceConsumer, m: Machine,
+                 root_dev: int, root_ino: int, root_uid: int, root_gid: int):
 
-        snapshot = Snapshot(**initial)
+        self._model_trace = EventsBuilder(model_trace=model_trace, m=m,
+                                          root_dev=root_dev, root_ino=root_ino,
+                                          root_uid=root_uid, root_gid=root_gid)
 
-        self._model_trace = EventsBuilder(model_trace, snapshot, m)
+        self.mediator_state = MediatorState(Inode(root_dev, root_ino))
 
-        self.mediator_state = MediatorState(Inode(snapshot.root_dev, snapshot.root_ino))
+
+    def add_init_group(self, *, gid: int):
+
+        self._model_trace.create_group(gid)
+
+
+    def add_init_user(self, *, uid: int, primary_gid: int, supplementary_gids: list[int]):
+
+        self._model_trace.create_user(uid, [primary_gid] + supplementary_gids)
+
+
+    def add_init_folder(self, *, path: str,
+                        dev: int, ino: int, uid: int, gid: int, perms: int):
+
+        folder = Inode(dev, ino,)
+        self.mediator_state.do_mkdir(path, folder, uid, gid, perms)
+        parent = self.mediator_state.get_ino(dirname(path))
+        self._model_trace.mkdir(path, 0o777, parent, folder, 0, 0o777, 0, 0, skip_coverage=True)
+        self._model_trace.chown(path, uid, gid, 0, 0, parent, folder, 0o777, 0, 0, skip_coverage=True)
+        self._model_trace.chmod(path, perms, parent, folder, perms, 0, 0, skip_coverage=True)
+
+
+    def set_xattrs_init_file(self, *, path: str, xattrs: dict[str, str]):
+
+        folder = self.mediator_state.get_ino(path)
+        parent = self.mediator_state.get_ino(dirname(path))
+        for name, value in xattrs.items():
+            value_b = bytes.fromhex(value)
+            self._model_trace.setxattr(path, name, value_b, len(value_b), 0, parent, folder, 0, 0, skip_coverage=True)
+
+
+    def add_init_file_or_link(self, *, path: str,
+                      dev: int, ino: int, uid: int, gid: int, perms: int):
+
+        parent = self.mediator_state.get_ino(dirname(path))
+        file = Inode(dev, ino,)
+        try:
+            oldpath = self.mediator_state.get_path(file) # it is link
+        except:
+            oldpath = None # it is file
+
+        if oldpath is not None:
+            oldParent = self.mediator_state.get_ino(dirname(oldpath))
+            self.mediator_state.do_link(oldpath, path)
+            self._model_trace.link(oldpath, path, oldParent, file, parent, 0, 0, skip_coverage=True)
+        else:
+            self.mediator_state.do_creat(path, file, uid, gid, perms)
+            self._model_trace.creat(path, 0o777, parent, file, 0, 0o777, 0, 3, skip_coverage=True)
+            self._model_trace.close(3, [ProcFD(0, 3)], 0, 0, skip_coverage=True)
+            self._model_trace.chown(path, uid, gid, 0, 0, parent, file, 0o777, 0, 0, skip_coverage=True)
+            self._model_trace.chmod(path, perms, parent, file, perms, 0, 0, skip_coverage=True)
+
+    def set_init_acl(self, *, data: list[tuple[str, list[str]]]):
 
         def acls() -> Generator[tuple[Inode, int, list[str]], None, None]:
-            for dev, ino, _, _, perms, _, acl in snapshot.init_dirs.values():
-                yield (Inode(dev, ino), perms, acl)
-            for dev, ino, _, _, perms, _, acl in snapshot.init_files.values():
-                yield (Inode(dev, ino), perms, acl)
+            for path, acl in data:
+                file = self.mediator_state.get_ino(path)
+                perms = self.mediator_state.stats[file].st_mode
+                yield (file, perms, acl)
 
-        # create groups
-        for gid in snapshot.init_groups:
-            self._model_trace.create_group(gid)
-
-        # create users
-        for uid, primary_gid, supplementary_gids in snapshot.init_users.values():
-            self._model_trace.create_user(uid, [primary_gid] + supplementary_gids)
-
-        # create folders
-        folder_paths = list(snapshot.init_dirs.keys())
-        folder_paths.sort() # sorting moves parent folder earlier in the list
-        for path in folder_paths:
-            dev, ino, uid, gid, perms, xattrs, _ = snapshot.init_dirs[path]
-            folder = Inode(dev, ino,)
-            self.mediator_state.do_mkdir(path, folder, uid, gid, perms)
-            parent = self.mediator_state.get_ino(dirname(path))
-            self._model_trace.mkdir(path, 0o777, parent, folder, snapshot.root_gid, 0o777, 0, 0, skip_coverage=True)
-            self._model_trace.chown(path, uid, gid, snapshot.root_uid, snapshot.root_gid, parent, folder, 0o777, 0, 0, skip_coverage=True)
-            self._model_trace.chmod(path, perms, parent, folder, perms, 0, 0, skip_coverage=True)
-            for name, value in xattrs.items():
-                value_b = bytes.fromhex(value)
-                self._model_trace.setxattr(path, name, value_b, len(value_b), 0, parent, folder, 0, 0, skip_coverage=True)
-
-        check_axioms(m)
-
-        # create files
-        for path, (dev, ino, uid, gid, perms, xattrs, acl) in snapshot.init_files.items():
-            parent = self.mediator_state.get_ino(dirname(path))
-            file = Inode(dev, ino,)
-            try:
-                oldpath = self.mediator_state.get_path(file)
-            except:
-                oldpath = None
-            if oldpath is not None:                
-                oldParent = self.mediator_state.get_ino(dirname(oldpath))
-                self.mediator_state.do_link(oldpath, path)
-                self._model_trace.link(oldpath, path, oldParent, file, parent, 0, 0, skip_coverage=True)
-            else:
-                self.mediator_state.do_creat(path, file, uid, gid, perms)
-                self._model_trace.creat(path, 0o777, parent, file, 0, 0o777, 0, 3, skip_coverage=True)
-                self._model_trace.close(3, [ProcFD(0, 3)], 0, 0, skip_coverage=True)
-                self._model_trace.chown(path, uid, gid, 0, 0, parent, file, 0o777, 0, 0, skip_coverage=True)
-                self._model_trace.chmod(path, perms, parent, file, perms, 0, 0, skip_coverage=True)
-                for name, value in xattrs.items():
-                    value_b = bytes.fromhex(value)
-                    self._model_trace.setxattr(path, name, value_b, len(value_b), 0, parent, file, 0, 0, skip_coverage=True)
 
         # translate acl
         userACL = list[tuple[Inode, int, int]]()
@@ -112,7 +119,10 @@ class TraceTranslator:
                                           |(S_IWGRP if 'w' in macl[3] else 0)
                                           |(S_IXGRP if 'x' in macl[3] else 0)))
         self._model_trace.set_acl(userACL, groupACL, groupObjACL, maskACL, dacPermissions)
-        self._model_trace.login(snapshot)
+
+    def login(self, *, uid: int, gid: int, pid: int, exeFile: str, umask: int):
+        exeFile_ino = self.mediator_state.get_ino(exeFile)
+        self._model_trace.login(uid=uid, gid=gid, pid=pid, exeFile=exeFile_ino, umask=umask)
 
     def open(self, pathname: str, flags: int, mode: int, pid: int,
              dev: Optional[int], ino: Optional[int],
