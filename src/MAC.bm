@@ -583,8 +583,12 @@ events
     end
 
     event login extends login // create first user process
+    any
+        procLabel
+    where
+        @grd8: (exeFile ∈ dom(FileExecLabel) ∧ procLabel = FileExecLabel(exeFile)) ∨ procLabel = ProcLabel(INIT)
     then
-        @act10: ProcLabel(proc) ≔ ProcLabel(INIT)
+        @act10: ProcLabel(proc) ≔ procLabel
     end
 
     event set_acl extends set_acl

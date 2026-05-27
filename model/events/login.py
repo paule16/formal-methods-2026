@@ -1,10 +1,10 @@
 from model.machine import Machine
 from anis.model.lazy import Event, Parameter, Guard, Action
-from anis.model.expressions import powerset, override_relation, function_value
+from anis.model.expressions import powerset, relation_domain, function_value, override_relation
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7'],
-             'MAC': [],
+             'MAC': ['grd8'],
              'MAC_EXT': []
 }
 
@@ -15,7 +15,8 @@ def login(m: Machine,
           _exeFile: Machine.FilesItem | None,
           _argv: frozenset[Machine.StringsItem] | None,
           _envp: frozenset[Machine.StringsItem] | None,
-          _umask: frozenset[Machine.PermissionsItem] | None) -> Event:
+          _umask: frozenset[Machine.PermissionsItem] | None,
+          _procLabel: Machine.StringsItem | None) -> Event:
 
     user = Parameter(_user)
     proc = Parameter(_proc)
@@ -24,6 +25,7 @@ def login(m: Machine,
     argv = Parameter(_argv)
     envp = Parameter(_envp)
     umask = Parameter(_umask)
+    procLabel = Parameter(_procLabel)
 
 
     _grd1 = Guard('grd1', lambda _: (_(1, 
@@ -47,6 +49,8 @@ def login(m: Machine,
     _grd7 = Guard('grd7', lambda _: (_(7, 
     (~umask) <= (m.PERMISSIONS - m.FILE_MODES))))
 
+    _grd8 = Guard('grd8', lambda _: (((_(8, (~exeFile) in relation_domain(m.FileExecLabel))) and (_(9, (~procLabel) == function_value(m.FileExecLabel, (~exeFile))))) or (_(10, (~procLabel) == function_value(m.ProcLabel, m.INIT)))))
+
 
     _act1 = Action('act1', m, 'Procs', lambda: ((m.Procs | frozenset(((~proc),)))))
 
@@ -66,7 +70,7 @@ def login(m: Machine,
 
     _act9 = Action('act9', m, 'ProcParent', lambda: (override_relation(m.ProcParent, frozenset((((~proc), m.INIT),)))))
 
-    _act10 = Action('act10', m, 'ProcLabel', lambda: (override_relation(m.ProcLabel, frozenset((((~proc), function_value(m.ProcLabel, m.INIT)),)))))
+    _act10 = Action('act10', m, 'ProcLabel', lambda: (override_relation(m.ProcLabel, frozenset((((~proc), (~procLabel)),)))))
 
 
-    return Event("login", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10)
+    return Event("login", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10)
