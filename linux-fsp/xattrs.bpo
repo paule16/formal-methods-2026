@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.poFile org.eventb.core.poStamp="1">
+    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="0">
+        <org.eventb.core.poIdentifier name="XATTR_FLAGS" org.eventb.core.type="ℙ(XATTR_FLAGS)"/>
+        <org.eventb.core.poIdentifier name="XATTR_REPLACE" org.eventb.core.type="XATTR_FLAGS"/>
+        <org.eventb.core.poIdentifier name="XATTR_CREATE" org.eventb.core.type="XATTR_FLAGS"/>
+    </org.eventb.core.poPredicateSet>
+    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/xattrs.bpo|org.eventb.core.poFile#xattrs|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="1">
+        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="partition(XATTR_FLAGS,{XATTR_CREATE},{XATTR_REPLACE})" org.eventb.core.source="/linux-fsp/xattrs.buc|org.eventb.core.contextFile#xattrs|org.eventb.core.axiom#4"/>
+    </org.eventb.core.poPredicateSet>
+</org.eventb.core.poFile>

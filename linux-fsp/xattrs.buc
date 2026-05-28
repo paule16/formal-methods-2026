@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.contextFile version="3" org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase">
+  <org.eventb.core.carrierSet name="1" org.eventb.core.identifier="XATTR_FLAGS"/>
+  <org.eventb.core.constant name="2" org.eventb.core.identifier="XATTR_CREATE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="3" org.eventb.core.identifier="XATTR_REPLACE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.axiom name="4" org.eventb.core.label="XATTR_FLAGS_partition" org.eventb.core.predicate="partition(XATTR_FLAGS, {XATTR_CREATE}, {XATTR_REPLACE})" org.eventb.core.theorem="false"/>
+</org.eventb.core.contextFile>

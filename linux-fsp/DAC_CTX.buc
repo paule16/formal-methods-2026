@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.contextFile org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase" version="3">
+    <org.eventb.core.carrierSet name="1" org.eventb.core.comment="множество всех возможных файлов" org.eventb.core.identifier="FILES"/>
+    <org.eventb.core.carrierSet name="2" org.eventb.core.comment="множество всех возможных процессов" org.eventb.core.identifier="PROCS"/>
+    <org.eventb.core.carrierSet name="3" org.eventb.core.comment="множество всех возможных учетных записей пользователей" org.eventb.core.identifier="USERS"/>
+    <org.eventb.core.carrierSet name="4" org.eventb.core.comment="множество всех возможных групп пользователей" org.eventb.core.identifier="GROUPS"/>
+    <org.eventb.core.carrierSet name="5" org.eventb.core.comment="множество всех файловых дескрипторов, расширенное специальным дескриптором AT_FDCWD" org.eventb.core.identifier="FILE_DESCRIPTORS_EXTENDED"/>
+    <org.eventb.core.carrierSet name="6" org.eventb.core.comment="права доступа включают в себя rwx права для владельца файла (USER_PERMISSIONS), группы (GROUP_PERMISSIONS), и остальных (OTHER_PERMISSIOS),&#10;а также дополнительные флаги SET_UID, SET_GID, STICKY_BIT" org.eventb.core.identifier="PERMISSIONS"/>
+    <org.eventb.core.carrierSet name="7" org.eventb.core.comment="множество всех возможных строк" org.eventb.core.identifier="STRINGS"/>
+    <org.eventb.core.carrierSet name="8" org.eventb.core.comment="некоторые абстрактные данные, структура которых нам не важна" org.eventb.core.identifier="DATA"/>
+    <org.eventb.core.carrierSet name="9" org.eventb.core.comment="привилегии учетной записи" org.eventb.core.identifier="CAPABILITIES"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="10" org.eventb.core.comment="процесс инициализации системы" org.eventb.core.identifier="INIT"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="11" org.eventb.core.comment="исполняемый файл процесса инициализации" org.eventb.core.identifier="INIT_EXE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="12" org.eventb.core.comment="имя исполняемого файла процесса инициализации" org.eventb.core.identifier="INIT_NAME"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="13" org.eventb.core.comment="корневая директория файловой системы" org.eventb.core.identifier="ROOT"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="14" org.eventb.core.comment="quota of inodes on the filesystem" org.eventb.core.identifier="MAX_FILES"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="15" org.eventb.core.comment="This specifies a value one greater than the maximum file descriptor number that can be opened by this process" org.eventb.core.identifier="PROC_FILE_LIMIT"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="16" org.eventb.core.comment="System-wide limit on the total number of open files" org.eventb.core.identifier="FILE_LIMIT"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="17" org.eventb.core.comment="rwx права владельца файла" org.eventb.core.identifier="USER_PERMISSIONS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="18" org.eventb.core.comment="rwx права группы файла" org.eventb.core.identifier="GROUP_PERMISSIONS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="19" org.eventb.core.comment="rwx права остальных" org.eventb.core.identifier="OTHER_PERMISSIONS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="20" org.eventb.core.comment="флаги SET_UID, SET_GID, STICKY_BIT" org.eventb.core.identifier="FILE_MODES"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="21" org.eventb.core.comment="право доступа на чтение для владельца файла" org.eventb.core.identifier="UREAD"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="22" org.eventb.core.comment="право доступа на запись для владельца файла" org.eventb.core.identifier="UWRITE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="23" org.eventb.core.comment="право доступа на выполнение для владельца файла" org.eventb.core.identifier="UEXECUTE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="24" org.eventb.core.comment="право доступа на чтение для группы" org.eventb.core.identifier="GREAD"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="25" org.eventb.core.comment="право доступа на запись для группы" org.eventb.core.identifier="GWRITE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="26" org.eventb.core.comment="право доступа на выполнение для группы" org.eventb.core.identifier="GEXECUTE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="27" org.eventb.core.comment="право доступа на чтение для остальных" org.eventb.core.identifier="OREAD"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="28" org.eventb.core.comment="право доступа на запись для остальных" org.eventb.core.identifier="OWRITE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="29" org.eventb.core.comment="право доступа на выполнение для остальных" org.eventb.core.identifier="OEXECUTE"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="30" org.eventb.core.comment="флаг прав доступа на смену ID пользователя во время выполнения" org.eventb.core.identifier="SET_UID"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="31" org.eventb.core.comment="флаг прав доступа на смену ID группы во время выполнения" org.eventb.core.identifier="SET_GID"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="32" org.eventb.core.comment="флаг, установка которого на каталог защищает файлы от удаления другими пользователями" org.eventb.core.identifier="STICKY_BIT"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="33" org.eventb.core.comment="права доступа по умолчанию для файлов" org.eventb.core.identifier="DEF_FILE_PERMS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="34" org.eventb.core.comment="права доступа по умолчанию для каталогов" org.eventb.core.identifier="DEF_FOLDER_PERMS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="35" org.eventb.core.comment="права доступа по умолчанию для симлинков" org.eventb.core.identifier="DEF_SYMLINK_PERMS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="36" org.eventb.core.comment="учетная запись суперпользователя" org.eventb.core.identifier="ROOT_USER"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="37" org.eventb.core.comment="группа суперпользователя" org.eventb.core.identifier="ROOT_GROUP"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="38" org.eventb.core.comment="множество всех файловых дескрипторов" org.eventb.core.identifier="FILE_DESCRIPTORS"/>
+    <org.eventb.core.constant de.prob.symbolic.symbolicAttribute="false" name="39" org.eventb.core.comment="файловый дескриптор, указывающий на текущую рабочую директорию" org.eventb.core.identifier="AT_FDCWD"/>
+    <org.eventb.core.axiom name="40" org.eventb.core.label="INIT_type" org.eventb.core.predicate="INIT ∈ PROCS" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="41" org.eventb.core.label="INIT_EXE_type" org.eventb.core.predicate="INIT_EXE ∈ FILES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="42" org.eventb.core.label="INIT_NAME_type" org.eventb.core.predicate="INIT_NAME ∈ STRINGS"/>
+    <org.eventb.core.axiom name="43" org.eventb.core.label="ROOT_type" org.eventb.core.predicate="ROOT ∈ FILES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="44" org.eventb.core.label="ROOT1" org.eventb.core.predicate="ROOT ≠ INIT_EXE" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="45" org.eventb.core.label="MAX_FILES_type" org.eventb.core.predicate="MAX_FILES ∈ ℕ1" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="46" org.eventb.core.label="FILES_finite1" org.eventb.core.predicate="finite(FILES)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="47" org.eventb.core.label="FILES_finite2" org.eventb.core.predicate="card(FILES) ≤ MAX_FILES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="48" org.eventb.core.label="PROC_FILE_LIMIT_type" org.eventb.core.predicate="PROC_FILE_LIMIT ∈ ℕ1" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="49" org.eventb.core.label="FILE_DESCRIPTORS_EXTENDED_finite" org.eventb.core.predicate="finite(FILE_DESCRIPTORS_EXTENDED)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="50" org.eventb.core.label="FILE_LIMIT_type" org.eventb.core.predicate="FILE_LIMIT ∈ ℕ1" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="51" org.eventb.core.label="PERMISSIONS_partition" org.eventb.core.predicate="partition(PERMISSIONS, USER_PERMISSIONS, GROUP_PERMISSIONS, OTHER_PERMISSIONS, FILE_MODES)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="52" org.eventb.core.label="USER_PERMISSIONS_partition" org.eventb.core.predicate="partition(USER_PERMISSIONS, {UREAD}, {UWRITE}, {UEXECUTE})" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="53" org.eventb.core.label="GROUP_PERMISSIONS_partition" org.eventb.core.predicate="partition(GROUP_PERMISSIONS, {GREAD}, {GWRITE}, {GEXECUTE})" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="54" org.eventb.core.label="OTHER_PERMISSIONS_partition" org.eventb.core.predicate="partition(OTHER_PERMISSIONS, {OREAD}, {OWRITE}, {OEXECUTE})" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="55" org.eventb.core.label="FILE_MODES_partition" org.eventb.core.predicate="partition(FILE_MODES, {SET_UID}, {SET_GID}, {STICKY_BIT})" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="56" org.eventb.core.label="DEF_FILE_PERMS_type" org.eventb.core.predicate="DEF_FILE_PERMS = {UREAD, UWRITE, GREAD, OREAD}"/>
+    <org.eventb.core.axiom name="57" org.eventb.core.label="DEF_FOLDER_PERMS_type" org.eventb.core.predicate="DEF_FOLDER_PERMS = {UREAD, UWRITE, UEXECUTE, GREAD, GEXECUTE, OREAD, OEXECUTE}" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="58" org.eventb.core.label="DEF_SYMLINK_PERMS_type" org.eventb.core.predicate="DEF_SYMLINK_PERMS = {UREAD, UWRITE, UEXECUTE, GREAD, GWRITE, GEXECUTE, OREAD, OWRITE, OEXECUTE}" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="59" org.eventb.core.label="ROOT_USER_type" org.eventb.core.predicate="ROOT_USER ∈ USERS" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="60" org.eventb.core.label="ROOT_GROUP_type" org.eventb.core.predicate="ROOT_GROUP ∈ GROUPS" org.eventb.core.theorem="false"/>
+    <org.eventb.core.axiom name="61" org.eventb.core.comment="AT_FDCWD - Special value used to indicate openat should use the current working directory" org.eventb.core.label="FILE_DESCRIPTORS_type" org.eventb.core.predicate="partition(FILE_DESCRIPTORS_EXTENDED, FILE_DESCRIPTORS, {AT_FDCWD})" org.eventb.core.theorem="false"/>
+</org.eventb.core.contextFile>

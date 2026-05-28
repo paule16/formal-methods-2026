@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.poFile org.eventb.core.poStamp="1">
+    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="0">
+        <org.eventb.core.poIdentifier name="O_TRUNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_NOCTTY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_SYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_RDONLY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_LARGEFILE" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_PATH" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_APPEND" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_NOFOLLOW" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="OPEN_FLAGS" org.eventb.core.type="ℙ(ℤ)"/>
+        <org.eventb.core.poIdentifier name="O_WRONLY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_CREAT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_DIRECTORY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_NOBLOCK" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_DSYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_DIRECT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_TMPFILE" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_RDWR" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_EXCL" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_ASYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_CLOEXEC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_NDELAY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="O_NOATIME" org.eventb.core.type="ℤ"/>
+    </org.eventb.core.poPredicateSet>
+    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/open.bpo|org.eventb.core.poFile#open|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="1">
+        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="O_RDONLY=1" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#23"/>
+        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="O_WRONLY=2" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#24"/>
+        <org.eventb.core.poPredicate name="PRD2" org.eventb.core.predicate="O_RDWR=3" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#25"/>
+        <org.eventb.core.poPredicate name="PRD3" org.eventb.core.predicate="O_CREAT=4" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#26"/>
+        <org.eventb.core.poPredicate name="PRD4" org.eventb.core.predicate="O_EXCL=5" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#27"/>
+        <org.eventb.core.poPredicate name="PRD5" org.eventb.core.predicate="O_DIRECT=6" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#28"/>
+        <org.eventb.core.poPredicate name="PRD6" org.eventb.core.predicate="O_TMPFILE=7" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#29"/>
+        <org.eventb.core.poPredicate name="PRD7" org.eventb.core.predicate="O_DIRECTORY=8" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#30"/>
+        <org.eventb.core.poPredicate name="PRD8" org.eventb.core.predicate="O_CLOEXEC=9" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#31"/>
+        <org.eventb.core.poPredicate name="PRD9" org.eventb.core.predicate="O_NOCTTY=10" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#32"/>
+        <org.eventb.core.poPredicate name="PRD10" org.eventb.core.predicate="O_NOFOLLOW=11" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#33"/>
+        <org.eventb.core.poPredicate name="PRD11" org.eventb.core.predicate="O_TRUNC=12" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#34"/>
+        <org.eventb.core.poPredicate name="PRD12" org.eventb.core.predicate="O_APPEND=13" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#35"/>
+        <org.eventb.core.poPredicate name="PRD13" org.eventb.core.predicate="O_ASYNC=14" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#36"/>
+        <org.eventb.core.poPredicate name="PRD14" org.eventb.core.predicate="O_SYNC=15" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#37"/>
+        <org.eventb.core.poPredicate name="PRD15" org.eventb.core.predicate="O_DSYNC=16" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#38"/>
+        <org.eventb.core.poPredicate name="PRD16" org.eventb.core.predicate="O_NOATIME=17" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#39"/>
+        <org.eventb.core.poPredicate name="PRD17" org.eventb.core.predicate="O_LARGEFILE=18" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#40"/>
+        <org.eventb.core.poPredicate name="PRD18" org.eventb.core.predicate="O_PATH=19" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#41"/>
+        <org.eventb.core.poPredicate name="PRD19" org.eventb.core.predicate="O_NOBLOCK=20" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#42"/>
+        <org.eventb.core.poPredicate name="PRD20" org.eventb.core.predicate="O_NDELAY=21" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#43"/>
+        <org.eventb.core.poPredicate name="PRD21" org.eventb.core.predicate="OPEN_FLAGS={O_RDONLY,O_WRONLY,O_RDWR,O_CLOEXEC,O_CREAT,O_DIRECTORY,O_EXCL,O_NOCTTY,O_NOFOLLOW,O_TMPFILE,O_TRUNC,O_APPEND,O_ASYNC,O_DIRECT,O_DSYNC,O_LARGEFILE,O_NOATIME,O_NOBLOCK,O_NDELAY,O_PATH,O_SYNC}" org.eventb.core.source="/linux-fsp/open.buc|org.eventb.core.contextFile#open|org.eventb.core.axiom#44"/>
+    </org.eventb.core.poPredicateSet>
+</org.eventb.core.poFile>

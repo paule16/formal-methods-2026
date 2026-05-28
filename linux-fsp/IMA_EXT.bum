@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile version="5" org.eventb.core.configuration="org.eventb.core.fwd" org.eventb.core.generated="false">
+  <org.eventb.core.refinesMachine name="1" org.eventb.core.target="IMA"/>
+  <org.eventb.core.seesContext name="2" org.eventb.core.target="RV"/>
+  <org.eventb.core.seesContext name="3" org.eventb.core.target="open"/>
+  <org.eventb.core.seesContext name="4" org.eventb.core.target="xattrs"/>
+  <org.eventb.core.variable name="5" org.eventb.core.generated="false" org.eventb.core.identifier="Users"/>
+  <org.eventb.core.variable name="6" org.eventb.core.generated="false" org.eventb.core.identifier="Groups"/>
+  <org.eventb.core.variable name="7" org.eventb.core.generated="false" org.eventb.core.identifier="Procs"/>
+  <org.eventb.core.variable name="8" org.eventb.core.generated="false" org.eventb.core.identifier="Files"/>
+  <org.eventb.core.variable name="9" org.eventb.core.generated="false" org.eventb.core.identifier="Folders"/>
+  <org.eventb.core.variable name="10" org.eventb.core.generated="false" org.eventb.core.identifier="SymLinks"/>
+  <org.eventb.core.variable name="11" org.eventb.core.generated="false" org.eventb.core.identifier="FDs"/>
+  <org.eventb.core.variable name="12" org.eventb.core.generated="false" org.eventb.core.identifier="FileParents"/>
+  <org.eventb.core.variable name="13" org.eventb.core.generated="false" org.eventb.core.identifier="FileLink"/>
+  <org.eventb.core.variable name="14" org.eventb.core.generated="false" org.eventb.core.identifier="ProcFDs"/>
+  <org.eventb.core.variable name="15" org.eventb.core.generated="false" org.eventb.core.identifier="FDFlags"/>
+  <org.eventb.core.variable name="16" org.eventb.core.generated="false" org.eventb.core.identifier="FDFile"/>
+  <org.eventb.core.variable name="17" org.eventb.core.generated="false" org.eventb.core.identifier="FDNumber"/>
+  <org.eventb.core.variable name="18" org.eventb.core.generated="false" org.eventb.core.identifier="DACPermissions"/>
+  <org.eventb.core.variable name="19" org.eventb.core.generated="false" org.eventb.core.identifier="UserACL"/>
+  <org.eventb.core.variable name="20" org.eventb.core.generated="false" org.eventb.core.identifier="GroupACL"/>
+  <org.eventb.core.variable name="21" org.eventb.core.generated="false" org.eventb.core.identifier="GroupObjACL"/>
+  <org.eventb.core.variable name="22" org.eventb.core.generated="false" org.eventb.core.identifier="MaskACL"/>
+  <org.eventb.core.variable name="23" org.eventb.core.generated="false" org.eventb.core.identifier="FileUser"/>
+  <org.eventb.core.variable name="24" org.eventb.core.generated="false" org.eventb.core.identifier="FileGroup"/>
+  <org.eventb.core.variable name="25" org.eventb.core.generated="false" org.eventb.core.identifier="ProcUser"/>
+  <org.eventb.core.variable name="26" org.eventb.core.generated="false" org.eventb.core.identifier="ProcGroup"/>
+  <org.eventb.core.variable name="27" org.eventb.core.generated="false" org.eventb.core.identifier="ProcUmask"/>
+  <org.eventb.core.variable name="28" org.eventb.core.generated="false" org.eventb.core.identifier="FileXattrs"/>
+  <org.eventb.core.variable name="29" org.eventb.core.generated="false" org.eventb.core.identifier="ProcEXE"/>
+  <org.eventb.core.variable name="30" org.eventb.core.generated="false" org.eventb.core.identifier="ProcArgv"/>
+  <org.eventb.core.variable name="31" org.eventb.core.generated="false" org.eventb.core.identifier="ProcEnvp"/>
+  <org.eventb.core.variable name="32" org.eventb.core.generated="false" org.eventb.core.identifier="ProcCwd"/>
+  <org.eventb.core.variable name="33" org.eventb.core.generated="false" org.eventb.core.identifier="ProcParent"/>
+  <org.eventb.core.variable name="34" org.eventb.core.generated="false" org.eventb.core.identifier="UserGroups"/>
+  <org.eventb.core.variable name="35" org.eventb.core.generated="false" org.eventb.core.identifier="PathToRoot"/>
+  <org.eventb.core.variable name="36" org.eventb.core.generated="false" org.eventb.core.identifier="UserCaps"/>
+  <org.eventb.core.variable name="37" org.eventb.core.generated="false" org.eventb.core.identifier="ContentHash"/>
+  <org.eventb.core.variable name="38" org.eventb.core.generated="false" org.eventb.core.identifier="MetaHash"/>
+  <org.eventb.core.variable name="39" org.eventb.core.comment="атрибут immutablе" org.eventb.core.generated="false" org.eventb.core.identifier="ImmutableFiles"/>
+  <org.eventb.core.variable name="40" org.eventb.core.generated="false" org.eventb.core.identifier="IMAHash"/>
+  <org.eventb.core.variable name="41" org.eventb.core.generated="false" org.eventb.core.identifier="EVMHash"/>
+  <org.eventb.core.variable name="42" org.eventb.core.generated="false" org.eventb.core.identifier="IMAMode"/>
+  <org.eventb.core.variable name="43" org.eventb.core.generated="false" org.eventb.core.identifier="EVMMode"/>
+  <org.eventb.core.event name="44" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="INITIALISATION"/>
+  <org.eventb.core.event name="45" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="open_create">
+    <org.eventb.core.refinesEvent name="46" org.eventb.core.target="open_create"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="47" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="open_exists">
+    <org.eventb.core.refinesEvent name="48" org.eventb.core.target="open_exists"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="49" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="creat">
+    <org.eventb.core.refinesEvent name="50" org.eventb.core.target="open_create"/>
+    <org.eventb.core.guard name="51" org.eventb.core.generated="false" org.eventb.core.label="grd31" org.eventb.core.predicate="flags = {O_CREAT, O_WRONLY, O_TRUNC}" org.eventb.core.theorem="false"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="52" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="openat_create">
+    <org.eventb.core.refinesEvent name="53" org.eventb.core.target="openat_create"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="54" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="openat_exists">
+    <org.eventb.core.refinesEvent name="55" org.eventb.core.target="openat_exists"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="56" org.eventb.core.comment="TODO: add support for mkdirat?" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="mkdir">
+    <org.eventb.core.refinesEvent name="57" org.eventb.core.target="mkdir"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="58" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="chmod">
+    <org.eventb.core.refinesEvent name="59" org.eventb.core.target="chmod"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="60" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchmod">
+    <org.eventb.core.refinesEvent name="61" org.eventb.core.target="fchmod"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="62" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchmodat">
+    <org.eventb.core.refinesEvent name="63" org.eventb.core.target="fchmodat"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="64" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="chown">
+    <org.eventb.core.refinesEvent name="65" org.eventb.core.target="chown"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="66" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchown">
+    <org.eventb.core.refinesEvent name="67" org.eventb.core.target="fchown"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="68" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchownat">
+    <org.eventb.core.refinesEvent name="69" org.eventb.core.target="fchownat"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="70" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="chdir">
+    <org.eventb.core.refinesEvent name="71" org.eventb.core.target="chdir"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="72" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchdir">
+    <org.eventb.core.refinesEvent name="73" org.eventb.core.target="fchdir"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="74" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="getdents">
+    <org.eventb.core.refinesEvent name="75" org.eventb.core.target="getdents"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="76" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="getxattr">
+    <org.eventb.core.refinesEvent name="77" org.eventb.core.target="getxattr"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="78" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="setxattr">
+    <org.eventb.core.refinesEvent name="79" org.eventb.core.target="setxattr"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="80" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="link">
+    <org.eventb.core.refinesEvent name="81" org.eventb.core.target="link"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="82" org.eventb.core.comment="TODO: add basic symlink support to other syscalls" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="symlink">
+    <org.eventb.core.refinesEvent name="83" org.eventb.core.target="symlink"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="84" org.eventb.core.comment="TODO: support #!interpreter" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="execve">
+    <org.eventb.core.refinesEvent name="85" org.eventb.core.target="execve"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="86" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="umask">
+    <org.eventb.core.refinesEvent name="87" org.eventb.core.target="umask"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="88" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="exit">
+    <org.eventb.core.refinesEvent name="89" org.eventb.core.target="exit"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="90" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="exit_group">
+    <org.eventb.core.refinesEvent name="91" org.eventb.core.target="exit"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="92" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="close">
+    <org.eventb.core.refinesEvent name="93" org.eventb.core.target="close"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="94" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="unlink">
+    <org.eventb.core.refinesEvent name="95" org.eventb.core.target="unlink"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="96" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="rmdir">
+    <org.eventb.core.refinesEvent name="97" org.eventb.core.target="rmdir"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="98" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fork">
+    <org.eventb.core.refinesEvent name="99" org.eventb.core.target="fork"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="100" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="create_user">
+    <org.eventb.core.refinesEvent name="101" org.eventb.core.target="create_user"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="102" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="create_group">
+    <org.eventb.core.refinesEvent name="103" org.eventb.core.target="create_group"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="104" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="login">
+    <org.eventb.core.refinesEvent name="105" org.eventb.core.target="login"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="106" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="any_transition">
+    <org.eventb.core.refinesEvent name="107" org.eventb.core.target="any_transition"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="108" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="switch_ima_mode">
+    <org.eventb.core.refinesEvent name="109" org.eventb.core.target="switch_ima_mode"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="110" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="switch_evm_mode">
+    <org.eventb.core.refinesEvent name="111" org.eventb.core.target="switch_evm_mode"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="112" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="mark_immutable">
+    <org.eventb.core.refinesEvent name="113" org.eventb.core.target="mark_immutable"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="114" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="unmark_immutable">
+    <org.eventb.core.refinesEvent name="115" org.eventb.core.target="unmark_immutable"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="116" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="set_acl">
+    <org.eventb.core.refinesEvent name="117" org.eventb.core.target="set_acl"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="118" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="change_capabilities">
+    <org.eventb.core.refinesEvent name="119" org.eventb.core.target="change_capabilities"/>
+  </org.eventb.core.event>
+</org.eventb.core.machineFile>
