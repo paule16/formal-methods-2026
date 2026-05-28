@@ -148,8 +148,8 @@ def mkdir(m: Machine,
 
     _grd17 = Guard('grd17', lambda _: (((((_(54, 
     (~parent) in m.TransmuteFolders)) and (_(55, m.TRANSMUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))) and (_(56, 
-    (~fileLabel) == function_value(m.FileLabel, (~parent))))) and (_(57, len((~newTransmute)) == 0))) or ((_(58, 
-    (~fileLabel) == function_value(m.ProcLabel, (~proc)))) and (_(59, (~newTransmute) == frozenset(((~folder),)))))))
+    (~fileLabel) == function_value(m.FileLabel, (~parent))))) and (_(57, (~newTransmute) == frozenset(((~folder),))))) or ((_(58, 
+    (~fileLabel) == function_value(m.ProcLabel, (~proc)))) and (_(59, len((~newTransmute)) == 0)))))
 
 
     _act1 = Action('act1', m, 'Files', lambda: ((m.Files | frozenset(((~folder),)))))
