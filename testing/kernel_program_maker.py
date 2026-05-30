@@ -369,6 +369,10 @@ class KernelProgramMaker(ProgramMakerTextProducer):
 
             self.main_lines.append(f'{{ {self._make_charbuf("path", path)} {self._make_charbuf("name", name)} {syscall}; }}')
 
+    def seteuid(self, euid: int):
+        self.includes.add("#include <unistd.h>")
+        self.main_lines.append(f"seteuid({euid});")
+
     def setxattr(self, path: str, name: str, value: bytes, size: int, flags: int, fatal: bool = False):
         assert '"' not in path
         assert '"' not in name

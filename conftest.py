@@ -65,9 +65,12 @@ def m():
     m.INIT = constant('INIT', m, m.ProcsItem)
     m.INIT_EXE = constant('INIT_EXE', m, m.FilesItem)
     m.INIT_NAME = constant('INIT_NAME', m, m.StringsItem)
+    m.INIT_LABEL = constant('INIT_LABEL', m, m.StringsItem)
+    m.INIT_EXE_LABEL = constant('INIT_EXE_LABEL', m, m.StringsItem)
     m.ROOT = constant('ROOT', m, m.FilesItem)
     m.ROOT_USER = constant('ROOT_USER', m, m.UsersItem)
     m.ROOT_GROUP = constant('ROOT_GROUP', m, m.GroupsItem)
+    m.ROOT_LABEL = constant('ROOT_LABEL', m, m.StringsItem)
 
     m.MAX_FILES = 1048576
     m.PROC_FILE_LIMIT = 1024
@@ -85,6 +88,19 @@ def m():
     m.SET_UID = constant('SET_UID', m, m.PermissionsItem)
     m.SET_GID = constant('SET_GID', m, m.PermissionsItem)
     m.STICKY_BIT = constant('STICKY_BIT', m, m.PermissionsItem)
+    m.FLOOR = constant('FLOOR', m, m.StringsItem)
+    m.HAT = constant('HAT', m, m.StringsItem)
+    m.STAR = constant('STAR', m, m.StringsItem)
+    m.HUH = constant('HUH', m, m.StringsItem)
+    m.WEB = constant('WEB', m, m.StringsItem)
+    m.READ = constant('READ', m, m.AccessesItem)
+    m.WRITE = constant('WRITE', m, m.AccessesItem)
+    m.EXECUTE = constant('EXECUTE', m, m.AccessesItem)
+    m.TRANSMUTE = constant('TRANSMUTE', m, m.AccessesItem)
+
+    # TODO: Capabilities are extra?
+    m.CAP_MAC_ADMIN = constant('CAP_MAC_ADMIN', m, m.CapabilitiesItem)
+    m.CAP_MAC_OVERRIDE = constant('CAP_MAC_OVERRIDE', m, m.CapabilitiesItem)
 
     m.XATTR_CREATE = constant('XATTR_CREATE', m, m.XattrFlagsItem)
     m.XATTR_REPLACE = constant('XATTR_REPLACE', m, m.XattrFlagsItem)
@@ -111,6 +127,7 @@ def m():
     m.DEF_FILE_PERMS = frozenset((m.UREAD, m.UWRITE, m.GREAD, m.OREAD))
     m.DEF_FOLDER_PERMS = frozenset((m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GEXECUTE, m.OREAD, m.OEXECUTE))
     m.DEF_SYMLINK_PERMS = frozenset((m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GWRITE, m.GEXECUTE, m.OREAD, m.OWRITE, m.OEXECUTE))
+    m.RESERVED_LABELS = frozenset((m.FLOOR, m.HAT, m.STAR, m.HUH, m.WEB))
 
     # ⚬	O_RDONLY_type:	O_RDONLY = 1 not theorem ›
     m.O_RDONLY = 1
@@ -219,5 +236,9 @@ def m():
     m.PathToRoot |= {(m.ROOT, frozenset())}
     # @act32: UserCaps ≔ {ROOT_USER ↦ ∅}
     m.UserCaps |= {(m.ROOT_USER, frozenset())}
+    # @act33: ProcLabel ≔ {INIT ↦ INIT_LABEL}
+    m.ProcLabel |= {(m.INIT, m.INIT_LABEL)}
+    # @act34: FileLabel ≔ {ROOT ↦ ROOT_LABEL, INIT_EXE ↦ INIT_EXE_LABEL}
+    m.FileLabel |= {(m.ROOT, m.ROOT_LABEL), (m.INIT_EXE, m.INIT_EXE_LABEL)}
 
     return m

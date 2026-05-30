@@ -53,3 +53,9 @@ def XattrFlags(m: Machine):
         os.XATTR_REPLACE: m.XATTR_REPLACE,
     }
 
+def AccessModes(m: Machine):
+    return {
+        "r": m.READ,
+        "w": m.WRITE,
+        "x": m.EXECUTE,
+    }

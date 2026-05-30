@@ -12,7 +12,7 @@
 #include <sys/wait.h>
 #include <sys/syscall.h>
 #include <sys/stat.h>
-#include <linux/perf_event.h>
+#include <string.h>
 
 #define PIN_PATH "/sys/fs/bpf/anis"
 #define MAPS_PATH PIN_PATH "/maps"
@@ -133,6 +133,58 @@ static inline bool is_string(const uint8_t *buf, size_t len)
 #define field_size(type, member) sizeof(((type *)0)->member)
 
 char base64_xattr[(field_size(struct getxattr, value) + 2) / 3 * 4 + 1];
+char smack_flags_names[256];
+
+static void append_flag_name(char *buf, size_t sz, size_t *used,
+                             const char *name)
+{
+    int n;
+
+    if (*used >= sz) {
+        return;
+    }
+    n = snprintf(buf + *used, sz - *used, "%s%s", *used ? "|" : "", name);
+    if (n < 0 || (size_t)n >= (sz - *used)) {
+        *used = sz;
+        return;
+    }
+    *used += (size_t)n;
+}
+
+static void format_smack_flags_names(__u32 flags, char *buf, size_t sz)
+{
+    size_t used = 0;
+    int bit;
+
+    if (sz == 0) {
+        return;
+    }
+    if (flags == 0) {
+        snprintf(buf, sz, "none");
+        return;
+    }
+
+    buf[0] = '\0';
+    if (flags & 0x01) {
+        append_flag_name(buf, sz, &used, "SMK_INODE_INSTANT");
+    }
+    if (flags & 0x02) {
+        append_flag_name(buf, sz, &used, "SMK_INODE_TRANSMUTE");
+    }
+    if (flags & 0x04) {
+        append_flag_name(buf, sz, &used, "SMK_INODE_CHANGED");
+    }
+    if (flags & 0x08) {
+        append_flag_name(buf, sz, &used, "SMK_INODE_IMPURE");
+    }
+    for (bit = 4; bit < 32; bit++) {
+        if (flags & (1U << bit)) {
+            char unknown[32];
+            snprintf(unknown, sizeof(unknown), "UNKNOWN_BIT_%d", bit);
+            append_flag_name(buf, sz, &used, unknown);
+        }
+    }
+}
 
 #define sys_entry(e) [SYS_##e] = #e
 static const char *syscall_names[500] = {
@@ -142,7 +194,26 @@ static const char *syscall_names[500] = {
     sys_entry(chown),    sys_entry(fchown),     sys_entry(close),
     sys_entry(exit),     sys_entry(exit_group), sys_entry(umask),
     sys_entry(unlink),   sys_entry(rmdir),      sys_entry(getdents),
-    sys_entry(link),     sys_entry(symlink),    sys_entry(getxattr),
+#ifdef SYS_getdents64
+    sys_entry(getdents64),
+#endif
+    sys_entry(access),   sys_entry(faccessat),
+#ifdef SYS_faccessat2
+    sys_entry(faccessat2),
+#endif
+    sys_entry(link),
+#ifdef SYS_linkat
+    sys_entry(linkat),
+#endif
+    sys_entry(symlink),
+#ifdef SYS_unlinkat
+    sys_entry(unlinkat),
+#endif
+    sys_entry(rename),   sys_entry(renameat),
+#ifdef SYS_renameat2
+    sys_entry(renameat2),
+#endif
+    sys_entry(getxattr),
     sys_entry(setxattr), sys_entry(execve),     sys_entry(execveat),
 };
 #undef sys_entry
@@ -150,10 +221,18 @@ static const char *syscall_names[500] = {
 static int handle_event(void *ctx, void *data, size_t len)
 {
     struct syscall_event *e = data;
+    format_smack_flags_names(e->smack_flags, smack_flags_names, sizeof(smack_flags_names));
 
-    printf("{ \"syscall\": \"%s\", \"proc\": \"%s\", \"pid\": %d, \"euid\": %d, \"egid\": %d, ",
+    printf("{ \"syscall\": \"%s\", \"proc\": \"%s\", \"pid\": %d, \"euid\": %d, \"egid\": %d, "
+           "\"smack_subj\": \"%s\", \"smack_obj\": \"%s\", "
+           "\"smack_exec\": \"%s\", \"smack_mmap\": \"%s\", "
+           "\"smack_flags\": %u, \"smack_flags_hex\": \"0x%x\", "
+           "\"smack_flags_names\": \"%s\", ",
         syscall_names[e->syscall_nr], e->comm,
-        e->pid, e->euid, e->egid);
+        e->pid, e->euid, e->egid,
+        e->smack_subj, e->smack_obj,
+        e->smack_exec, e->smack_mmap,
+        e->smack_flags, e->smack_flags, smack_flags_names);
 
     switch (e->syscall_nr) {
     case SYS_open: printf(
@@ -248,19 +327,73 @@ static int handle_event(void *ctx, void *data, size_t len)
             "\"fd\": %u,",
             e->getdents.fd);
         break;
+#ifdef SYS_getdents64
+    case SYS_getdents64: printf(
+            "\"fd\": %u,",
+            e->getdents64.fd);
+        break;
+#endif
+    case SYS_access: printf(
+            "\"pathname\": \"%s\", \"mode\": %d,",
+            e->access.pathname, e->access.mode);
+        break;
+    case SYS_faccessat: printf(
+            "\"dfd\": %d, \"pathname\": \"%s\", \"mode\": %d, \"flags\": %d,",
+            e->faccessat.dfd, e->faccessat.pathname,
+            e->faccessat.mode, e->faccessat.flags);
+        break;
+#ifdef SYS_faccessat2
+    case SYS_faccessat2: printf(
+            "\"dfd\": %d, \"pathname\": \"%s\", \"mode\": %d, \"flags\": %d,",
+            e->faccessat2.dfd, e->faccessat2.pathname,
+            e->faccessat2.mode, e->faccessat2.flags);
+        break;
+#endif
     case SYS_link: printf(
             "\"oldname\": \"%s\", \"newname\": \"%s\",",
             e->link.oldname, e->link.newname);
         break;
+#ifdef SYS_linkat
+    case SYS_linkat: printf(
+            "\"olddfd\": %d, \"oldname\": \"%s\", "
+            "\"newdfd\": %d, \"newname\": \"%s\", \"flags\": %d,",
+            e->linkat.olddfd, e->linkat.oldname,
+            e->linkat.newdfd, e->linkat.newname, e->linkat.flags);
+        break;
+#endif
     case SYS_symlink: printf(
             "\"oldname\": \"%s\", \"newname\": \"%s\",",
             e->symlink.oldname, e->symlink.newname);
         break;
+#ifdef SYS_unlinkat
+    case SYS_unlinkat: printf(
+            "\"dfd\": %d, \"pathname\": \"%s\", \"flags\": %d,",
+            e->unlinkat.dfd, e->unlinkat.pathname, e->unlinkat.flags);
+        break;
+#endif
+    case SYS_rename: printf(
+            "\"oldname\": \"%s\", \"newname\": \"%s\",",
+            e->rename.oldname, e->rename.newname);
+        break;
+    case SYS_renameat: printf(
+            "\"olddfd\": %d, \"oldname\": \"%s\", "
+            "\"newdfd\": %d, \"newname\": \"%s\",",
+            e->renameat.olddfd, e->renameat.oldname,
+            e->renameat.newdfd, e->renameat.newname);
+        break;
+#ifdef SYS_renameat2
+    case SYS_renameat2: printf(
+            "\"olddfd\": %d, \"oldname\": \"%s\", "
+            "\"newdfd\": %d, \"newname\": \"%s\", \"flags\": %d,",
+            e->renameat2.olddfd, e->renameat2.oldname,
+            e->renameat2.newdfd, e->renameat2.newname, e->renameat2.flags);
+        break;
+#endif
     case SYS_getxattr: {
         char *decoded_value;
         __u8 *raw_value = e->getxattr.value;
         __u64 raw_size = e->getxattr.size;
-        ssize_t size = e->ret;
+        ssize_t size = e->ret;        
         if (raw_size <= 0 || size <= 0) {
             decoded_value = ""; // getxattr fails
         } else if (is_string(raw_value, size + 1)) {
@@ -335,12 +468,79 @@ void set_exited(int sig)
     exited = 1;
 }
 
+static bool lsm_has_smack(void)
+{
+    FILE *f = fopen("/sys/kernel/security/lsm", "r");
+    if (!f) {
+        return false;
+    }
+
+    char buf[1024];
+    bool has = false;
+    if (fgets(buf, sizeof(buf), f) != NULL) {
+        has = strstr(buf, "smack") != NULL;
+    }
+    fclose(f);
+    return has;
+}
+
+static __u64 find_kallsyms_symbol_addr(const char *symbol, bool *found)
+{
+    FILE *f = fopen("/proc/kallsyms", "r");
+    if (!f) {
+        return 0;
+    }
+
+    char line[512];
+    __u64 addr = 0;
+    bool hit = false;
+
+    while (fgets(line, sizeof(line), f) != NULL) {
+        unsigned long long cur_addr = 0;
+        char type = 0;
+        char name[256] = {};
+
+        if (sscanf(line, "%llx %c %255s", &cur_addr, &type, name) != 3) {
+            continue;
+        }
+        if (strcmp(name, symbol) != 0) {
+            continue;
+        }
+        addr = (__u64)cur_addr;
+        hit = true;
+        break;
+    }
+    fclose(f);
+
+    if (found) {
+        *found = hit;
+    }
+    return addr;
+}
+
+static void warn_if_smack_unavailable(void)
+{
+    static bool warned = false;
+    if (warned) {
+        return;
+    }
+    warned = true;
+
+    if (!lsm_has_smack()) {
+        fprintf(stderr,
+                "Warning: Smack is not active in /sys/kernel/security/lsm; "
+                "smack_* fields will be empty.\n");
+    }
+}
+
 
 int
 load(void)
 {
     struct syscall_monitor_bpf *skel;
     int err;
+
+    warn_if_smack_unavailable();
 
     if (!(skel = syscall_monitor_bpf__open_and_load())) {
         fprintf(stderr, "Failed to create skeleton\n");
@@ -356,16 +556,13 @@ load(void)
         fprintf(stderr, "Failed to mkdir " MAPS_PATH "; error %d\n", err);
         goto END;
     }
-    if ((err = bpf_object__pin_maps(skel->obj, MAPS_PATH)) != 0) {
-        fprintf(stderr, "Failed to pin maps; error %d\n", err);
-    }
-
-    if ((err = mkdir(PROGS_PATH, 0700)) != 0) {
-        fprintf(stderr, "Failed to mkdir " PROGS_PATH "; error %d\n", err);
+    if ((err = bpf_map__pin(skel->maps.events, MAPS_PATH "/events")) != 0) {
+        fprintf(stderr, "Failed to pin map 'events'; error %d\n", err);
         goto END;
     }
-    if ((err = bpf_object__pin_programs(skel->obj, PROGS_PATH)) != 0) {
-        fprintf(stderr, "Failed to pin programs; error %d\n", err);
+
+    if ((err = bpf_map__pin(skel->maps.config_map, MAPS_PATH "/config_map")) != 0) {
+        fprintf(stderr, "Failed to pin map 'config_map'; error %d\n", err);
         goto END;
     }
 
@@ -376,11 +573,33 @@ load(void)
         goto END;
     }
     struct monitor_config cfg = {0};
+    bool sym_found = false;
     __u32 key = 0;
+
+    cfg.smack_blob_sizes_addr = find_kallsyms_symbol_addr("smack_blob_sizes", &sym_found);
+    if (!cfg.smack_blob_sizes_addr) {
+        if (sym_found) {
+            fprintf(stderr, "Warning: symbol 'smack_blob_sizes' found but address is hidden; "
+                    "smack_* fields may stay empty.\n");
+        } else {
+            fprintf(stderr, "Warning: symbol 'smack_blob_sizes' not found in /proc/kallsyms; "
+                    "smack_* fields may stay empty.\n");
+        }
+    }
+
     cfg.enabled = 0;
     cfg.filter_tst = 1;
     bpf_map_update_elem(cfg_fd, &key, &cfg, BPF_ANY);
 
+
+    if ((err = mkdir(PROGS_PATH, 0700)) != 0) {
+        fprintf(stderr, "Failed to mkdir " PROGS_PATH "; error %d\n", err);
+        goto END;
+    }
+    if ((err = bpf_object__pin_programs(skel->obj, PROGS_PATH)) != 0) {
+        fprintf(stderr, "Failed to pin programs; error %d\n", err);
+        goto END;
+    }
     if ((err = syscall_monitor_bpf__attach(skel)) != 0) { // attach all links
         fprintf(stderr, "Failed to attach links; error %d\n", err);
         goto END;
@@ -404,7 +623,6 @@ load(void)
             goto END;
         }
     }
-
 END:
     syscall_monitor_bpf__destroy(skel);
     if (err != 0) {
@@ -412,7 +630,6 @@ END:
     }
     return (err == 0 ? 0 : 1);
 }
-
 
 int
 unload(void)
@@ -427,8 +644,24 @@ run(int argc, char *argv[])
     struct ring_buffer *rb = 0;
     int err = 0;
 
+    warn_if_smack_unavailable();
+
+    int cfg_fd;
+    if ((cfg_fd = bpf_obj_get(MAPS_PATH "/config_map")) < 0) {
+        fprintf(stderr, "Failed to open the pinned map 'config_map'; error %d\n", cfg_fd);
+        return 1;
+    }
+    struct monitor_config cfg = {0};
+    __u32 key = 0;
+
+    if (bpf_map_lookup_elem(cfg_fd, &key, &cfg) != 0) {
+        cfg.filter_tst = 1;
+        cfg.smack_blob_sizes_addr = 0;
+    }
+    cfg.enabled = 1;
+    bpf_map_update_elem(cfg_fd, &key, &cfg, BPF_ANY);
+
     int events_fd;
-    int cfg_fd = -1;
     if ((events_fd = bpf_obj_get(MAPS_PATH "/events")) < 0) {
         fprintf(stderr, "Failed to open the pinned map 'events'; error %d\n", events_fd);
         err = events_fd;
@@ -441,19 +674,7 @@ run(int argc, char *argv[])
         goto END;
     }
 
-    if ((cfg_fd = bpf_obj_get(MAPS_PATH "/config_map")) < 0) {
-        fprintf(stderr, "Failed to open the pinned map 'config_map'; error %d\n", err);
-        err = 1;
-        goto END;
-    }
-    struct monitor_config cfg = {0};
-    __u32 key = 0;
-    cfg.enabled = 1;
-    cfg.filter_tst = 1;
-    bpf_map_update_elem(cfg_fd, &key, &cfg, BPF_ANY);
-
     signal(SIGINT, set_exited);
-
 
     pid_t child = 0;
     if ((err = child = fork()) < 0) {
@@ -485,10 +706,8 @@ run(int argc, char *argv[])
 END:
     if (rb) ring_buffer__free(rb);
 
-    if (cfg_fd != -1) {
-        cfg.enabled = 0;
-        bpf_map_update_elem(cfg_fd, &key, &cfg, BPF_ANY);
-    }
+    cfg.enabled = 0;
+    bpf_map_update_elem(cfg_fd, &key, &cfg, BPF_ANY);
 
     return err == 0 ? 0 : 1;
 }

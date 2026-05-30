@@ -10,7 +10,7 @@ import subprocess
 import sys
 import tempfile
 import textwrap
-from typing import Any, Iterator
+from typing import Any, Iterator, Optional
 
 from anis.stages.trace_checkers import ModelTraceInterpreter
 from anis.stages.systrace import TraceOperation
@@ -26,7 +26,6 @@ from anis.stages.invariants import check_axioms
 
 
 class LinuxTestSpecImpl(LinuxTestSpec):
-
     def __init__(self, nodeid: str, m: Any, testpath: Path):
         super().__init__()
         self._nodeid = nodeid
@@ -36,7 +35,6 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         self._additional_files = dict[str, str]()
         self._machine = m
         self._label = sha256(nodeid.encode()).hexdigest()[:10]
-
 
     def make_user(self,
                 user: str,
@@ -55,27 +53,39 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                  path: str,
                  owner: str,
                  group: str,
-                 mode: int) -> None:
+                 mode: int,
+                 smack_label: Optional[str] = None) -> None:
         if not isabs(path):
             raise ValueError('Relative paths are not supported')
-        self._initialiser.add_file(path)
+        self._initialiser.add_file(path, smack_label)
         self.add_setup(f'touch {path}')
         self.add_setup(f'chown {owner}:{group} {path}')
         self.add_setup(f'chmod {mode:0o} {path}')
-        
+        if smack_label is not None:
+            self.add_setup(f'setfattr -n security.SMACK64 -v \"{smack_label}\" {path}')
 
     def make_dir(self,
                  path: str,
                  owner: str,
                  group: str,
-                 mode: int) -> None:
+                 mode: int,
+                 smack_label: Optional[str] = None) -> None:
         if not isabs(path):
             raise ValueError('Relative paths are not supported')
-        self._initialiser.add_dir(path)
+        self._initialiser.add_dir(path, smack_label)
         self.add_setup(f'mkdir {path}')
         self.add_setup(f'chown {owner}:{group} {path}')
         self.add_setup(f'chmod {mode:0o} {path}')
-    
+        if smack_label is not None:
+            self.add_setup(f'setfattr -n security.SMACK64 -v \"{smack_label}\" {path}')
+
+    def make_rule(self,
+                label1: str,
+                label2: str,
+                modes: str) -> None:
+        self.add_setup(f'echo "{label1} {label2} {modes}" >> /sys/fs/smackfs/load2')
+        self._initialiser.add_smack_rule(label1, label2, modes)
+
     def add_setup(self, setup_cmd: str) -> Any:
         self._setup_commands.append(setup_cmd)
 
@@ -83,7 +93,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
     def make_program(self) -> Iterator[ProgramMakerTextProducer]:
         yield KernelProgramMaker()
 
-    def compile(self, program_maker: TextProducer, path: str, make_file: bool=True) -> MonitoredExeFile:
+    def compile(self, program_maker: TextProducer, path: str, make_file: bool=True, proc_label: str = "") -> MonitoredExeFile:
         source_path = f'{path}.c'
         if basename(source_path) in self._additional_files:
             raise ValueError('Additional file redefined')
@@ -91,23 +101,26 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         program_text = program_maker.get_text()
         self._additional_files[basename(source_path)] = program_text
         if make_file:
-            self.make_file(path, 'root', 'root', 0o777)
+            self.make_file(path, 'root', 'root', 0o4777)
         self.add_setup(f'gcc -static -o {path} /progs/{basename(source_path)}')
+        if not proc_label:
+            proc_label = "^"
+        self.add_setup(f'sudo setfattr -n security.SMACK64EXEC -v \"{proc_label}\" {path}')
         return MonitoredExeFile(path)
 
 
     @contextmanager
     def make_program_and_run(self, user: str, group: str, umask: int, runner: str = '<>', make_file: bool = True,
-                             before_run: str|None=None, after_run: str|None=None):
+                             before_run: str|None=None, after_run: str|None=None, additional_runner_cmd: str = "", proc_label: str = ""):
         with self.make_program() as prog:
             yield prog
-        exeFile = self.compile(prog, '/tst_prog', make_file)
-        self.run(exeFile, user, group, umask, runner, before_run, after_run)
+        exeFile = self.compile(prog, '/tst_prog', make_file, proc_label)
+        self.run(exeFile, user, group, umask, runner, before_run, after_run, additional_runner_cmd=additional_runner_cmd)
 
 
     def run(self, exeFile: MonitoredExeFile,
             user: str, group: str, umask: int, runner: str,
-            before_run: str|None, after_run: str|None):
+            before_run: str|None, after_run: str|None, additional_runner_cmd: str = ""):
 
         # with self._run_with_preparing_image(exeFile=exeFile,
         #         user=user, group=group, umask=umask, runner=runner,
@@ -115,7 +128,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
 
         with self._run_without_preparing_image(exeFile=exeFile,
                 user=user, group=group, umask=umask, runner=runner,
-                before_run=before_run, after_run=after_run) as trace:
+                before_run=before_run, after_run=after_run, additional_runner_cmd=additional_runner_cmd) as trace:
 
             self._check(trace)
 
@@ -141,6 +154,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
             try:
                 proc = subprocess.Popen(['sudo', 'podman', 'run',
                             '--rm',
+                            '--privileged',
                             f'--name={container_name}',
                             '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
                             '-v', '/sys/fs/bpf:/sys/fs/bpf:rw',
@@ -243,11 +257,10 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         return main()
 
 
-
     @contextmanager
     def _run_without_preparing_image(self, exeFile: MonitoredExeFile,
             user: str, group: str, umask: int, runner: str,
-            before_run: str|None, after_run: str|None):
+            before_run: str|None, after_run: str|None, additional_runner_cmd: str | None = None):
 
         container_name = f"anis_{self._label}"
 
@@ -258,7 +271,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                 (base_path / basename(path)).write_text(contents)
 
             gatherinfo_commands = self._initialiser.make_text_of_gatherinfo_file() # this make important
-            runner_cmd = runner.replace('<>', f'(chfn --other="umask={umask:0o}" {user}; /monitoring/monitor run sudo -HE -u {user} -g {group} {exeFile.path})')
+            if additional_runner_cmd:
+                additional_runner_cmd += ";"
+            runner_cmd = runner.replace('<>', f'(chfn --other="umask={umask:0o}" {user}; {additional_runner_cmd} /monitoring/monitor run sudo -HE -u {user} -g {group} {exeFile.path})')
 
             if not before_run:
 
@@ -266,12 +281,16 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                 # 2. run gather_info with printing output
                 # 3. run runner
 
-                cmd = ' && '.join(self._setup_commands + gatherinfo_commands + [runner_cmd])
+                cmd = ' && '.join(
+                    ["mount -t smackfs smackfs /sys/fs/smackfs",
+                     "> /sys/fs/smackfs/load2",] + \
+                        self._setup_commands + gatherinfo_commands + [runner_cmd])
                 proc = None
                 try:
                     print('run...', file=sys.stderr, end=' ')
                     proc = subprocess.run(['sudo', 'podman', 'run',
                         '--rm',
+                        '--privileged',
                         '-i',
                         f'--name={container_name}',
                         '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
@@ -292,7 +311,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     yield io.StringIO(proc.stdout)
                     # yield self._PrependedStream(info, proc.stdout)
 
-                except:
+                except Exception as e:
                     # subprocess.run(['sudo', 'podman', 'stop', container_name])
                     subprocess.run(['sudo', 'podman', 'rm', '-f', container_name])
                     raise
@@ -301,6 +320,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
 
                 subprocess.run(['sudo', 'podman', 'run',
                     '-d',
+                    '--privileged',
                     '-i',
                     f'--name={container_name}',
                     '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
@@ -318,7 +338,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                 try:
                     # 1. run setup
                     # 2. run gather_info with printing output
-                    cmd = ' && '.join(self._setup_commands + gatherinfo_commands)
+                    cmd = ' && '.join(
+                        ["mount -t smackfs smackfs /sys/fs/smackfs"] + \
+                            self._setup_commands + gatherinfo_commands)
                     print('setup...', file=sys.stderr, end=' ')
                     proc = subprocess.run(['sudo', 'podman', 'exec',
                         '-i',
@@ -400,11 +422,21 @@ class LinuxTestSpecImpl(LinuxTestSpec):
              trace_py_saving(self._label, TraceTranslator) as TT, \
              model_trace_py_saving(self._label, ModelTraceInterpreter) as MT:
 
+            # print(raw_trace.read())
+            # raise Exception
             snapshot = self._initialiser.read_gathered_info(trace)
 
             tt = TT(model_trace=MT(self._machine), m=self._machine,
                     root_dev=snapshot.root.dev, root_ino=snapshot.root.ino,
                     root_uid=snapshot.root.uid, root_gid=snapshot.root.gid)
+
+            # print("Trace:")
+            # for _ in range(100):
+            #     try:
+            #         print(trace.readline())
+            #     except:
+            #         print("Ended printing!")
+            #         break
 
             self._replay_setup(snapshot, tt)
             self._replay_login(trace, tt)
@@ -435,6 +467,16 @@ class LinuxTestSpecImpl(LinuxTestSpec):
 
         tt.set_init_acl(data=snapshot.acl)
 
+        # Smack
+        for path, file_smack_label in snapshot.file_smack_labels:
+            tt.set_file_label(path, 0, file_smack_label, 0)
+
+        for path, file_exec_smack_label in snapshot.file_exec_smack_labels:
+            tt.set_file_exec_label(path, 0, file_exec_smack_label, 0)
+
+        for label1, label2, modes in snapshot.smack_rules:
+            tt.add_smack_rule(label1, label2, modes)
+
         check_axioms(self._machine)
 
 
@@ -449,14 +491,30 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         if login['ret'] != 0:
             raise ValueError('Failed login in the trace')
 
-        tt.login(uid=login['euid'], gid=login['egid'], pid=login['pid'], exeFile=login['pathname'], umask=login['umask'])
+        tt.login(
+            uid=login['euid'],
+            gid=login['egid'],
+            pid=login['pid'],
+            exeFile=login['pathname'],
+            umask=login['umask'],
+            smack_label=login['smack_subj'],
+            )
 
 
     def _replay_trace(self, trace: LineStream, tt: TraceTranslator):
 
-        for line in trace:
+        for ind, line in enumerate(trace):
+            print(f"{ind = }")
             event = json.loads(line)
+            self.clean_event(event)
             t_operation = TraceOperation(name=event['syscall'], ret=event['ret'], args=event)
             operation = make_call(t_operation)
             getattr(tt, operation.name)(**operation.args)
             check_axioms(self._machine)
+
+    def clean_event(self, event):
+        for key in ("smack_mmap", "smack_flags", "smack_flags_hex", "smack_flags_names"):
+            del event[key]
+        for key, subst_key in (("smack_obj", "smack_label"),):
+            event[subst_key] = event[key]
+            del event[key]

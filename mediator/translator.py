@@ -37,7 +37,7 @@ class TraceTranslator:
         folder = Inode(dev, ino,)
         self.mediator_state.do_mkdir(path, folder, uid, gid, perms)
         parent = self.mediator_state.get_ino(dirname(path))
-        self._model_trace.mkdir(path, 0o777, parent, folder, 0, 0o777, 0, 0, skip_coverage=True)
+        self._model_trace.mkdir(path, 0o777, parent, folder, 0, 0o777, 0, 0, "INIT_LABEL", skip_coverage=True)
         self._model_trace.chown(path, uid, gid, 0, 0, parent, folder, 0o777, 0, 0, skip_coverage=True)
         self._model_trace.chmod(path, perms, parent, folder, perms, 0, 0, skip_coverage=True)
 
@@ -67,10 +67,18 @@ class TraceTranslator:
             self._model_trace.link(oldpath, path, oldParent, file, parent, 0, 0, skip_coverage=True)
         else:
             self.mediator_state.do_creat(path, file, uid, gid, perms)
-            self._model_trace.creat(path, 0o777, parent, file, 0, 0o777, 0, 3, skip_coverage=True)
+            self._model_trace.creat(path, 0o777, parent, file, 0, 0o777, 0, 3, "INIT_LABEL", skip_coverage=True)
             self._model_trace.close(3, [ProcFD(0, 3)], 0, 0, skip_coverage=True)
             self._model_trace.chown(path, uid, gid, 0, 0, parent, file, 0o777, 0, 0, skip_coverage=True)
             self._model_trace.chmod(path, perms, parent, file, perms, 0, 0, skip_coverage=True)
+
+    def add_smack_rule(
+        self,
+        label1: str,
+        label2: str,
+        modes: str,
+    ):
+        self._model_trace.load_rules(label1, label2, modes)        
 
     def set_init_acl(self, *, data: list[tuple[str, list[str]]]):
 
@@ -120,14 +128,14 @@ class TraceTranslator:
                                           |(S_IXGRP if 'x' in macl[3] else 0)))
         self._model_trace.set_acl(userACL, groupACL, groupObjACL, maskACL, dacPermissions)
 
-    def login(self, *, uid: int, gid: int, pid: int, exeFile: str, umask: int):
+    def login(self, *, uid: int, gid: int, pid: int, exeFile: str, umask: int, smack_label: Optional[str]):
         exeFile_ino = self.mediator_state.get_ino(exeFile)
-        self._model_trace.login(uid=uid, gid=gid, pid=pid, exeFile=exeFile_ino, umask=umask)
+        self._model_trace.login(uid=uid, gid=gid, pid=pid, exeFile=exeFile_ino, umask=umask, smack_label=smack_label)
 
     def open(self, pathname: str, flags: int, mode: int, pid: int,
              dev: Optional[int], ino: Optional[int],
              uid: Optional[int], gid: Optional[int],
-             perms: Optional[int], retval: int) -> None:
+             perms: Optional[int], retval: int, smack_label: Optional[str]) -> None:
 
         # append model trace
         abspath = self.mediator_state.normalize(pathname, pid)
@@ -139,7 +147,7 @@ class TraceTranslator:
             if dev is None:
                 dev = parent.dev
             file = Inode(dev, ino) if ino is not None else None
-            self._model_trace.open_create(abspath, flags, mode, parent, file, gid, perms, pid, retval)
+            self._model_trace.open_create(abspath, flags, mode, parent, file, gid, perms, pid, retval, smack_label)
 
         # update mediator state
         if retval >= 0:
@@ -154,7 +162,7 @@ class TraceTranslator:
     def creat(self, pathname: str, mode: int, pid: int,
               dev: Optional[int], ino: Optional[int],
               uid: Optional[int], gid: Optional[int],
-              perms: Optional[int], retval: int):
+              perms: Optional[int], smack_label: Optional[str], retval: int):
 
         # append model trace
         abspath = self.mediator_state.normalize(pathname, pid)
@@ -162,7 +170,7 @@ class TraceTranslator:
         if dev is None:
             dev = parent.dev
         file = Inode(dev, ino) if ino is not None else None
-        self._model_trace.creat(abspath, mode, parent, file, gid, perms, pid, retval)
+        self._model_trace.creat(abspath, mode, parent, file, gid, perms, pid, retval, smack_label)
 
         # update mediator state
         if retval >= 0:
@@ -177,7 +185,7 @@ class TraceTranslator:
     def openat(self, dfd: int, pathname: str, flags: int, mode: int, pid: int,
                dev: Optional[int], ino: Optional[int],
                uid: Optional[int], gid: Optional[int],
-               perms: Optional[int], retval: int):
+               perms: Optional[int], smack_label: Optional[str], retval: int):
         
         # append model trace
         if isabs(pathname):
@@ -196,7 +204,7 @@ class TraceTranslator:
             if dev is None:
                 dev = parent.dev
             file = Inode(dev, ino) if ino is not None else None
-            self._model_trace.openat_create(dfd, pathname, flags, mode, parent, file, gid, perms, cwd, pid, retval)
+            self._model_trace.openat_create(dfd, pathname, flags, mode, parent, file, gid, perms, cwd, pid, retval, smack_label)
 
         # update mediator state
         if retval >= 0:            
@@ -211,7 +219,7 @@ class TraceTranslator:
     def mkdir(self, pathname: str, mode: int, pid: int,
               dev: Optional[int], ino: Optional[int],
                uid: Optional[int], gid: Optional[int],
-                perms: Optional[int], retval: int):
+                perms: Optional[int], smack_label: str, retval: int):
 
         # append model trace
         abspath = self.mediator_state.normalize(pathname, pid)
@@ -219,7 +227,7 @@ class TraceTranslator:
         if dev is None:
             dev = parent.dev
         folder = Inode(dev, ino) if ino is not None else None
-        self._model_trace.mkdir(pathname, mode, parent, folder, gid, perms, pid, retval)
+        self._model_trace.mkdir(pathname, mode, parent, folder, gid, perms, pid, retval, smack_label)
 
         # update mediator state
         if retval >= 0:
@@ -330,6 +338,18 @@ class TraceTranslator:
         file = self.mediator_state.get_ino(abspath)
         self._model_trace.setxattr(pathname, name, value, size, flags, parent, file, pid, retval)
 
+    def set_file_label(self, pathname: str, pid: int, smack_label: str, retval: int):
+        abspath = self.mediator_state.normalize(pathname, pid)
+        file = self.mediator_state.get_ino(abspath)
+
+        self._model_trace.set_file_label(file, smack_label, retval)
+
+    def set_file_exec_label(self, pathname: str, pid: int, smack_label: str, retval: int):
+        abspath = self.mediator_state.normalize(pathname, pid)
+        file = self.mediator_state.get_ino(abspath)
+
+        self._model_trace.set_file_exec_label(file, smack_label, retval)
+
     def link(self, oldname: str, newname: str, pid: int, retval: int):
         
         # append model trace
@@ -361,8 +381,8 @@ class TraceTranslator:
         # symlink is partially supported by model
         # if retval >= 0:
         #     self.mediator_state.do_creat(abslinkpath, file, uid, gid, perms)
-    
-    def execve(self, pathname: str, pid: int, retval: int):
+
+    def execve(self, pathname: str, pid: int, retval: int, smack_exec: str):
         
         # append model trace
         argv = set[str]() # argv are not modelled yet
@@ -371,7 +391,7 @@ class TraceTranslator:
         parent = self.mediator_state.get_ino(dirname(abspath))
         exeFile = self.mediator_state.get_ino(abspath)
         fds = set[int]() # O_CLOEXEC is not modelled yet
-        self._model_trace.execve(pathname, argv, envp, fds, parent, exeFile, pid, retval)
+        self._model_trace.execve(pathname, argv, envp, fds, parent, exeFile, pid, retval, smack_exec)
 
     def close(self, fd: int, pid: int, retval: int):
 

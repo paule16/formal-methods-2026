@@ -4,6 +4,9 @@ import os
 from os.path import basename
 from stat import S_IMODE
 from typing import Optional, Sequence
+from model.events.load_rules import load_rules
+from model.events.set_file_exec_label import set_file_exec_label
+from model.events.set_file_label import set_file_label
 from model.events.chdir import chdir
 from model.events.chmod import chmod
 from model.events.chown import chown
@@ -31,7 +34,7 @@ from model.events.symlink import symlink
 from model.events.unlink import unlink
 from anis.stages.mediator import ModelTraceConsumer
 from model.machine import Machine
-from mediator.enums import FileFlags, Modes, XattrFlags
+from mediator.enums import AccessModes, FileFlags, Modes, XattrFlags
 from mediator.state import Inode, ProcFD
 
 from anis.model.expressions import carrier_set_item
@@ -52,6 +55,12 @@ class DataTranslator:
         self.model_groups[root_gid] = m.ROOT_GROUP
         self.model_procs[0] = m.INIT
         self.model_fds[(0, 0)] = m.AT_FDCWD # 0-th item in carrier set FILE_DESCRIPTORS_EXTENDED is AT_FDCWD
+        self.model_strings["INIT_LABEL"] = m.INIT_LABEL
+        self.model_strings["*"] = m.STAR
+        self.model_strings["_"] = m.FLOOR
+        self.model_strings["^"] = m.HAT
+        self.model_strings["INIT_EXE_LABEL"] = m.INIT_EXE_LABEL
+        self.model_strings["ROOT_LABEL"] = m.ROOT_LABEL
 
         self.rootInode = Inode(root_dev, root_ino)
         self.model_files[self.rootInode] = m.ROOT
@@ -67,6 +76,7 @@ class EventsBuilder:
         self._Modes = Modes(m)
         self._FileFlags = FileFlags(m)
         self._XattrFlags = XattrFlags(m)
+        self._AccessModes = AccessModes(m)
     
     def translate_group(self, gid: int):
         return self._data_translator.model_groups[gid]
@@ -82,6 +92,9 @@ class EventsBuilder:
 
     def translate_user(self, uid: int):
         return self._data_translator.model_users[uid]
+
+    def translate_access_mode(self, mode: str):
+        return self._AccessModes[mode]
 
     def translate_groups(self, groups: Sequence[int]):
         return frozenset((self.translate_group(g) for g in groups))
@@ -122,12 +135,12 @@ class EventsBuilder:
 
     def translate_inode(self, ino: Inode):
         return self._data_translator.model_files[ino]
-    
+
     def translate_fd(self, proc_fd: tuple[int, int]):
         model_fd = self._data_translator.model_fds[proc_fd]
         self._machine.FILE_DESCRIPTORS |= {model_fd}
         return model_fd
-    
+
     def translate_capability(self, capability: str) -> Machine.CapabilitiesItem:
         raise NotImplementedError()
 
@@ -140,13 +153,17 @@ class EventsBuilder:
     def translate_strings(self, strings: Sequence[str]):
         return frozenset((self.translate_string(s) for s in strings))
 
+    def translate_access_modes(self, modes: str):
+        return frozenset((self.translate_access_mode(mode) for mode in modes))
+
     def translate_caps(self, caps: Sequence[str]):
         return frozenset((self.translate_capability(c) for c in caps))
 
     def open_create(self, path: str, flags: int, mode: int,
                               parent: Inode,
                               file: Optional[Inode], gid: Optional[int], perms: Optional[int],
-                              proc: int, retval: int, skip_coverage: bool = False):
+                              proc: int, retval: int, smack_label: Optional[str],
+                              skip_coverage: bool = False):
         self._model_trace.add(open_create,
                 _proc = self.translate_proc(proc),
                 _parent = self.translate_inode(parent),
@@ -158,6 +175,7 @@ class EventsBuilder:
                 _fdNumber = retval if retval >= 0 else None,
                 _group = self.translate_group(gid) if gid is not None else None,
                 _perms = self.translate_mode(perms) if perms is not None else None,
+                _fileLabel = self.translate_string(smack_label) if smack_label is not None else None,
                 expected= retval >= 0,
                 skip_coverage=skip_coverage,)
 
@@ -180,7 +198,8 @@ class EventsBuilder:
                     path: str, mode: int,
                     parent: Inode,
                     file: Optional[Inode], gid: Optional[int], perms: Optional[int],
-                    proc: int, retval: int, skip_coverage: bool = False):
+                    proc: int, retval: int, smack_label: Optional[str],
+                    skip_coverage: bool = False):
         self._model_trace.add(creat,
                 _proc = self.translate_proc(proc),
                 _parent = self.translate_inode(parent),
@@ -192,13 +211,15 @@ class EventsBuilder:
                 _fdNumber = retval if retval >= 0 else None,
                 _group = self.translate_group(gid) if gid is not None else None,
                 _perms = self.translate_mode(perms) if perms is not None else None,
+                _fileLabel = self.translate_string(smack_label) if smack_label is not None else None,
                 expected= retval >= 0,
                 skip_coverage= skip_coverage,)
 
     def openat_create(self, dirfd: int, path: str, flags: int, mode: int,
                                       parent: Inode,
                                       file: Optional[Inode], gid: Optional[int], perms: Optional[int],
-                                      cwd: Inode, proc: int, retval: int, skip_coverage: bool = False):
+                                      cwd: Inode, proc: int, retval: int, smack_label: Optional[str],
+                                    skip_coverage: bool = False):
         self._model_trace.add(openat_create,
                 _proc = self.translate_proc(proc),
                 _dirfd = self.translate_fd((proc, dirfd)),
@@ -212,6 +233,7 @@ class EventsBuilder:
                 _cwd = self.translate_inode(cwd),
                 _group = self.translate_group(gid) if gid is not None else None,
                 _perms = self.translate_mode(perms) if perms is not None else None,
+                _fileLabel = self.translate_string(smack_label) if smack_label is not None else None,
                 expected= retval >= 0,
                 skip_coverage= skip_coverage,)
 
@@ -235,7 +257,8 @@ class EventsBuilder:
     def mkdir(self, path: str, mode: int,
                               parent: Inode,
                               folder: Optional[Inode], gid: Optional[int], perms: Optional[int],
-                              proc: int, retval: int, skip_coverage: bool = False):
+                              proc: int, retval: int, smack_label: Optional[str],
+                            skip_coverage: bool = False):
         self._model_trace.add(mkdir,
                 _proc = self.translate_proc(proc),
                 _parent = self.translate_inode(parent),
@@ -244,6 +267,8 @@ class EventsBuilder:
                 _mode = self.translate_mode(mode),
                 _group = self.translate_group(gid) if gid is not None else None,
                 _perms = self.translate_mode(perms) if perms is not None else None,
+                _fileLabel = self.translate_string(smack_label) if smack_label is not None else None,
+                _newTransmute = frozenset(),
                 expected= retval >= 0,
                 skip_coverage=skip_coverage,)
     
@@ -328,6 +353,34 @@ class EventsBuilder:
                 expected= retval >= 0,
                 skip_coverage=skip_coverage,)
 
+    def set_file_label(self, file: Inode, smack_label: str, retval: int, skip_coverage: bool = False):
+        self._model_trace.add(set_file_label,
+                _file = self.translate_inode(file),
+                _label= self.translate_string(smack_label) if smack_label is not None else None,
+                expected= retval >= 0,
+                skip_coverage=skip_coverage,)
+
+    def set_file_exec_label(self, file: Inode, smack_label: str, retval: int, skip_coverage: bool = False):
+        self._model_trace.add(set_file_exec_label,
+                _file = self.translate_inode(file),
+                _label= self.translate_string(smack_label) if smack_label is not None else None,
+                expected= retval >= 0,
+                skip_coverage=skip_coverage,)
+
+    def load_rules(self, label1: str, label2: str, modes: str):
+        access_modes = self.translate_access_modes(modes)
+        self._model_trace.add(load_rules,
+                              _rules = frozenset((
+                                  ((
+                                    self.translate_string(label1),
+                                    self.translate_string(label2),
+                                  ),
+                                  access_mode)
+                                  for access_mode in access_modes
+                              )),
+                              expected=True
+                              )
+
     def link(self, oldpath: str, newpath: str, oldParent: Inode, file: Inode, newParent: Inode, proc: int, retval: int, skip_coverage: bool = False):
         self._model_trace.add(link,
                 _proc = self.translate_proc(proc),
@@ -352,7 +405,7 @@ class EventsBuilder:
                 expected= retval >= 0,
                 skip_coverage=skip_coverage,)
 
-    def execve(self, path: str, args: set[str], envp: set[str], fds: set[int], parent: Inode, exeFile: Inode, proc: int, retval: int, skip_coverage: bool = False):
+    def execve(self, path: str, args: set[str], envp: set[str], fds: set[int], parent: Inode, exeFile: Inode, proc: int, retval: int, smack_exec: str, skip_coverage: bool = False):
         self._model_trace.add(execve,
                 _proc = self.translate_proc(proc),
                 _parent = self.translate_inode(parent),
@@ -361,6 +414,7 @@ class EventsBuilder:
                 _argv = frozenset(self.translate_string(arg) for arg in args),
                 _envp = frozenset(self.translate_string(env) for env in envp),
                 _fds = self.translate_fds([(proc, fd,) for fd in fds]),
+                _procNewLabel = self.translate_string(smack_exec) if smack_exec is not None else None,
                 expected=retval >= 0,
                 skip_coverage= skip_coverage,)
 
@@ -398,7 +452,7 @@ class EventsBuilder:
                 expected= retval >= 0,
                 skip_coverage= skip_coverage,)
     
-    def login(self, *, uid: int, gid: int, pid: int, exeFile: Inode, umask: int):
+    def login(self, *, uid: int, gid: int, pid: int, exeFile: Inode, umask: int, smack_label: Optional[str]):
         self._model_trace.add(login,
                 _user = self.translate_user(uid),
                 _proc = self.translate_proc(pid),
@@ -407,6 +461,7 @@ class EventsBuilder:
                 _argv = frozenset(),
                 _envp = frozenset(),
                 _umask = self.translate_mode(umask),
+                _procLabel = self.translate_string(smack_label) if smack_label is not None else None,
                 expected=True,
                 skip_coverage=True,)
 

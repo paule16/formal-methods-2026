@@ -103,16 +103,24 @@ class LinuxTestSpec(Protocol):
                  path: str,
                  owner: str,
                  group: str,
-                 mode: int) -> None:
+                 mode: int,
+                 smack_label: Optional[str] = None) -> None:
         ...
 
     def make_dir(self,
                  path: str,
                  owner: str,
                  group: str,
-                 mode: int) -> None:
+                 mode: int,
+                 smack_label: Optional[str] = None) -> None:
         ...
-    
+
+    def make_rule(self,
+                  label1: str,
+                  label2: str,
+                  modes: str) -> None:
+        ...
+
     def add_setup(self, setup_cmd: str) -> Any:
         ...
 
@@ -127,5 +135,5 @@ class LinuxTestSpec(Protocol):
         ...
 
     @contextmanager
-    def make_program_and_run(self, user: str, group: str, umask: int, runner: str = '<>', make_file: bool=True, before_run: str|None=None, after_run: str|None=None) -> Iterator[ProgramMaker]:
+    def make_program_and_run(self, user: str, group: str, umask: int, runner: str = '<>', make_file: bool=True, before_run: str|None=None, after_run: str|None=None, proc_label: str | None = None) -> Iterator[ProgramMaker]:
         ...

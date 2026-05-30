@@ -230,8 +230,8 @@ events
             ) // для самой родительской директории осталось только проверить права на запись
         @grd16: newTransmute ⊆ FILES
         @grd17: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
-                fileLabel = FileLabel(parent) ∧ newTransmute = ∅) ∨
-                (fileLabel = ProcLabel(proc) ∧ newTransmute = {folder}) // Если SMACK64TRANSMUTE аттрибут
+                fileLabel = FileLabel(parent) ∧ newTransmute = {folder}) ∨
+                (fileLabel = ProcLabel(proc) ∧ newTransmute = ∅) // Если SMACK64TRANSMUTE аттрибут
                                                                         // установлен для родительской директории
                                                                         // и правило содержит TRANSMUTE, то новая
                                                                         // директория получает аттрибут

@@ -40,6 +40,10 @@ class Snapshot:
     files_xattrs: list[Xattrs] = field(default_factory=list[Xattrs])
     acl: list[tuple[str, list[str]]] = field(default_factory=list[tuple[str, list[str]]])
 
+    file_smack_labels: list[tuple[str, str]] = field(default_factory=list[tuple[str, str]])
+    file_exec_smack_labels: list[tuple[str, str]] = field(default_factory=list[tuple[str, str]])
+    smack_rules: list[tuple[str, str, str]] = field(default_factory=list[tuple[str, str, str]])
+
 
 class SnapshotBuilder:
 
@@ -48,6 +52,9 @@ class SnapshotBuilder:
         self._init_groups = list[str]()
         self._init_files = list[str]()
         self._init_dirs = list[str]()
+        self._init_files_xattrs = list[Xattrs]()
+        self._init_dirs_xattrs = list[Xattrs]()
+        self._init_smack_rules = list[tuple[str, str, str]]()
 
     def add_user(self, user: str) -> None:
         self._init_users.append(user)
@@ -60,7 +67,7 @@ class SnapshotBuilder:
             raise ValueError('Group already added')
         self._init_groups.append(group)
 
-    def add_file(self, path: str) -> None:
+    def add_file(self, path: str, smack_label: str | None) -> None:
         if not isabs(path):
             raise ValueError('Absolute path required')
         if path in self._init_files:
@@ -72,8 +79,10 @@ class SnapshotBuilder:
                 break
             if path not in self._init_dirs:
                 self._init_dirs.append(path)
+        if smack_label is not None:
+            self._init_files_xattrs.append(Xattrs(path, {"security.SMACK64": smack_label}))
 
-    def add_dir(self, path: str) -> None:
+    def add_dir(self, path: str, smack_label: str | None) -> None:
         if not isabs(path):
             raise ValueError('Absolute path required')
         if path in self._init_dirs:
@@ -85,6 +94,11 @@ class SnapshotBuilder:
                 break
             if path not in self._init_dirs:
                 self._init_dirs.append(path)
+        if smack_label is not None:
+            self._init_dirs_xattrs.append(Xattrs(path, {"security.SMACK64": smack_label}))
+
+    def add_smack_rule(self, label1, label2, modes: str):
+        self._init_smack_rules.append((label1, label2, modes))
 
     def make_text_of_gatherinfo_file(self):
         root = f'stat --format=%n,%d,%i,%u,%g,%f /'
@@ -95,15 +109,18 @@ class SnapshotBuilder:
         files_stat = [f'stat --format=%n,%d,%i,%u,%g,%f {" ".join(self._init_files)}'] if len(self._init_files) > 0 else []
         files_attrs = [f'getfattr --absolute-names -d -e hex {" ".join(self._init_files)}'] if len(self._init_files) > 0 else []
         files_acl = [f'getfacl -n -p -e {" ".join(self._init_files)}'] if len(self._init_files) > 0 else []
+        files_smack = [f'getfattr --absolute-names -d -m "security.SMACK64" {" ".join(self._init_files)}']  if len(self._init_files) > 0 else []
 
         self._init_dirs.sort() # sorting moves parent folder earlier in the list
         dirs_stat = [f'stat --format=%n,%d,%i,%u,%g,%f {" ".join(self._init_dirs)}'] if len(self._init_dirs) > 0 else []
         dirs_attrs = [f'getfattr --absolute-names -d -e hex {" ".join(self._init_dirs)}'] if len(self._init_dirs) > 0 else []
         dirs_acl = [f'getfacl -n -p -e {" ".join(self._init_dirs)}'] if len(self._init_dirs) > 0 else []
+        dirs_smack = [f'getfattr --absolute-names -d -m "security.SMACK64" {" ".join(self._init_dirs)}']  if len(self._init_dirs) > 0 else []
 
         return [root, *groups, *users, *dirs_stat, *dirs_attrs, 'echo "<>"', 
                     *files_stat, *files_attrs, 'echo "<>"',
-                    *dirs_acl, *files_acl]
+                    *dirs_acl, *files_acl, 'echo "<>"',
+                    *files_smack, *dirs_smack, 'echo "<>"']
 
     def _xreadline(self, trace: LineStream):
         line = trace.readline()
@@ -156,6 +173,31 @@ class SnapshotBuilder:
         for path in self._init_dirs + self._init_files:
             snapshot.acl.append(self._parse_getfacl_output(trace))
 
+        # Smack
+        line = self._xreadline(trace)
+        while True:
+            if line == '<>':
+                break
+            attrs, line = self._parse_smack_output(line, trace)
+            for xattr_key, xattr_value in attrs.xattrs.items():
+                if xattr_key.startswith("security.SMACK64EXEC"):
+                    snapshot.file_exec_smack_labels.append((attrs.path, xattr_value))
+                elif xattr_key.startswith("security.SMACK64"):
+                    snapshot.file_smack_labels.append((attrs.path, xattr_value))
+
+        line = self._xreadline(trace)
+        while True:
+            if line == '<>':
+                break
+            attrs, line = self._parse_smack_output(line, trace)
+            for xattr_key, xattr_value in attrs.xattrs.items():
+                if xattr_key.startswith("security.SMACK64EXEC"):
+                    snapshot.file_exec_smack_labels.append((attrs.path, xattr_value))
+                elif xattr_key.startswith("security.SMACK64"):
+                    snapshot.file_smack_labels.append((attrs.path, xattr_value))
+
+        snapshot.smack_rules = self._init_smack_rules
+
         return snapshot
 
     def _parse_stat_line(self, line: str):
@@ -206,6 +248,23 @@ class SnapshotBuilder:
             if not svalue.startswith('0x'):
                 raise ValueError('Incorrect xattr value encoding')
             attrs[name] = svalue[2:]
+
+
+    def _parse_smack_output(self, first_line: str, trace: LineStream):
+        # first line -- with file name
+        fn = first_line.split('# file: ')
+        if len(fn) != 2 or len(fn[0]) != 0:
+            raise ValueError('getfattr: wrong first line')
+        path = fn[1]
+        labels = dict[str, str]()
+
+        while True:
+            line = self._xreadline(trace)
+            if len(line) == 0:
+                return (Xattrs(path, labels), self._xreadline(trace))
+
+            name, svalue = line.split('=')
+            labels[name] = svalue.strip('"')
 
 
     def _parse_getfacl_output(self, trace: LineStream):
