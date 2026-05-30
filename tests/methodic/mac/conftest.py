@@ -35,9 +35,3 @@ def parent_execute(request: FixtureRequest):
 def parent_write(request: FixtureRequest):
     return request.param
 
-
-@fixture
-def sub_parent_mode(parent_execute: bool):
-    if parent_execute:
-        return 0o777
-    return 0o666

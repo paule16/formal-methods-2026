@@ -101,8 +101,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         program_text = program_maker.get_text()
         self._additional_files[basename(source_path)] = program_text
         if make_file:
-            self.make_file(path, 'root', 'root', 0o4777)
+            self.make_file(path, 'root', 'root', 0o777)
         self.add_setup(f'gcc -static -o {path} /progs/{basename(source_path)}')
+        self.add_setup(f"chmod u+s {path}")
         if not proc_label:
             proc_label = "^"
         self.add_setup(f'sudo setfattr -n security.SMACK64EXEC -v \"{proc_label}\" {path}')
@@ -293,7 +294,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                         '--privileged',
                         '-i',
                         f'--name={container_name}',
-                        # '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
+                        '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
                         '-v', f'{base_path}:/progs:ro',
                         '-v', '/sys/fs/bpf:/sys/fs/bpf:rw',
                         '-v', '/sys/kernel:/sys/kernel:ro',
@@ -323,7 +324,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     '--privileged',
                     '-i',
                     f'--name={container_name}',
-                    # '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
+                    '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
                     '-v', f'{base_path}:/progs:ro',
                     '-v', '/sys/fs/bpf:/sys/fs/bpf:rw',
                     '-v', '/sys/kernel:/sys/kernel:ro',

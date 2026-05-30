@@ -5,14 +5,17 @@ from pytest import FixtureRequest, fixture
 from tests.spec import LinuxTestSpec
 
 
-
 @fixture(params=[False, True], ids=["setgidY", "setgidN"])
 def setgid(request: FixtureRequest):
     return request.param
 
 
-@fixture  # TODO: parent_mode is synced with sub_parent_mode
-def parent_mode(parent_write: bool, parent_execute: bool, setgid: bool):
+@fixture(
+    params=[(False, False), (False, True), (True, False), (True, True)],
+    ids=["Parent_WrF_ExF", "Parent_WrF_ExT", "Parent_WrT_ExF", "Parent_WrT_ExT"],
+)
+def parent_mode(request: FixtureRequest, setgid: bool):
+    parent_write, parent_execute = request.param
     mode = 0o444
     if parent_write:
         mode |= 0o222
@@ -21,6 +24,16 @@ def parent_mode(parent_write: bool, parent_execute: bool, setgid: bool):
     if setgid:
         mode |= ST_GID
     return mode
+
+
+@fixture(
+    params=[False, True],
+    ids=["SubParent_ExF", "SubParent_ExT"],
+)
+def sub_parent_mode(request: FixtureRequest):
+    if request.param:
+        return 0o777
+    return 0o666
 
 
 def test_open(
@@ -33,8 +46,8 @@ def test_open(
 ):
     obj_user = "obj_user"
     t.make_user(obj_user)
-    if caller_user != "root":
-        t.make_user(caller_user)
+    if caller_user != "root" or effective_user != "root":
+        t.make_user("non_root")
     t.make_rule(proc_label, "ROOT_LABEL", "rx")
     t.make_dir(path="/sub_parent", owner=obj_user, group=obj_user, mode=sub_parent_mode, smack_label="_")
     t.make_dir(path="/sub_parent/parent", owner=obj_user, group=obj_user, mode=parent_mode, smack_label="_")
@@ -46,9 +59,9 @@ def test_open(
         proc_label=proc_label,
     ) as prog:
         if effective_user == "root":
-            prog.seteuid(0)
+            prog.seteuid(0, fatal=True)
         else:
-            prog.seteuid(1001)
+            prog.seteuid(1001, fatal=True)
         prog.open("/sub_parent/parent/open_file", flags=O_CREAT, mode=0o777)
         prog.creat("/sub_parent/parent/creat_file", mode=0o777)
         prog.link("/sub_parent/parent/file_to_link", "/sub_parent/parent/linked_file")

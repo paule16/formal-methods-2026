@@ -369,9 +369,17 @@ class KernelProgramMaker(ProgramMakerTextProducer):
 
             self.main_lines.append(f'{{ {self._make_charbuf("path", path)} {self._make_charbuf("name", name)} {syscall}; }}')
 
-    def seteuid(self, euid: int):
+    def seteuid(self, euid: int, fatal: bool = False):
         self.includes.add("#include <unistd.h>")
-        self.main_lines.append(f"seteuid({euid});")
+
+        seteuid_call = f"seteuid({euid})"
+
+        if fatal:
+            self.includes.add('#include <stdio.h>')
+            self.main_lines.append(f'if ({seteuid_call} != 0) {{ perror(__FILE__ ":" LINE_STRING ":" "seteuid"); return 2; }}')
+            # self.main_lines.append(f'uid_t ruid = getuid(); uid_t euid = geteuid(); printf("Старт: Real UID = %d, Effective UID = %d\\n", ruid, euid);')
+        else:
+            self.main_lines.append(f'{seteuid_call};')
 
     def setxattr(self, path: str, name: str, value: bytes, size: int, flags: int, fatal: bool = False):
         assert '"' not in path
