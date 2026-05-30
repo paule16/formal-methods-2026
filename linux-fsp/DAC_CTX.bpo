@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.poFile org.eventb.core.poStamp="5">
+    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="0">
+        <org.eventb.core.poIdentifier name="GROUPS" org.eventb.core.type="ℙ(GROUPS)"/>
+        <org.eventb.core.poIdentifier name="USERS" org.eventb.core.type="ℙ(USERS)"/>
+        <org.eventb.core.poIdentifier name="FILES" org.eventb.core.type="ℙ(FILES)"/>
+        <org.eventb.core.poIdentifier name="PROCS" org.eventb.core.type="ℙ(PROCS)"/>
+        <org.eventb.core.poIdentifier name="PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        <org.eventb.core.poIdentifier name="CAPABILITIES" org.eventb.core.type="ℙ(CAPABILITIES)"/>
+        <org.eventb.core.poIdentifier name="FILE_DESCRIPTORS_EXTENDED" org.eventb.core.type="ℙ(FILE_DESCRIPTORS_EXTENDED)"/>
+        <org.eventb.core.poIdentifier name="DATA" org.eventb.core.type="ℙ(DATA)"/>
+        <org.eventb.core.poIdentifier name="ROOT_GROUP" org.eventb.core.type="GROUPS"/>
+        <org.eventb.core.poIdentifier name="INIT_NAME" org.eventb.core.type="STRINGS"/>
+        <org.eventb.core.poIdentifier name="UEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="ROOT" org.eventb.core.type="FILES"/>
+        <org.eventb.core.poIdentifier name="PROC_FILE_LIMIT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="UWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="FILE_DESCRIPTORS" org.eventb.core.type="ℙ(FILE_DESCRIPTORS_EXTENDED)"/>
+        <org.eventb.core.poIdentifier name="GREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="SET_GID" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="OWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="UREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="AT_FDCWD" org.eventb.core.type="FILE_DESCRIPTORS_EXTENDED"/>
+        <org.eventb.core.poIdentifier name="FILE_MODES" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="USER_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="INIT_EXE" org.eventb.core.type="FILES"/>
+        <org.eventb.core.poIdentifier name="DEF_SYMLINK_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="ROOT_USER" org.eventb.core.type="USERS"/>
+        <org.eventb.core.poIdentifier name="INIT" org.eventb.core.type="PROCS"/>
+        <org.eventb.core.poIdentifier name="DEF_FILE_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="GWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="FILE_LIMIT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="OTHER_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="OREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="MAX_FILES" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.poIdentifier name="GROUP_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="OEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="GEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="DEF_FOLDER_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.poIdentifier name="STICKY_BIT" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.poIdentifier name="SET_UID" org.eventb.core.type="PERMISSIONS"/>
+    </org.eventb.core.poPredicateSet>
+    <org.eventb.core.poSequent name="FILES_finite2/WD" org.eventb.core.accurate="true" org.eventb.core.poDesc="Well-definedness of Axiom" org.eventb.core.poStamp="1">
+        <org.eventb.core.poPredicateSet name="SEQHYP" org.eventb.core.parentSet="/linux-fsp/DAC_CTX.bpo|org.eventb.core.poFile#DAC_CTX|org.eventb.core.poPredicateSet#HYP-"/>
+        <org.eventb.core.poPredicate name="SEQHYQ" org.eventb.core.predicate="finite(FILES)" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#47"/>
+        <org.eventb.core.poSource name="SEQHYR" org.eventb.core.poRole="DEFAULT" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#47"/>
+        <org.eventb.core.poSelHint name="SEQHYS" org.eventb.core.poSelHintFst="/linux-fsp/DAC_CTX.bpo|org.eventb.core.poFile#DAC_CTX|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poSelHintSnd="/linux-fsp/DAC_CTX.bpo|org.eventb.core.poFile#DAC_CTX|org.eventb.core.poPredicateSet#HYP-"/>
+    </org.eventb.core.poSequent>
+    <org.eventb.core.poPredicateSet name="HYP-" org.eventb.core.parentSet="/linux-fsp/DAC_CTX.bpo|org.eventb.core.poFile#DAC_CTX|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="1">
+        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="INIT∈PROCS" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#40"/>
+        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="INIT_EXE∈FILES" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#41"/>
+        <org.eventb.core.poPredicate name="PRD2" org.eventb.core.predicate="INIT_NAME∈STRINGS" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#42"/>
+        <org.eventb.core.poPredicate name="PRD3" org.eventb.core.predicate="ROOT∈FILES" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#43"/>
+        <org.eventb.core.poPredicate name="PRD4" org.eventb.core.predicate="ROOT≠INIT_EXE" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#44"/>
+        <org.eventb.core.poPredicate name="PRD5" org.eventb.core.predicate="MAX_FILES∈ℕ1" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#45"/>
+        <org.eventb.core.poPredicate name="PRD6" org.eventb.core.predicate="finite(FILES)" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#46"/>
+    </org.eventb.core.poPredicateSet>
+    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/DAC_CTX.bpo|org.eventb.core.poFile#DAC_CTX|org.eventb.core.poPredicateSet#HYP-" org.eventb.core.poStamp="5">
+        <org.eventb.core.poPredicate name="PRD7" org.eventb.core.predicate="card(FILES)≤MAX_FILES" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#47"/>
+        <org.eventb.core.poPredicate name="PRD8" org.eventb.core.predicate="PROC_FILE_LIMIT∈ℕ1" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#48"/>
+        <org.eventb.core.poPredicate name="PRD9" org.eventb.core.predicate="finite(FILE_DESCRIPTORS_EXTENDED)" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#49"/>
+        <org.eventb.core.poPredicate name="PRD10" org.eventb.core.predicate="FILE_LIMIT∈ℕ1" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#50"/>
+        <org.eventb.core.poPredicate name="PRD11" org.eventb.core.predicate="partition(PERMISSIONS,USER_PERMISSIONS,GROUP_PERMISSIONS,OTHER_PERMISSIONS,FILE_MODES)" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#51"/>
+        <org.eventb.core.poPredicate name="PRD12" org.eventb.core.predicate="partition(USER_PERMISSIONS,{UREAD},{UWRITE},{UEXECUTE})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#52"/>
+        <org.eventb.core.poPredicate name="PRD13" org.eventb.core.predicate="partition(GROUP_PERMISSIONS,{GREAD},{GWRITE},{GEXECUTE})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#53"/>
+        <org.eventb.core.poPredicate name="PRD14" org.eventb.core.predicate="partition(OTHER_PERMISSIONS,{OREAD},{OWRITE},{OEXECUTE})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#54"/>
+        <org.eventb.core.poPredicate name="PRD15" org.eventb.core.predicate="partition(FILE_MODES,{SET_UID},{SET_GID},{STICKY_BIT})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#55"/>
+        <org.eventb.core.poPredicate name="PRD16" org.eventb.core.predicate="DEF_FILE_PERMS={UREAD,UWRITE,GREAD,OREAD}" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#56"/>
+        <org.eventb.core.poPredicate name="PRD17" org.eventb.core.predicate="DEF_FOLDER_PERMS={UREAD,UWRITE,UEXECUTE,GREAD,GEXECUTE,OREAD,OEXECUTE}" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#57"/>
+        <org.eventb.core.poPredicate name="PRD18" org.eventb.core.predicate="DEF_SYMLINK_PERMS={UREAD,UWRITE,UEXECUTE,GREAD,GWRITE,GEXECUTE,OREAD,OWRITE,OEXECUTE}" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#58"/>
+        <org.eventb.core.poPredicate name="PRD19" org.eventb.core.predicate="ROOT_USER∈USERS" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#59"/>
+        <org.eventb.core.poPredicate name="PRD20" org.eventb.core.predicate="ROOT_GROUP∈GROUPS" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#60"/>
+        <org.eventb.core.poPredicate name="PRD21" org.eventb.core.predicate="partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#61"/>
+    </org.eventb.core.poPredicateSet>
+</org.eventb.core.poFile>

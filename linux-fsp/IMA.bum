@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile version="5" org.eventb.core.configuration="org.eventb.core.fwd" org.eventb.core.generated="false">
+  <org.eventb.core.refinesMachine name="1" org.eventb.core.target="DAC"/>
+  <org.eventb.core.seesContext name="2" org.eventb.core.target="IMA_CTX"/>
+  <org.eventb.core.seesContext name="3" org.eventb.core.target="open"/>
+  <org.eventb.core.seesContext name="4" org.eventb.core.target="xattrs"/>
+  <org.eventb.core.variable name="5" org.eventb.core.generated="false" org.eventb.core.identifier="Users"/>
+  <org.eventb.core.variable name="6" org.eventb.core.generated="false" org.eventb.core.identifier="Groups"/>
+  <org.eventb.core.variable name="7" org.eventb.core.generated="false" org.eventb.core.identifier="Procs"/>
+  <org.eventb.core.variable name="8" org.eventb.core.generated="false" org.eventb.core.identifier="Files"/>
+  <org.eventb.core.variable name="9" org.eventb.core.generated="false" org.eventb.core.identifier="Folders"/>
+  <org.eventb.core.variable name="10" org.eventb.core.generated="false" org.eventb.core.identifier="SymLinks"/>
+  <org.eventb.core.variable name="11" org.eventb.core.generated="false" org.eventb.core.identifier="FDs"/>
+  <org.eventb.core.variable name="12" org.eventb.core.generated="false" org.eventb.core.identifier="FileParents"/>
+  <org.eventb.core.variable name="13" org.eventb.core.generated="false" org.eventb.core.identifier="FileLink"/>
+  <org.eventb.core.variable name="14" org.eventb.core.generated="false" org.eventb.core.identifier="ProcFDs"/>
+  <org.eventb.core.variable name="15" org.eventb.core.generated="false" org.eventb.core.identifier="FDFlags"/>
+  <org.eventb.core.variable name="16" org.eventb.core.generated="false" org.eventb.core.identifier="FDFile"/>
+  <org.eventb.core.variable name="17" org.eventb.core.generated="false" org.eventb.core.identifier="FDNumber"/>
+  <org.eventb.core.variable name="18" org.eventb.core.generated="false" org.eventb.core.identifier="DACPermissions"/>
+  <org.eventb.core.variable name="19" org.eventb.core.generated="false" org.eventb.core.identifier="UserACL"/>
+  <org.eventb.core.variable name="20" org.eventb.core.generated="false" org.eventb.core.identifier="GroupACL"/>
+  <org.eventb.core.variable name="21" org.eventb.core.generated="false" org.eventb.core.identifier="GroupObjACL"/>
+  <org.eventb.core.variable name="22" org.eventb.core.generated="false" org.eventb.core.identifier="MaskACL"/>
+  <org.eventb.core.variable name="23" org.eventb.core.generated="false" org.eventb.core.identifier="FileUser"/>
+  <org.eventb.core.variable name="24" org.eventb.core.generated="false" org.eventb.core.identifier="FileGroup"/>
+  <org.eventb.core.variable name="25" org.eventb.core.generated="false" org.eventb.core.identifier="ProcUser"/>
+  <org.eventb.core.variable name="26" org.eventb.core.generated="false" org.eventb.core.identifier="ProcGroup"/>
+  <org.eventb.core.variable name="27" org.eventb.core.generated="false" org.eventb.core.identifier="ProcUmask"/>
+  <org.eventb.core.variable name="28" org.eventb.core.generated="false" org.eventb.core.identifier="FileXattrs"/>
+  <org.eventb.core.variable name="29" org.eventb.core.generated="false" org.eventb.core.identifier="ProcEXE"/>
+  <org.eventb.core.variable name="30" org.eventb.core.generated="false" org.eventb.core.identifier="ProcArgv"/>
+  <org.eventb.core.variable name="31" org.eventb.core.generated="false" org.eventb.core.identifier="ProcEnvp"/>
+  <org.eventb.core.variable name="32" org.eventb.core.generated="false" org.eventb.core.identifier="ProcCwd"/>
+  <org.eventb.core.variable name="33" org.eventb.core.generated="false" org.eventb.core.identifier="ProcParent"/>
+  <org.eventb.core.variable name="34" org.eventb.core.generated="false" org.eventb.core.identifier="UserGroups"/>
+  <org.eventb.core.variable name="35" org.eventb.core.generated="false" org.eventb.core.identifier="PathToRoot"/>
+  <org.eventb.core.variable name="36" org.eventb.core.generated="false" org.eventb.core.identifier="UserCaps"/>
+  <org.eventb.core.variable name="37" org.eventb.core.generated="false" org.eventb.core.identifier="ContentHash"/>
+  <org.eventb.core.variable name="38" org.eventb.core.generated="false" org.eventb.core.identifier="MetaHash"/>
+  <org.eventb.core.variable name="39" org.eventb.core.comment="атрибут immutablе" org.eventb.core.generated="false" org.eventb.core.identifier="ImmutableFiles"/>
+  <org.eventb.core.variable name="40" org.eventb.core.generated="false" org.eventb.core.identifier="IMAHash"/>
+  <org.eventb.core.variable name="41" org.eventb.core.generated="false" org.eventb.core.identifier="EVMHash"/>
+  <org.eventb.core.variable name="42" org.eventb.core.generated="false" org.eventb.core.identifier="IMAMode"/>
+  <org.eventb.core.variable name="43" org.eventb.core.generated="false" org.eventb.core.identifier="EVMMode"/>
+  <org.eventb.core.invariant name="44" org.eventb.core.generated="false" org.eventb.core.label="ContentHash_type" org.eventb.core.predicate="ContentHash ∈ Files → HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.invariant name="45" org.eventb.core.generated="false" org.eventb.core.label="MetaHash_type" org.eventb.core.predicate="MetaHash ∈ Files → HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.invariant name="46" org.eventb.core.generated="false" org.eventb.core.label="ImmutableFiles_type" org.eventb.core.predicate="ImmutableFiles ⊆ Files" org.eventb.core.theorem="false"/>
+  <org.eventb.core.invariant name="47" org.eventb.core.generated="false" org.eventb.core.label="IMAHash_type" org.eventb.core.predicate="IMAHash ∈ Files ⇸ HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.invariant name="48" org.eventb.core.generated="false" org.eventb.core.label="EVMHash_type" org.eventb.core.predicate="EVMHash ∈ Files ⇸ HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.invariant name="49" org.eventb.core.generated="false" org.eventb.core.label="IMAMode_type" org.eventb.core.predicate="IMAMode ∈ INTEGRITY_MODES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.invariant name="50" org.eventb.core.comment="&#xA;" org.eventb.core.generated="false" org.eventb.core.label="EVMMode_type" org.eventb.core.predicate="EVMMode ∈ INTEGRITY_MODES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.event name="51" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="INITIALISATION">
+    <org.eventb.core.action name="52" org.eventb.core.generated="false" org.eventb.core.label="act41" org.eventb.core.assignment="ContentHash :∈ {ROOT, INIT_EXE} → HASHES"/>
+    <org.eventb.core.action name="53" org.eventb.core.generated="false" org.eventb.core.label="act42" org.eventb.core.assignment="MetaHash :∈ {ROOT, INIT_EXE} → HASHES"/>
+    <org.eventb.core.action name="54" org.eventb.core.generated="false" org.eventb.core.label="act43" org.eventb.core.assignment="ImmutableFiles ≔ ∅"/>
+    <org.eventb.core.action name="55" org.eventb.core.generated="false" org.eventb.core.label="act44" org.eventb.core.assignment="IMAHash ≔ ∅"/>
+    <org.eventb.core.action name="56" org.eventb.core.generated="false" org.eventb.core.label="act45" org.eventb.core.assignment="EVMHash ≔ ∅"/>
+    <org.eventb.core.action name="57" org.eventb.core.generated="false" org.eventb.core.label="act46" org.eventb.core.assignment="IMAMode ≔ OFF"/>
+    <org.eventb.core.action name="58" org.eventb.core.generated="false" org.eventb.core.label="act47" org.eventb.core.assignment="EVMMode ≔ OFF"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="59" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="open_create">
+    <org.eventb.core.refinesEvent name="60" org.eventb.core.target="open_create"/>
+    <org.eventb.core.parameter name="61" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="contentHash"/>
+    <org.eventb.core.parameter name="62" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="63" org.eventb.core.generated="false" org.eventb.core.label="grd28" org.eventb.core.predicate="contentHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="64" org.eventb.core.generated="false" org.eventb.core.label="grd29" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="65" org.eventb.core.generated="false" org.eventb.core.label="grd30" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="66" org.eventb.core.generated="false" org.eventb.core.label="act15" org.eventb.core.assignment="ContentHash(file) ≔ contentHash"/>
+    <org.eventb.core.action name="67" org.eventb.core.generated="false" org.eventb.core.label="act16" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="68" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="open_exists">
+    <org.eventb.core.refinesEvent name="69" org.eventb.core.target="open_exists"/>
+    <org.eventb.core.guard name="70" org.eventb.core.comment="EVM metadata check is only made when IMA appraisal is performed" org.eventb.core.generated="false" org.eventb.core.label="grd27" org.eventb.core.predicate="IMAMode = ENFORCE ∧ EVMMode = ENFORCE ⇒ file ∈ dom(EVMHash) ∧ EVMHash(file) = MetaHash(file)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="71" org.eventb.core.generated="false" org.eventb.core.label="grd28" org.eventb.core.predicate="IMAMode = ENFORCE ⇒ file ∈ dom(IMAHash) ∧ IMAHash(file) = ContentHash(file)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="72" org.eventb.core.generated="false" org.eventb.core.label="grd29" org.eventb.core.predicate="file ∈ ImmutableFiles ⇒ O_WRONLY ∉ flags ∧ O_RDWR ∉ flags" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="73" org.eventb.core.generated="false" org.eventb.core.label="grd30" org.eventb.core.predicate="IMAMode = ENFORCE ⇒ O_WRONLY ∉ flags ∧ O_RDWR ∉ flags" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="74" org.eventb.core.generated="false" org.eventb.core.label="grd31" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="75" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="openat_create">
+    <org.eventb.core.refinesEvent name="76" org.eventb.core.target="openat_create"/>
+    <org.eventb.core.parameter name="77" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="contentHash"/>
+    <org.eventb.core.parameter name="78" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="79" org.eventb.core.generated="false" org.eventb.core.label="grd34" org.eventb.core.predicate="contentHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="80" org.eventb.core.generated="false" org.eventb.core.label="grd35" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="81" org.eventb.core.generated="false" org.eventb.core.label="grd36" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="82" org.eventb.core.generated="false" org.eventb.core.label="act15" org.eventb.core.assignment="ContentHash(file) ≔ contentHash"/>
+    <org.eventb.core.action name="83" org.eventb.core.generated="false" org.eventb.core.label="act16" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="84" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="openat_exists">
+    <org.eventb.core.refinesEvent name="85" org.eventb.core.target="openat_exists"/>
+    <org.eventb.core.guard name="86" org.eventb.core.generated="false" org.eventb.core.label="grd32" org.eventb.core.predicate="IMAMode = ENFORCE ∧ EVMMode = ENFORCE ⇒ file ∈ dom(EVMHash) ∧ EVMHash(file) = MetaHash(file)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="87" org.eventb.core.generated="false" org.eventb.core.label="grd33" org.eventb.core.predicate="IMAMode = ENFORCE ⇒ file ∈ dom(IMAHash) ∧ IMAHash(file) = ContentHash(file)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="88" org.eventb.core.generated="false" org.eventb.core.label="grd34" org.eventb.core.predicate="file ∈ ImmutableFiles ⇒ O_WRONLY ∉ flags ∧ O_RDWR ∉ flags" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="89" org.eventb.core.generated="false" org.eventb.core.label="grd35" org.eventb.core.predicate="IMAMode = ENFORCE ⇒ O_WRONLY ∉ flags ∧ O_RDWR ∉ flags" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="90" org.eventb.core.generated="false" org.eventb.core.label="grd36" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="91" org.eventb.core.comment="TODO: add support for mkdirat?" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="mkdir">
+    <org.eventb.core.refinesEvent name="92" org.eventb.core.target="mkdir"/>
+    <org.eventb.core.parameter name="93" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="contentHash"/>
+    <org.eventb.core.parameter name="94" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="95" org.eventb.core.generated="false" org.eventb.core.label="grd18" org.eventb.core.predicate="contentHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="96" org.eventb.core.generated="false" org.eventb.core.label="grd19" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="97" org.eventb.core.generated="false" org.eventb.core.label="grd20" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="98" org.eventb.core.generated="false" org.eventb.core.label="act12" org.eventb.core.assignment="ContentHash(folder) ≔ contentHash"/>
+    <org.eventb.core.action name="99" org.eventb.core.generated="false" org.eventb.core.label="act13" org.eventb.core.assignment="MetaHash(folder) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="100" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="chmod">
+    <org.eventb.core.refinesEvent name="101" org.eventb.core.target="chmod"/>
+    <org.eventb.core.parameter name="102" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="103" org.eventb.core.generated="false" org.eventb.core.label="grd8" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="104" org.eventb.core.generated="false" org.eventb.core.label="grd9" org.eventb.core.predicate="file ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="105" org.eventb.core.generated="false" org.eventb.core.label="grd10" org.eventb.core.predicate="DACPermissions(file) = perms ⇔ MetaHash(file) = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="106" org.eventb.core.generated="false" org.eventb.core.label="act4" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="107" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchmod">
+    <org.eventb.core.refinesEvent name="108" org.eventb.core.target="fchmod"/>
+    <org.eventb.core.parameter name="109" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="110" org.eventb.core.generated="false" org.eventb.core.label="grd8" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="111" org.eventb.core.generated="false" org.eventb.core.label="grd9" org.eventb.core.predicate="DACPermissions(FDFile(fd)) = perms ⇔ MetaHash(FDFile(fd)) = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="112" org.eventb.core.generated="false" org.eventb.core.label="act4" org.eventb.core.assignment="MetaHash(FDFile(fd)) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="113" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchmodat">
+    <org.eventb.core.refinesEvent name="114" org.eventb.core.target="fchmodat"/>
+    <org.eventb.core.parameter name="115" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="116" org.eventb.core.generated="false" org.eventb.core.label="grd12" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="117" org.eventb.core.generated="false" org.eventb.core.label="grd13" org.eventb.core.predicate="file ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="118" org.eventb.core.generated="false" org.eventb.core.label="grd14" org.eventb.core.predicate="DACPermissions(file) = perms ⇔ MetaHash(file) = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="119" org.eventb.core.generated="false" org.eventb.core.label="act4" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="120" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="chown">
+    <org.eventb.core.refinesEvent name="121" org.eventb.core.target="chown"/>
+    <org.eventb.core.parameter name="122" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="123" org.eventb.core.generated="false" org.eventb.core.label="grd12" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="124" org.eventb.core.generated="false" org.eventb.core.label="grd13" org.eventb.core.predicate="file ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="125" org.eventb.core.generated="false" org.eventb.core.label="grd14" org.eventb.core.predicate="(FileUser(file) = owner ∧ FileGroup(file) = group) ⇔ MetaHash(file) = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="126" org.eventb.core.generated="false" org.eventb.core.label="act4" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="127" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchown">
+    <org.eventb.core.refinesEvent name="128" org.eventb.core.target="fchown"/>
+    <org.eventb.core.parameter name="129" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="130" org.eventb.core.generated="false" org.eventb.core.label="grd12" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="131" org.eventb.core.generated="false" org.eventb.core.label="grd13" org.eventb.core.predicate="(FileUser(FDFile(fd)) = owner ∧ FileGroup(FDFile(fd)) = group) ⇔ MetaHash(FDFile(fd)) = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="132" org.eventb.core.generated="false" org.eventb.core.label="act4" org.eventb.core.assignment="MetaHash(FDFile(fd)) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="133" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchownat">
+    <org.eventb.core.refinesEvent name="134" org.eventb.core.target="fchownat"/>
+    <org.eventb.core.parameter name="135" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="136" org.eventb.core.generated="false" org.eventb.core.label="grd16" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="137" org.eventb.core.generated="false" org.eventb.core.label="grd17" org.eventb.core.predicate="file ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="138" org.eventb.core.generated="false" org.eventb.core.label="grd18" org.eventb.core.predicate="(FileUser(file) = owner ∧ FileGroup(file) = group) ⇔ MetaHash(file) = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="139" org.eventb.core.generated="false" org.eventb.core.label="act4" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="140" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="chdir">
+    <org.eventb.core.refinesEvent name="141" org.eventb.core.target="chdir"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="142" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fchdir">
+    <org.eventb.core.refinesEvent name="143" org.eventb.core.target="fchdir"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="144" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="getdents">
+    <org.eventb.core.refinesEvent name="145" org.eventb.core.target="getdents"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="146" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="getxattr">
+    <org.eventb.core.refinesEvent name="147" org.eventb.core.target="getxattr"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="148" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="setxattr">
+    <org.eventb.core.refinesEvent name="149" org.eventb.core.target="setxattr"/>
+    <org.eventb.core.guard name="150" org.eventb.core.generated="false" org.eventb.core.label="grd15" org.eventb.core.predicate="name ∉ {IMA_STRING, EVM_STRING}" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="151" org.eventb.core.generated="false" org.eventb.core.label="grd16" org.eventb.core.predicate="file ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="152" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="link">
+    <org.eventb.core.refinesEvent name="153" org.eventb.core.target="link"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="154" org.eventb.core.comment="TODO: add basic symlink support to other syscalls" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="symlink">
+    <org.eventb.core.refinesEvent name="155" org.eventb.core.target="symlink"/>
+    <org.eventb.core.parameter name="156" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="contentHash"/>
+    <org.eventb.core.parameter name="157" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="158" org.eventb.core.generated="false" org.eventb.core.label="grd14" org.eventb.core.predicate="contentHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="159" org.eventb.core.generated="false" org.eventb.core.label="grd15" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="160" org.eventb.core.generated="false" org.eventb.core.label="grd16" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="161" org.eventb.core.generated="false" org.eventb.core.label="act12" org.eventb.core.assignment="ContentHash(file) ≔ contentHash"/>
+    <org.eventb.core.action name="162" org.eventb.core.generated="false" org.eventb.core.label="act13" org.eventb.core.assignment="MetaHash(file) ≔ metaHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="163" org.eventb.core.comment="TODO: support #!interpreter" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="execve">
+    <org.eventb.core.refinesEvent name="164" org.eventb.core.target="execve"/>
+    <org.eventb.core.guard name="165" org.eventb.core.generated="false" org.eventb.core.label="grd16" org.eventb.core.predicate="IMAMode = ENFORCE ∧ EVMMode = ENFORCE ⇒ exeFile ∈ dom(EVMHash) ∧ EVMHash(exeFile) = MetaHash(exeFile)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="166" org.eventb.core.generated="false" org.eventb.core.label="grd17" org.eventb.core.predicate="IMAMode = ENFORCE ⇒ exeFile ∈ dom(IMAHash) ∧ IMAHash(exeFile) = ContentHash(exeFile)" org.eventb.core.theorem="false"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="167" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="umask">
+    <org.eventb.core.refinesEvent name="168" org.eventb.core.target="umask"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="169" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="exit">
+    <org.eventb.core.refinesEvent name="170" org.eventb.core.target="exit"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="171" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="close">
+    <org.eventb.core.refinesEvent name="172" org.eventb.core.target="close"/>
+    <org.eventb.core.parameter name="173" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="imaHash"/>
+    <org.eventb.core.parameter name="174" org.eventb.core.comment="-" org.eventb.core.generated="false" org.eventb.core.identifier="evmHash"/>
+    <org.eventb.core.parameter name="175" org.eventb.core.generated="false" org.eventb.core.identifier="contentHash"/>
+    <org.eventb.core.parameter name="176" org.eventb.core.generated="false" org.eventb.core.identifier="metaHash"/>
+    <org.eventb.core.guard name="177" org.eventb.core.generated="false" org.eventb.core.label="grd6" org.eventb.core.predicate="imaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="178" org.eventb.core.generated="false" org.eventb.core.label="grd7" org.eventb.core.predicate="evmHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="179" org.eventb.core.generated="false" org.eventb.core.label="grd8" org.eventb.core.predicate="contentHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="180" org.eventb.core.generated="false" org.eventb.core.label="grd9" org.eventb.core.predicate="metaHash ∈ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="181" org.eventb.core.generated="false" org.eventb.core.label="grd10" org.eventb.core.predicate="IMAMode = FIX ⇒ imaHash = contentHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="182" org.eventb.core.generated="false" org.eventb.core.label="grd11" org.eventb.core.predicate="IMAMode ≠ FIX ∧ FDFile(fd) ∈ dom(IMAHash) ⇒ imaHash = IMAHash(FDFile(fd))" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="183" org.eventb.core.generated="false" org.eventb.core.label="grd12" org.eventb.core.predicate="EVMMode = FIX ⇒ evmHash = metaHash" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="184" org.eventb.core.generated="false" org.eventb.core.label="grd13" org.eventb.core.predicate="EVMMode ≠ FIX ∧ FDFile(fd) ∈ dom(EVMHash) ⇒ evmHash = EVMHash(FDFile(fd))" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="185" org.eventb.core.generated="false" org.eventb.core.label="grd14" org.eventb.core.predicate="FDFile(fd) ∈ Files&#xA;&#x9;⇒ (MetaHash(FDFile(fd)) = metaHash ⇔ (ContentHash(FDFile(fd)) = contentHash ∨ IMAMode ≠ FIX))" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="186" org.eventb.core.generated="false" org.eventb.core.label="grd15" org.eventb.core.predicate="O_RDONLY ∈ FDFlags(fd) ∧ FDFile(fd) ∈ Files&#xA;&#x9;⇒ (ContentHash(FDFile(fd)) = contentHash ∧ MetaHash(FDFile(fd)) = metaHash)" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="187" org.eventb.core.generated="false" org.eventb.core.label="act6" org.eventb.core.assignment="EVMHash :∣ (EVMMode = FIX ∧ FDFile(fd) ∈ Files ∧ EVMHash' = (({FDFile(fd)} ⩤ EVMHash) ∪ {FDFile(fd) ↦ evmHash}))&#xA;&#x9;&#x9; &#x9;∨ (¬(EVMMode = FIX ∧ FDFile(fd) ∈ Files) ∧ EVMHash' = EVMHash)"/>
+    <org.eventb.core.action name="188" org.eventb.core.generated="false" org.eventb.core.label="act7" org.eventb.core.assignment="IMAHash :∣ (IMAMode = FIX ∧ FDFile(fd) ∈ Files ∧ IMAHash' = (({FDFile(fd)} ⩤ IMAHash) ∪ {FDFile(fd) ↦ imaHash}))&#xA;&#x9;&#x9;&#x9;∨ (¬(IMAMode = FIX ∧ FDFile(fd) ∈ Files) ∧ IMAHash' = IMAHash)"/>
+    <org.eventb.core.action name="189" org.eventb.core.generated="false" org.eventb.core.label="act8" org.eventb.core.assignment="ContentHash :∣ (FDFile(fd) ∈ Files ∧ ContentHash' = (({FDFile(fd)} ⩤ ContentHash) ∪ {FDFile(fd) ↦ contentHash}))&#xA;&#x9;&#x9;&#x9;∨ (FDFile(fd) ∉ Files ∧ ContentHash' = ContentHash)"/>
+    <org.eventb.core.action name="190" org.eventb.core.generated="false" org.eventb.core.label="act9" org.eventb.core.assignment="MetaHash :∣ (FDFile(fd) ∈ Files ∧ MetaHash' = (({FDFile(fd)} ⩤ MetaHash) ∪ {FDFile(fd) ↦ metaHash}))&#xA;&#x9;&#x9;&#x9;∨ (FDFile(fd) ∉ Files ∧ MetaHash' = MetaHash)"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="191" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="unlink">
+    <org.eventb.core.refinesEvent name="192" org.eventb.core.target="unlink"/>
+    <org.eventb.core.guard name="193" org.eventb.core.generated="false" org.eventb.core.label="grd11" org.eventb.core.predicate="file ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="194" org.eventb.core.generated="false" org.eventb.core.label="grd12" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="195" org.eventb.core.generated="false" org.eventb.core.label="act13" org.eventb.core.assignment="ContentHash ≔ files ⩤ ContentHash"/>
+    <org.eventb.core.action name="196" org.eventb.core.generated="false" org.eventb.core.label="act14" org.eventb.core.assignment="MetaHash ≔ files ⩤ MetaHash"/>
+    <org.eventb.core.action name="197" org.eventb.core.generated="false" org.eventb.core.label="act15" org.eventb.core.assignment="ImmutableFiles ≔ ImmutableFiles ∖ files"/>
+    <org.eventb.core.action name="198" org.eventb.core.generated="false" org.eventb.core.label="act16" org.eventb.core.assignment="IMAHash ≔ files ⩤ IMAHash"/>
+    <org.eventb.core.action name="199" org.eventb.core.generated="false" org.eventb.core.label="act17" org.eventb.core.assignment="EVMHash ≔ files ⩤ EVMHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="200" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="rmdir">
+    <org.eventb.core.refinesEvent name="201" org.eventb.core.target="rmdir"/>
+    <org.eventb.core.guard name="202" org.eventb.core.generated="false" org.eventb.core.label="grd9" org.eventb.core.predicate="folder ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="203" org.eventb.core.generated="false" org.eventb.core.label="grd10" org.eventb.core.predicate="parent ∉ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="204" org.eventb.core.generated="false" org.eventb.core.label="act13" org.eventb.core.assignment="ContentHash ≔ {folder} ⩤ ContentHash"/>
+    <org.eventb.core.action name="205" org.eventb.core.generated="false" org.eventb.core.label="act14" org.eventb.core.assignment="MetaHash ≔ {folder} ⩤ MetaHash"/>
+    <org.eventb.core.action name="206" org.eventb.core.generated="false" org.eventb.core.label="act15" org.eventb.core.assignment="ImmutableFiles ≔ ImmutableFiles ∖ {folder}"/>
+    <org.eventb.core.action name="207" org.eventb.core.generated="false" org.eventb.core.label="act16" org.eventb.core.assignment="IMAHash ≔ {folder} ⩤ IMAHash"/>
+    <org.eventb.core.action name="208" org.eventb.core.generated="false" org.eventb.core.label="act17" org.eventb.core.assignment="EVMHash ≔ {folder} ⩤ EVMHash"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="209" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="fork">
+    <org.eventb.core.refinesEvent name="210" org.eventb.core.target="fork"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="211" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="create_user">
+    <org.eventb.core.refinesEvent name="212" org.eventb.core.target="create_user"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="213" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="create_group">
+    <org.eventb.core.refinesEvent name="214" org.eventb.core.target="create_group"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="215" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="login">
+    <org.eventb.core.refinesEvent name="216" org.eventb.core.target="login"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="217" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="any_transition">
+    <org.eventb.core.refinesEvent name="218" org.eventb.core.target="any_transition"/>
+    <org.eventb.core.parameter name="219" org.eventb.core.generated="false" org.eventb.core.identifier="fContentHash"/>
+    <org.eventb.core.parameter name="220" org.eventb.core.generated="false" org.eventb.core.identifier="fMetaHash"/>
+    <org.eventb.core.parameter name="221" org.eventb.core.generated="false" org.eventb.core.identifier="fImmutableFiles"/>
+    <org.eventb.core.parameter name="222" org.eventb.core.generated="false" org.eventb.core.identifier="fIMAHash"/>
+    <org.eventb.core.parameter name="223" org.eventb.core.generated="false" org.eventb.core.identifier="fEVMHash"/>
+    <org.eventb.core.parameter name="224" org.eventb.core.generated="false" org.eventb.core.identifier="fIMAMode"/>
+    <org.eventb.core.parameter name="225" org.eventb.core.generated="false" org.eventb.core.identifier="fEVMMode"/>
+    <org.eventb.core.guard name="226" org.eventb.core.generated="false" org.eventb.core.label="grd53" org.eventb.core.predicate="fContentHash ∈ fFiles → HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="227" org.eventb.core.generated="false" org.eventb.core.label="grd54" org.eventb.core.predicate="fMetaHash ∈ fFiles → HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="228" org.eventb.core.generated="false" org.eventb.core.label="grd55" org.eventb.core.predicate="fImmutableFiles ⊆ fFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="229" org.eventb.core.generated="false" org.eventb.core.label="grd56" org.eventb.core.predicate="fIMAHash ∈ fFiles ⇸ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="230" org.eventb.core.generated="false" org.eventb.core.label="grd57" org.eventb.core.predicate="fEVMHash ∈ fFiles ⇸ HASHES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="231" org.eventb.core.generated="false" org.eventb.core.label="grd58" org.eventb.core.predicate="fIMAMode ∈ INTEGRITY_MODES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="232" org.eventb.core.generated="false" org.eventb.core.label="grd59" org.eventb.core.predicate="fEVMMode ∈ INTEGRITY_MODES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="233" org.eventb.core.generated="false" org.eventb.core.label="act33" org.eventb.core.assignment="ContentHash ≔ fContentHash"/>
+    <org.eventb.core.action name="234" org.eventb.core.generated="false" org.eventb.core.label="act34" org.eventb.core.assignment="MetaHash ≔ fMetaHash"/>
+    <org.eventb.core.action name="235" org.eventb.core.generated="false" org.eventb.core.label="act35" org.eventb.core.assignment="ImmutableFiles ≔ fImmutableFiles"/>
+    <org.eventb.core.action name="236" org.eventb.core.generated="false" org.eventb.core.label="act36" org.eventb.core.assignment="IMAHash ≔ fIMAHash"/>
+    <org.eventb.core.action name="237" org.eventb.core.generated="false" org.eventb.core.label="act37" org.eventb.core.assignment="EVMHash ≔ fEVMHash"/>
+    <org.eventb.core.action name="238" org.eventb.core.generated="false" org.eventb.core.label="act38" org.eventb.core.assignment="IMAMode ≔ fIMAMode"/>
+    <org.eventb.core.action name="239" org.eventb.core.generated="false" org.eventb.core.label="act39" org.eventb.core.assignment="EVMMode ≔ fEVMMode"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="240" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="switch_ima_mode">
+    <org.eventb.core.parameter name="241" org.eventb.core.generated="false" org.eventb.core.identifier="mode"/>
+    <org.eventb.core.guard name="242" org.eventb.core.generated="false" org.eventb.core.label="grd1" org.eventb.core.predicate="mode ∈ INTEGRITY_MODES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="243" org.eventb.core.generated="false" org.eventb.core.label="act1" org.eventb.core.assignment="IMAMode ≔ mode"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="244" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="switch_evm_mode">
+    <org.eventb.core.parameter name="245" org.eventb.core.generated="false" org.eventb.core.identifier="mode"/>
+    <org.eventb.core.guard name="246" org.eventb.core.generated="false" org.eventb.core.label="grd1" org.eventb.core.predicate="mode ∈ INTEGRITY_MODES" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="247" org.eventb.core.generated="false" org.eventb.core.label="act1" org.eventb.core.assignment="EVMMode ≔ mode"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="248" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="mark_immutable">
+    <org.eventb.core.parameter name="249" org.eventb.core.generated="false" org.eventb.core.identifier="file"/>
+    <org.eventb.core.guard name="250" org.eventb.core.generated="false" org.eventb.core.label="grd1" org.eventb.core.predicate="file ∈ Files ∖ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="251" org.eventb.core.generated="false" org.eventb.core.label="act1" org.eventb.core.assignment="ImmutableFiles ≔ ImmutableFiles ∪ {file}"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="252" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="unmark_immutable">
+    <org.eventb.core.parameter name="253" org.eventb.core.generated="false" org.eventb.core.identifier="file"/>
+    <org.eventb.core.guard name="254" org.eventb.core.generated="false" org.eventb.core.label="grd1" org.eventb.core.predicate="file ∈ ImmutableFiles" org.eventb.core.theorem="false"/>
+    <org.eventb.core.guard name="255" org.eventb.core.generated="false" org.eventb.core.label="grd2" org.eventb.core.predicate="IMAMode ≠ ENFORCE ∧ EVMMode ≠ ENFORCE" org.eventb.core.theorem="false"/>
+    <org.eventb.core.action name="256" org.eventb.core.generated="false" org.eventb.core.label="act1" org.eventb.core.assignment="ImmutableFiles ≔ ImmutableFiles ∖ {file}"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="257" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="set_acl">
+    <org.eventb.core.refinesEvent name="258" org.eventb.core.target="set_acl"/>
+  </org.eventb.core.event>
+  <org.eventb.core.event name="259" org.eventb.core.generated="false" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="change_capabilities">
+    <org.eventb.core.refinesEvent name="260" org.eventb.core.target="change_capabilities"/>
+  </org.eventb.core.event>
+</org.eventb.core.machineFile>

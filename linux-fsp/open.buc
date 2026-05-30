@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.contextFile version="3" org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase">
+  <org.eventb.core.constant name="1" org.eventb.core.identifier="OPEN_FLAGS" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="2" org.eventb.core.identifier="O_RDONLY" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="3" org.eventb.core.identifier="O_WRONLY" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="4" org.eventb.core.identifier="O_RDWR" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="5" org.eventb.core.identifier="O_CREAT" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="6" org.eventb.core.identifier="O_EXCL" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="7" org.eventb.core.identifier="O_DIRECT" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="8" org.eventb.core.identifier="O_TMPFILE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="9" org.eventb.core.identifier="O_DIRECTORY" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="10" org.eventb.core.identifier="O_CLOEXEC" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="11" org.eventb.core.identifier="O_NOCTTY" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="12" org.eventb.core.identifier="O_NOFOLLOW" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="13" org.eventb.core.identifier="O_TRUNC" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="14" org.eventb.core.identifier="O_APPEND" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="15" org.eventb.core.identifier="O_ASYNC" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="16" org.eventb.core.identifier="O_SYNC" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="17" org.eventb.core.identifier="O_DSYNC" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="18" org.eventb.core.identifier="O_NOATIME" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="19" org.eventb.core.identifier="O_LARGEFILE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="20" org.eventb.core.identifier="O_PATH" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="21" org.eventb.core.identifier="O_NOBLOCK" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="22" org.eventb.core.identifier="O_NDELAY" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.axiom name="23" org.eventb.core.label="O_RDONLY_type" org.eventb.core.predicate="O_RDONLY = 1" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="24" org.eventb.core.label="O_WRONLY_type" org.eventb.core.predicate="O_WRONLY = 2" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="25" org.eventb.core.label="O_RDWR_type" org.eventb.core.predicate="O_RDWR = 3" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="26" org.eventb.core.label="O_CREAT_type" org.eventb.core.predicate="O_CREAT = 4" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="27" org.eventb.core.label="O_EXCL_type" org.eventb.core.predicate="O_EXCL = 5" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="28" org.eventb.core.label="O_DIRECT_type" org.eventb.core.predicate="O_DIRECT = 6" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="29" org.eventb.core.label="O_TMPFILE_type" org.eventb.core.predicate="O_TMPFILE = 7" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="30" org.eventb.core.label="O_DIRECTORY_type" org.eventb.core.predicate="O_DIRECTORY = 8" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="31" org.eventb.core.label="O_CLOEXEC_type" org.eventb.core.predicate="O_CLOEXEC = 9" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="32" org.eventb.core.label="O_NOCTTY_type" org.eventb.core.predicate="O_NOCTTY = 10" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="33" org.eventb.core.label="O_NOFOLLOW_type" org.eventb.core.predicate="O_NOFOLLOW = 11" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="34" org.eventb.core.label="O_TRUNC_type" org.eventb.core.predicate="O_TRUNC = 12" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="35" org.eventb.core.label="O_APPEND_type" org.eventb.core.predicate="O_APPEND = 13" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="36" org.eventb.core.label="O_ASYNC_type" org.eventb.core.predicate="O_ASYNC = 14" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="37" org.eventb.core.label="O_SYNC_type" org.eventb.core.predicate="O_SYNC = 15" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="38" org.eventb.core.label="O_DSYNC_type" org.eventb.core.predicate="O_DSYNC = 16" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="39" org.eventb.core.label="O_NOATIME_type" org.eventb.core.predicate="O_NOATIME = 17" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="40" org.eventb.core.label="O_LARGEFILE_type" org.eventb.core.predicate="O_LARGEFILE = 18" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="41" org.eventb.core.label="O_PATH_type" org.eventb.core.predicate="O_PATH = 19" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="42" org.eventb.core.label="O_NOBLOCK_type" org.eventb.core.predicate="O_NOBLOCK = 20" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="43" org.eventb.core.label="O_NDELAY_type" org.eventb.core.predicate="O_NDELAY = 21" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="44" org.eventb.core.label="OPEN_FLAGS_type" org.eventb.core.predicate="OPEN_FLAGS = {&#xA;    O_RDONLY, O_WRONLY, O_RDWR,&#xA;    O_CLOEXEC, O_CREAT, O_DIRECTORY, O_EXCL, O_NOCTTY,&#xA;    O_NOFOLLOW, O_TMPFILE, O_TRUNC,&#xA;    O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,&#xA;    O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC&#xA;}" org.eventb.core.theorem="false"/>
+</org.eventb.core.contextFile>

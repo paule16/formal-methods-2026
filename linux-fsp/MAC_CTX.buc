@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.contextFile version="3" org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase">
+  <org.eventb.core.extendsContext name="1" org.eventb.core.target="DAC_CTX"/>
+  <org.eventb.core.carrierSet name="2" org.eventb.core.identifier="ACCESSES"/>
+  <org.eventb.core.constant name="3" org.eventb.core.identifier="RESERVED_LABELS" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="4" org.eventb.core.identifier="FLOOR" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="5" org.eventb.core.identifier="HAT" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="6" org.eventb.core.identifier="STAR" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="7" org.eventb.core.identifier="HUH" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="8" org.eventb.core.identifier="WEB" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="9" org.eventb.core.comment="метка, присваиваемая первому процессу" org.eventb.core.identifier="INIT_LABEL" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="10" org.eventb.core.comment="метка, присваиваемая корневой директории " org.eventb.core.identifier="ROOT_LABEL" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="11" org.eventb.core.comment="метка, присваиваемая исполняемому файлу первого процесса" org.eventb.core.identifier="INIT_EXE_LABEL" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="12" org.eventb.core.identifier="READ" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="13" org.eventb.core.identifier="WRITE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="14" org.eventb.core.identifier="EXECUTE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="15" org.eventb.core.identifier="TRANSMUTE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="16" org.eventb.core.identifier="CAP_MAC_ADMIN" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="17" org.eventb.core.identifier="CAP_MAC_OVERRIDE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.axiom name="18" org.eventb.core.label="RESERVED_LABELS_type" org.eventb.core.predicate="RESERVED_LABELS ⊆ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="19" org.eventb.core.label="RESERVED_LABELS_partition" org.eventb.core.predicate="partition(RESERVED_LABELS, {FLOOR}, {HAT}, {STAR}, {HUH}, {WEB})" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="20" org.eventb.core.label="ACCESSES_partition" org.eventb.core.predicate="partition(ACCESSES, {READ}, {WRITE}, {EXECUTE}, {TRANSMUTE})" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="21" org.eventb.core.label="CAP_MAC_ADMIN_type" org.eventb.core.predicate="CAP_MAC_ADMIN ∈ CAPABILITIES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="22" org.eventb.core.label="CAP_MAC_OVERRIDE_type" org.eventb.core.predicate="CAP_MAC_OVERRIDE ∈ CAPABILITIES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="23" org.eventb.core.label="INIT_LABEL_type" org.eventb.core.predicate="INIT_LABEL ∈ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="24" org.eventb.core.label="ROOT_LABEL_type" org.eventb.core.predicate="ROOT_LABEL ∈ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="25" org.eventb.core.label="INIT_EXE_LABEL_type" org.eventb.core.predicate="INIT_EXE_LABEL ∈ STRINGS" org.eventb.core.theorem="false"/>
+</org.eventb.core.contextFile>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.contextFile version="3" org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase">
+  <org.eventb.core.extendsContext name="1" org.eventb.core.target="DAC_CTX"/>
+  <org.eventb.core.carrierSet name="2" org.eventb.core.identifier="INTEGRITY_MODES"/>
+  <org.eventb.core.carrierSet name="3" org.eventb.core.identifier="HASHES"/>
+  <org.eventb.core.constant name="4" org.eventb.core.identifier="ENFORCE" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="5" org.eventb.core.identifier="FIX" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="6" org.eventb.core.identifier="OFF" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="7" org.eventb.core.comment="security.ima" org.eventb.core.identifier="IMA_STRING" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="8" org.eventb.core.comment="security.evm" org.eventb.core.identifier="EVM_STRING" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.axiom name="9" org.eventb.core.label="INTEGRITY_MODES_partition" org.eventb.core.predicate="partition(INTEGRITY_MODES, {ENFORCE}, {FIX}, {OFF})" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="10" org.eventb.core.label="IMA_STRING_type" org.eventb.core.predicate="IMA_STRING ∈ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="11" org.eventb.core.label="EVM_STRING_type" org.eventb.core.predicate="EVM_STRING ∈ STRINGS" org.eventb.core.theorem="false"/>
+</org.eventb.core.contextFile>

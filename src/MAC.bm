@@ -232,11 +232,11 @@ events
         @grd17: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
                 fileLabel = FileLabel(parent) ∧ newTransmute = {folder}) ∨
                 (fileLabel = ProcLabel(proc) ∧ newTransmute = ∅) // Если SMACK64TRANSMUTE аттрибут
-                                                                        // установлен для родительской директории
-                                                                        // и правило содержит TRANSMUTE, то новая
-                                                                        // директория получает аттрибут
-                                                                        // SMACK64TRANSMUTE и метку родительской
-                                                                        // директории, иначе -- процесса.
+                                                                 // установлен для родительской директории
+                                                                 // и правило содержит TRANSMUTE, то новая
+                                                                 // директория получает аттрибут
+                                                                 // SMACK64TRANSMUTE и метку родительской
+                                                                 // директории, иначе -- процесса.
     then
         @act10: FileLabel(folder) ≔ fileLabel
         @act11: TransmuteFolders ≔ TransmuteFolders ∪ newTransmute

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.scContextFile org.eventb.core.accurate="true" org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase">
+    <org.eventb.core.scAxiom name="'" org.eventb.core.label="XATTR_FLAGS_partition" org.eventb.core.predicate="partition(XATTR_FLAGS,{XATTR_CREATE},{XATTR_REPLACE})" org.eventb.core.source="/linux-fsp/xattrs.buc|org.eventb.core.contextFile#xattrs|org.eventb.core.axiom#4" org.eventb.core.theorem="false"/>
+    <org.eventb.core.scConstant name="XATTR_REPLACE" org.eventb.core.source="/linux-fsp/xattrs.buc|org.eventb.core.contextFile#xattrs|org.eventb.core.constant#3" org.eventb.core.type="XATTR_FLAGS"/>
+    <org.eventb.core.scCarrierSet name="XATTR_FLAGS" org.eventb.core.source="/linux-fsp/xattrs.buc|org.eventb.core.contextFile#xattrs|org.eventb.core.carrierSet#1" org.eventb.core.type="ℙ(XATTR_FLAGS)"/>
+    <org.eventb.core.scConstant name="XATTR_CREATE" org.eventb.core.source="/linux-fsp/xattrs.buc|org.eventb.core.contextFile#xattrs|org.eventb.core.constant#2" org.eventb.core.type="XATTR_FLAGS"/>
+</org.eventb.core.scContextFile>
