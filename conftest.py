@@ -17,7 +17,7 @@ def t(request: SubRequest, monitor_loaded: Any, m: Machine):
 def loader_process(rcvc1: Connection, sndc1: Connection, rcvc2: Connection, sndc2: Connection):
     os.setsid()
     print('Loading monitor ...', end=' ')
-    run(['sudo', 'make', '-s', '-C', 'monitoring', 'load'], check=True)
+    run(['sudo', 'make', '-s', '-C', 'monitor', 'load'], check=True)
     print('ok')
     rcvc1.close()
     sndc2.close()
@@ -28,7 +28,7 @@ def loader_process(rcvc1: Connection, sndc1: Connection, rcvc2: Connection, sndc
         pass
     finally:
         print('Unloading monitor ...', end=' ')
-        run(['sudo', 'make', '-s', '-C', 'monitoring', 'unload'], check=True)
+        run(['sudo', 'make', '-s', '-C', 'monitor', 'unload'], check=True)
         print('ok')
 
 @fixture(scope='session')

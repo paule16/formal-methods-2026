@@ -2,6 +2,6 @@
 .pytest_cache
 .venv
 anis.json
-monitoring/*.0
-monitoring/monitor
+monitor/*.0
+monitor/monitor
 .project

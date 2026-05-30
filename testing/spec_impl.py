@@ -139,7 +139,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
             before_run: str|None, after_run: str|None):
 
         setup_cmd = ' && '.join(self._setup_commands)
-        runner_cmd = runner.replace('<>', f'(chfn --other="umask={umask:0o}" {user}; /monitoring/monitor run sudo -HE -u {user} -g {group} {exeFile.path})')
+        runner_cmd = runner.replace('<>', f'(chfn --other="umask={umask:0o}" {user}; /monitor/monitor run sudo -HE -u {user} -g {group} {exeFile.path})')
 
 
         def main():
@@ -199,7 +199,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                 (base_path / 'Containerfile').write_text(container_file)
                 (base_path / 'gather_info.sh').write_text('\n'.join(['#! /bin/bash -e'] + gatherinfo_commands))
                 (base_path / 'setup.sh').write_text(setup_cmd)
-                copytree('monitoring', str(base_path / 'monitoring'))
+                copytree('monitor', str(base_path / 'monitor'))
                 (base_path / 'progs').mkdir()
                 for path, contents in self._additional_files.items():
                     (base_path / 'progs' / basename(path)).write_text(contents)
@@ -216,7 +216,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
             return [p for p in parent.iterdir() if p.is_file() and p.suffix == '.py']
 
         def all_monitoring_files():
-            return [p for p in Path('monitoring').iterdir() if p.is_file()
+            return [p for p in Path('monitor').iterdir() if p.is_file()
                     and (p.name == 'Makefile' or
                             p.suffix in {'.c', 'h'} and not p.name.endswith('.skel.h'))]
 
@@ -273,7 +273,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
             gatherinfo_commands = self._initialiser.make_text_of_gatherinfo_file() # this make important
             if additional_runner_cmd:
                 additional_runner_cmd += ";"
-            runner_cmd = runner.replace('<>', f'(chfn --other="umask={umask:0o}" {user}; {additional_runner_cmd} /monitoring/monitor run sudo -HE -u {user} -g {group} {exeFile.path})')
+            runner_cmd = runner.replace('<>', f'(chfn --other="umask={umask:0o}" {user}; {additional_runner_cmd} /monitor/monitor run sudo -HE -u {user} -g {group} {exeFile.path})')
 
             if not before_run:
 
@@ -293,11 +293,11 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                         '--privileged',
                         '-i',
                         f'--name={container_name}',
-                        '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
+                        # '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
                         '-v', f'{base_path}:/progs:ro',
                         '-v', '/sys/fs/bpf:/sys/fs/bpf:rw',
                         '-v', '/sys/kernel:/sys/kernel:ro',
-                        '-v', './monitoring:/monitoring:ro',
+                        '-v', './monitor:/monitor:ro',
                         # '--pid=host',
                         # '--network=host',
                         # '--security-opt', 'label=disable',
@@ -323,11 +323,11 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     '--privileged',
                     '-i',
                     f'--name={container_name}',
-                    '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
+                    # '--cap-add=CAP_BPF', '--cap-add=CAP_SYS_ADMIN',
                     '-v', f'{base_path}:/progs:ro',
                     '-v', '/sys/fs/bpf:/sys/fs/bpf:rw',
                     '-v', '/sys/kernel:/sys/kernel:ro',
-                    '-v', './monitoring:/monitoring:ro',
+                    '-v', './monitor:/monitor:ro',
                     # '--pid=host',
                     # '--network=host',
                     # '--security-opt', 'label=disable',
