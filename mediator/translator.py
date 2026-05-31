@@ -1,6 +1,6 @@
 from os.path import dirname, isabs, join
 from re import fullmatch
-from stat import S_IRGRP, S_IRUSR, S_IWGRP, S_IWUSR, S_IXGRP, S_IXUSR
+from stat import S_IRGRP, S_IRUSR, S_IWGRP, S_IWUSR, S_IXGRP, S_IXUSR, S_ISGID
 from typing import Generator, Optional
 from model.machine import Machine
 from anis.model.lazy import assert_is_not_none
@@ -37,8 +37,14 @@ class TraceTranslator:
         folder = Inode(dev, ino,)
         self.mediator_state.do_mkdir(path, folder, uid, gid, perms)
         parent = self.mediator_state.get_ino(dirname(path))
-        self._model_trace.mkdir(path, 0o777, parent, folder, 0, 0o777, 0, 0, "INIT_LABEL", skip_coverage=True)
-        self._model_trace.chown(path, uid, gid, 0, 0, parent, folder, 0o777, 0, 0, skip_coverage=True)
+        setgid_flag = self.mediator_state.do_stat(parent).st_mode & S_ISGID
+        creat_gid = 0
+        if setgid_flag:
+            perms |= S_ISGID
+            gid = self.mediator_state.do_stat(parent).st_gid
+            creat_gid = gid
+        self._model_trace.mkdir(path, 0o777, parent, folder, creat_gid, 0o777, 0, 0, "INIT_LABEL", skip_coverage=True)
+        self._model_trace.chown(path, uid, gid, 0, creat_gid, parent, folder, 0o777, 0, 0, skip_coverage=True)
         self._model_trace.chmod(path, perms, parent, folder, perms, 0, 0, skip_coverage=True)
 
 
@@ -66,10 +72,16 @@ class TraceTranslator:
             self.mediator_state.do_link(oldpath, path)
             self._model_trace.link(oldpath, path, oldParent, file, parent, 0, 0, skip_coverage=True)
         else:
+            setgid_flag = self.mediator_state.do_stat(parent).st_mode & S_ISGID
+            creat_gid = 0
+            if setgid_flag:
+                perms |= S_ISGID
+                gid = self.mediator_state.do_stat(parent).st_gid
+                creat_gid = gid
             self.mediator_state.do_creat(path, file, uid, gid, perms)
-            self._model_trace.creat(path, 0o777, parent, file, 0, 0o777, 0, 3, "INIT_LABEL", skip_coverage=True)
+            self._model_trace.creat(path, 0o777, parent, file, creat_gid, 0o777, 0, 3, "INIT_LABEL", skip_coverage=True)
             self._model_trace.close(3, [ProcFD(0, 3)], 0, 0, skip_coverage=True)
-            self._model_trace.chown(path, uid, gid, 0, 0, parent, file, 0o777, 0, 0, skip_coverage=True)
+            self._model_trace.chown(path, uid, gid, 0, creat_gid, parent, file, 0o777, 0, 0, skip_coverage=True)
             self._model_trace.chmod(path, perms, parent, file, perms, 0, 0, skip_coverage=True)
 
     def add_smack_rule(

@@ -24,7 +24,9 @@ class MediatorState:
         self.cwd = dict[int, str]()
         self.path2ino = {'/': root} # path |-> (dev, ino)
         self.fd2ino = dict[ProcFD, Inode]()  # (proc, fd) |-> (dev, ino)
-        self.stats = dict[Inode, FileStat]() # (dev, ino) |-> stat
+        self.stats: dict[Inode, FileStat] = {
+            root: FileStat(0, 0, 0o755, 0, "folder")
+        } # (dev, ino) |-> stat
 
     def do_getcwd(self, proc: int) -> str:
         if proc == 0:

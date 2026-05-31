@@ -1,11 +1,11 @@
-from stat import ST_GID
+from stat import S_ISGID
 from os import O_CREAT
 from pytest import FixtureRequest, fixture
 
 from tests.spec import LinuxTestSpec
 
 
-@fixture(params=[False, True], ids=["setgidY", "setgidN"])
+@fixture(params=[False, True], ids=["setgidF", "setgidT"])
 def setgid(request: FixtureRequest):
     return request.param
 
@@ -16,13 +16,13 @@ def setgid(request: FixtureRequest):
 )
 def parent_mode(request: FixtureRequest, setgid: bool):
     parent_write, parent_execute = request.param
-    mode = 0o444
+    mode = 0o444  # Full read
     if parent_write:
         mode |= 0o222
     if parent_execute:
         mode |= 0o111
     if setgid:
-        mode |= ST_GID
+        mode |= S_ISGID
     return mode
 
 
@@ -33,7 +33,7 @@ def parent_mode(request: FixtureRequest, setgid: bool):
 def sub_parent_mode(request: FixtureRequest):
     if request.param:
         return 0o777
-    return 0o666
+    return 0o666  # At least rw
 
 
 def test_open(
