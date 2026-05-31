@@ -3,109 +3,124 @@ from multiprocessing.connection import Connection
 import os
 from subprocess import run
 from pytest import fixture
-from _pytest.fixtures import SubRequest # type: ignore
+from _pytest.fixtures import SubRequest  # type: ignore
 from typing import Any
 
 from model.machine import Machine
 from anis.model.expressions import constant
 
+
 @fixture
 def t(request: SubRequest, monitor_loaded: Any, m: Machine):
     from testing.spec_impl import LinuxTestSpecImpl
+
     return LinuxTestSpecImpl(request.node.nodeid, m, request.node.path)
 
-def loader_process(rcvc1: Connection, sndc1: Connection, rcvc2: Connection, sndc2: Connection):
+
+def loader_process(
+    rcvc1: Connection, sndc1: Connection, rcvc2: Connection, sndc2: Connection
+):
     os.setsid()
-    print('Loading monitor ...', end=' ')
-    run(['sudo', 'make', '-s', '-C', 'monitor', 'load'], check=True)
-    print('ok')
+    print("Loading monitor ...", end=" ")
+    run(["sudo", "make", "-s", "-C", "monitor", "load"], check=True)
+    print("ok")
     rcvc1.close()
     sndc2.close()
-    sndc1.close() # loader is ready
+    sndc1.close()  # loader is ready
     try:
-        rcvc2.recv() # wait for closing conn2 (i.e. may unload)
+        rcvc2.recv()  # wait for closing conn2 (i.e. may unload)
     except EOFError:
         pass
     finally:
-        print('Unloading monitor ...', end=' ')
-        run(['sudo', 'make', '-s', '-C', 'monitor', 'unload'], check=True)
-        print('ok')
+        print("Unloading monitor ...", end=" ")
+        run(["sudo", "make", "-s", "-C", "monitor", "unload"], check=True)
+        print("ok")
 
-@fixture(scope='session')
+
+@fixture(scope="session")
 def monitor_loaded():
     """
     Tests are not be cancelled immediately by "Cancel Test Run" in VSCode.
     There is a particular period when the button was already pressed but
     several containers were not finished. When all the things are finished,
     the monitor will be unloaded. So do not run tests immediately after
-    the "Finished running tests!" message was appeared in "Test Results"! 
+    the "Finished running tests!" message was appeared in "Test Results"!
     """
 
     rcvc1, sndc1 = Pipe(duplex=False)
     rcvc2, sndc2 = Pipe(duplex=False)
-    loader = Process(target=loader_process, args=(rcvc1, sndc1, rcvc2, sndc2,),)
+    loader = Process(
+        target=loader_process,
+        args=(
+            rcvc1,
+            sndc1,
+            rcvc2,
+            sndc2,
+        ),
+    )
     loader.start()
     sndc1.close()
     rcvc2.close()
     try:
-        rcvc1.recv() # wait while loading will be fully finished
+        rcvc1.recv()  # wait while loading will be fully finished
     except EOFError:
         pass
     finally:
         if loader.exitcode is not None:
-            raise ValueError('Monitor loading was failed')
+            raise ValueError("Monitor loading was failed")
         yield
         sndc2.close()
-        loader.join() # wait while unloading will be fully finished
+        loader.join()  # wait while unloading will be fully finished
+
 
 @fixture
 def m():
     m = Machine()
 
-    m.INIT = constant('INIT', m, m.ProcsItem)
-    m.INIT_EXE = constant('INIT_EXE', m, m.FilesItem)
-    m.INIT_NAME = constant('INIT_NAME', m, m.StringsItem)
-    m.INIT_LABEL = constant('INIT_LABEL', m, m.StringsItem)
-    m.INIT_EXE_LABEL = constant('INIT_EXE_LABEL', m, m.StringsItem)
-    m.ROOT = constant('ROOT', m, m.FilesItem)
-    m.ROOT_USER = constant('ROOT_USER', m, m.UsersItem)
-    m.ROOT_GROUP = constant('ROOT_GROUP', m, m.GroupsItem)
-    m.ROOT_LABEL = constant('ROOT_LABEL', m, m.StringsItem)
+    m.INIT = constant("INIT", m, m.ProcsItem)
+    m.INIT_EXE = constant("INIT_EXE", m, m.FilesItem)
+    m.INIT_NAME = constant("INIT_NAME", m, m.StringsItem)
+    m.INIT_LABEL = constant("INIT_LABEL", m, m.StringsItem)
+    m.INIT_EXE_LABEL = constant("INIT_EXE_LABEL", m, m.StringsItem)
+    m.ROOT = constant("ROOT", m, m.FilesItem)
+    m.ROOT_USER = constant("ROOT_USER", m, m.UsersItem)
+    m.ROOT_GROUP = constant("ROOT_GROUP", m, m.GroupsItem)
+    m.ROOT_LABEL = constant("ROOT_LABEL", m, m.StringsItem)
 
     m.MAX_FILES = 1048576
     m.PROC_FILE_LIMIT = 1024
     m.FILE_LIMIT = 1024
 
-    m.UREAD = constant('UREAD', m, m.PermissionsItem)
-    m.UWRITE = constant('UWRITE', m, m.PermissionsItem)
-    m.UEXECUTE = constant('UEXECUTE', m, m.PermissionsItem)
-    m.GREAD = constant('GREAD', m, m.PermissionsItem)
-    m.GWRITE = constant('GWRITE', m, m.PermissionsItem)
-    m.GEXECUTE = constant('GEXECUTE', m, m.PermissionsItem)
-    m.OREAD = constant('OREAD', m, m.PermissionsItem)
-    m.OWRITE = constant('OWRITE', m, m.PermissionsItem)
-    m.OEXECUTE = constant('OEXECUTE', m, m.PermissionsItem)
-    m.SET_UID = constant('SET_UID', m, m.PermissionsItem)
-    m.SET_GID = constant('SET_GID', m, m.PermissionsItem)
-    m.STICKY_BIT = constant('STICKY_BIT', m, m.PermissionsItem)
-    m.FLOOR = constant('FLOOR', m, m.StringsItem)
-    m.HAT = constant('HAT', m, m.StringsItem)
-    m.STAR = constant('STAR', m, m.StringsItem)
-    m.HUH = constant('HUH', m, m.StringsItem)
-    m.WEB = constant('WEB', m, m.StringsItem)
-    m.READ = constant('READ', m, m.AccessesItem)
-    m.WRITE = constant('WRITE', m, m.AccessesItem)
-    m.EXECUTE = constant('EXECUTE', m, m.AccessesItem)
-    m.TRANSMUTE = constant('TRANSMUTE', m, m.AccessesItem)
+    m.UREAD = constant("UREAD", m, m.PermissionsItem)
+    m.UWRITE = constant("UWRITE", m, m.PermissionsItem)
+    m.UEXECUTE = constant("UEXECUTE", m, m.PermissionsItem)
+    m.GREAD = constant("GREAD", m, m.PermissionsItem)
+    m.GWRITE = constant("GWRITE", m, m.PermissionsItem)
+    m.GEXECUTE = constant("GEXECUTE", m, m.PermissionsItem)
+    m.OREAD = constant("OREAD", m, m.PermissionsItem)
+    m.OWRITE = constant("OWRITE", m, m.PermissionsItem)
+    m.OEXECUTE = constant("OEXECUTE", m, m.PermissionsItem)
+    m.SET_UID = constant("SET_UID", m, m.PermissionsItem)
+    m.SET_GID = constant("SET_GID", m, m.PermissionsItem)
+    m.STICKY_BIT = constant("STICKY_BIT", m, m.PermissionsItem)
+    m.FLOOR = constant("FLOOR", m, m.StringsItem)
+    m.HAT = constant("HAT", m, m.StringsItem)
+    m.STAR = constant("STAR", m, m.StringsItem)
+    m.HUH = constant("HUH", m, m.StringsItem)
+    m.WEB = constant("WEB", m, m.StringsItem)
+    m.READ = constant("READ", m, m.AccessesItem)
+    m.WRITE = constant("WRITE", m, m.AccessesItem)
+    m.EXECUTE = constant("EXECUTE", m, m.AccessesItem)
+    m.TRANSMUTE = constant("TRANSMUTE", m, m.AccessesItem)
 
     # TODO: Capabilities are extra?
-    m.CAP_MAC_ADMIN = constant('CAP_MAC_ADMIN', m, m.CapabilitiesItem)
-    m.CAP_MAC_OVERRIDE = constant('CAP_MAC_OVERRIDE', m, m.CapabilitiesItem)
+    m.CAP_MAC_ADMIN = constant("CAP_MAC_ADMIN", m, m.CapabilitiesItem)
+    m.CAP_MAC_OVERRIDE = constant("CAP_MAC_OVERRIDE", m, m.CapabilitiesItem)
 
-    m.XATTR_CREATE = constant('XATTR_CREATE', m, m.XattrFlagsItem)
-    m.XATTR_REPLACE = constant('XATTR_REPLACE', m, m.XattrFlagsItem)
+    m.XATTR_CREATE = constant("XATTR_CREATE", m, m.XattrFlagsItem)
+    m.XATTR_REPLACE = constant("XATTR_REPLACE", m, m.XattrFlagsItem)
 
-    m.AT_FDCWD = constant('AT_FDCWD', m, m.FileDescriptorsExtendedItem)
+    m.AT_FDCWD = constant("AT_FDCWD", m, m.FileDescriptorsExtendedItem)
 
     m.S_IRUSR = m.UREAD
     m.S_IWUSR = m.UWRITE
@@ -125,8 +140,22 @@ def m():
     m.OTHER_PERMISSIONS = frozenset((m.OREAD, m.OWRITE, m.OEXECUTE))
     m.FILE_MODES = frozenset((m.SET_UID, m.SET_GID, m.STICKY_BIT))
     m.DEF_FILE_PERMS = frozenset((m.UREAD, m.UWRITE, m.GREAD, m.OREAD))
-    m.DEF_FOLDER_PERMS = frozenset((m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GEXECUTE, m.OREAD, m.OEXECUTE))
-    m.DEF_SYMLINK_PERMS = frozenset((m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GWRITE, m.GEXECUTE, m.OREAD, m.OWRITE, m.OEXECUTE))
+    m.DEF_FOLDER_PERMS = frozenset(
+        (m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GEXECUTE, m.OREAD, m.OEXECUTE)
+    )
+    m.DEF_SYMLINK_PERMS = frozenset(
+        (
+            m.UREAD,
+            m.UWRITE,
+            m.UEXECUTE,
+            m.GREAD,
+            m.GWRITE,
+            m.GEXECUTE,
+            m.OREAD,
+            m.OWRITE,
+            m.OEXECUTE,
+        )
+    )
     m.RESERVED_LABELS = frozenset((m.FLOOR, m.HAT, m.STAR, m.HUH, m.WEB))
 
     # ⚬	O_RDONLY_type:	O_RDONLY = 1 not theorem ›
@@ -178,13 +207,31 @@ def m():
     #  	                	    O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,
     #  	                	    O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC
     #  	                	} not theorem ›
-    m.OPEN_FLAGS = frozenset((
-        m.O_RDONLY, m.O_WRONLY, m.O_RDWR,
-        m.O_CLOEXEC, m.O_CREAT, m.O_DIRECTORY, m.O_EXCL, m.O_NOCTTY,
-        m.O_NOFOLLOW, m.O_TMPFILE, m.O_TRUNC,
-        m.O_APPEND, m.O_ASYNC, m.O_DIRECT, m.O_DSYNC, m.O_LARGEFILE,
-        m.O_NOATIME, m.O_NOBLOCK, m.O_NDELAY, m.O_PATH, m.O_SYNC
-    ))
+    m.OPEN_FLAGS = frozenset(
+        (
+            m.O_RDONLY,
+            m.O_WRONLY,
+            m.O_RDWR,
+            m.O_CLOEXEC,
+            m.O_CREAT,
+            m.O_DIRECTORY,
+            m.O_EXCL,
+            m.O_NOCTTY,
+            m.O_NOFOLLOW,
+            m.O_TMPFILE,
+            m.O_TRUNC,
+            m.O_APPEND,
+            m.O_ASYNC,
+            m.O_DIRECT,
+            m.O_DSYNC,
+            m.O_LARGEFILE,
+            m.O_NOATIME,
+            m.O_NOBLOCK,
+            m.O_NDELAY,
+            m.O_PATH,
+            m.O_SYNC,
+        )
+    )
 
     # @act1: Users ≔ {ROOT_USER}
     m.Users |= {m.ROOT_USER}
@@ -201,25 +248,39 @@ def m():
     # ⚬	act14:	DACPermissions ≔ {ROOT ↦ DEF_FOLDER_PERMS, INIT_EXE ↦ DEF_FILE_PERMS} ›
     m.DACPermissions |= {
         (m.ROOT, m.DEF_FOLDER_PERMS),
-        (m.INIT_EXE, m.DEF_FILE_PERMS),}
+        (m.INIT_EXE, m.DEF_FILE_PERMS),
+    }
     # ⚬	act17:	GroupObjACL ≔ {ROOT ↦ DEF_FOLDER_PERMS ∩ GROUP_PERMISSIONS, INIT_EXE ↦ DEF_FILE_PERMS ∩ GROUP_PERMISSIONS} ›
     m.GroupObjACL |= {
         (m.ROOT, m.DEF_FOLDER_PERMS & m.GROUP_PERMISSIONS),
-        (m.INIT_EXE, m.DEF_FILE_PERMS & m.GROUP_PERMISSIONS),}
+        (m.INIT_EXE, m.DEF_FILE_PERMS & m.GROUP_PERMISSIONS),
+    }
     # ⚬	act19:	FileUser ≔ {ROOT ↦ ROOT_USER, INIT_EXE ↦ ROOT_USER} ›
     m.FileUser |= {
         (m.ROOT, m.ROOT_USER),
-        (m.INIT_EXE, m.ROOT_USER),}
+        (m.INIT_EXE, m.ROOT_USER),
+    }
     # ⚬	act20:	FileGroup ≔ {ROOT ↦ ROOT_GROUP, INIT_EXE ↦ ROOT_GROUP} ›
     m.FileGroup |= {
         (m.ROOT, m.ROOT_GROUP),
-        (m.INIT_EXE, m.ROOT_GROUP),}
+        (m.INIT_EXE, m.ROOT_GROUP),
+    }
     # @act21: ProcUser ≔ {INIT ↦ ROOT_USER}
-    m.ProcUser |= {(m.INIT, m.ROOT_USER,),}
+    m.ProcUser |= {
+        (
+            m.INIT,
+            m.ROOT_USER,
+        ),
+    }
     # @act22: ProcGroup ≔ {INIT ↦ ROOT_GROUP}
-    m.ProcGroup |= {(m.INIT, m.ROOT_GROUP,),}
+    m.ProcGroup |= {
+        (
+            m.INIT,
+            m.ROOT_GROUP,
+        ),
+    }
     # @act23: ProcUmask ≔ {INIT ↦ ∅}
-    m.ProcUmask |= {(m.INIT, frozenset())} # frozenset[m.PermissionsItem]())}
+    m.ProcUmask |= {(m.INIT, frozenset())}  # frozenset[m.PermissionsItem]())}
     # ⚬	act24:	FileXattrs ≔ {ROOT ↦ ∅, INIT_EXE ↦ ∅} ›
     m.FileXattrs |= {(m.ROOT, frozenset()), (m.INIT_EXE, frozenset())}
     # ⚬	act25:	ProcEXE ≔ {INIT ↦ INIT_EXE} ›

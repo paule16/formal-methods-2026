@@ -1,1 +1,1 @@
-from .translator import TraceTranslator # type: ignore
+from .translator import TraceTranslator  # type: ignore

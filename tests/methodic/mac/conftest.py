@@ -6,6 +6,7 @@ regular_smack_labels = ("label_one", "label_two")
 special_smack_labels = ("*", "^", "_")
 smack_labels = regular_smack_labels + special_smack_labels
 
+
 @fixture(params=users)
 def caller_user(request: FixtureRequest):
     return request.param
@@ -34,4 +35,3 @@ def parent_execute(request: FixtureRequest):
 @fixture(params=[False, True], ids=["WrF", "WrT"])
 def parent_write(request: FixtureRequest):
     return request.param
-

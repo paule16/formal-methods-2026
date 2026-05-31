@@ -3,6 +3,7 @@ from os.path import dirname, isabs
 
 from testing.dump import LineStream
 
+
 @dataclass
 class StatLine:
     name: str
@@ -12,10 +13,12 @@ class StatLine:
     gid: int
     perms: int
 
+
 @dataclass
 class GidLine:
     name: str
     gid: int
+
 
 @dataclass
 class UidLine:
@@ -24,10 +27,12 @@ class UidLine:
     gid: int
     gids: list[int]
 
+
 @dataclass
 class Xattrs:
     path: str
     xattrs: dict[str, str]
+
 
 @dataclass
 class Snapshot:
@@ -38,15 +43,22 @@ class Snapshot:
     folders_xattrs: list[Xattrs] = field(default_factory=list[Xattrs])
     files: dict[str, StatLine] = field(default_factory=dict[str, StatLine])
     files_xattrs: list[Xattrs] = field(default_factory=list[Xattrs])
-    acl: list[tuple[str, list[str]]] = field(default_factory=list[tuple[str, list[str]]])
+    acl: list[tuple[str, list[str]]] = field(
+        default_factory=list[tuple[str, list[str]]]
+    )
 
-    file_smack_labels: list[tuple[str, str]] = field(default_factory=list[tuple[str, str]])
-    file_exec_smack_labels: list[tuple[str, str]] = field(default_factory=list[tuple[str, str]])
-    smack_rules: list[tuple[str, str, str]] = field(default_factory=list[tuple[str, str, str]])
+    file_smack_labels: list[tuple[str, str]] = field(
+        default_factory=list[tuple[str, str]]
+    )
+    file_exec_smack_labels: list[tuple[str, str]] = field(
+        default_factory=list[tuple[str, str]]
+    )
+    smack_rules: list[tuple[str, str, str]] = field(
+        default_factory=list[tuple[str, str, str]]
+    )
 
 
 class SnapshotBuilder:
-
     def __init__(self):
         self._init_users = list[str]()
         self._init_groups = list[str]()
@@ -59,74 +71,133 @@ class SnapshotBuilder:
     def add_user(self, user: str) -> None:
         self._init_users.append(user)
         if user in self._init_groups:
-            raise ValueError('Group already added')
+            raise ValueError("Group already added")
         self._init_groups.append(user)
 
     def add_group(self, group: str) -> None:
         if group in self._init_groups:
-            raise ValueError('Group already added')
+            raise ValueError("Group already added")
         self._init_groups.append(group)
 
     def add_file(self, path: str, smack_label: str | None) -> None:
         if not isabs(path):
-            raise ValueError('Absolute path required')
+            raise ValueError("Absolute path required")
         if path in self._init_files:
-            raise ValueError('File already added')
+            raise ValueError("File already added")
         self._init_files.append(path)
         while True:
             path = dirname(path)
-            if path == '/':
+            if path == "/":
                 break
             if path not in self._init_dirs:
                 self._init_dirs.append(path)
         if smack_label is not None:
-            self._init_files_xattrs.append(Xattrs(path, {"security.SMACK64": smack_label}))
+            self._init_files_xattrs.append(
+                Xattrs(path, {"security.SMACK64": smack_label})
+            )
 
     def add_dir(self, path: str, smack_label: str | None) -> None:
         if not isabs(path):
-            raise ValueError('Absolute path required')
+            raise ValueError("Absolute path required")
         if path in self._init_dirs:
-            raise ValueError('Dir already added')
+            raise ValueError("Dir already added")
         self._init_dirs.append(path)
         while True:
             path = dirname(path)
-            if path == '/':
+            if path == "/":
                 break
             if path not in self._init_dirs:
                 self._init_dirs.append(path)
         if smack_label is not None:
-            self._init_dirs_xattrs.append(Xattrs(path, {"security.SMACK64": smack_label}))
+            self._init_dirs_xattrs.append(
+                Xattrs(path, {"security.SMACK64": smack_label})
+            )
 
     def add_smack_rule(self, label1, label2, modes: str):
         self._init_smack_rules.append((label1, label2, modes))
 
     def make_text_of_gatherinfo_file(self):
-        root = f'stat --format=%n,%d,%i,%u,%g,%f /'
+        root = f"stat --format=%n,%d,%i,%u,%g,%f /"
 
-        users = [f'echo {u}:$(id -u {u}):$(id -g {u}):$(id -G {u})' for u in self._init_users]
-        groups = [f'getent group {" ".join(self._init_groups)}'] if len(self._init_groups) > 0 else []
+        users = [
+            f"echo {u}:$(id -u {u}):$(id -g {u}):$(id -G {u})" for u in self._init_users
+        ]
+        groups = (
+            [f"getent group {' '.join(self._init_groups)}"]
+            if len(self._init_groups) > 0
+            else []
+        )
 
-        files_stat = [f'stat --format=%n,%d,%i,%u,%g,%f {" ".join(self._init_files)}'] if len(self._init_files) > 0 else []
-        files_attrs = [f'getfattr --absolute-names -d -e hex {" ".join(self._init_files)}'] if len(self._init_files) > 0 else []
-        files_acl = [f'getfacl -n -p -e {" ".join(self._init_files)}'] if len(self._init_files) > 0 else []
-        files_smack = [f'getfattr --absolute-names -d -m "security.SMACK64" {" ".join(self._init_files)}']  if len(self._init_files) > 0 else []
+        files_stat = (
+            [f"stat --format=%n,%d,%i,%u,%g,%f {' '.join(self._init_files)}"]
+            if len(self._init_files) > 0
+            else []
+        )
+        files_attrs = (
+            [f"getfattr --absolute-names -d -e hex {' '.join(self._init_files)}"]
+            if len(self._init_files) > 0
+            else []
+        )
+        files_acl = (
+            [f"getfacl -n -p -e {' '.join(self._init_files)}"]
+            if len(self._init_files) > 0
+            else []
+        )
+        files_smack = (
+            [
+                f'getfattr --absolute-names -d -m "security.SMACK64" {" ".join(self._init_files)}'
+            ]
+            if len(self._init_files) > 0
+            else []
+        )
 
-        self._init_dirs.sort() # sorting moves parent folder earlier in the list
-        dirs_stat = [f'stat --format=%n,%d,%i,%u,%g,%f {" ".join(self._init_dirs)}'] if len(self._init_dirs) > 0 else []
-        dirs_attrs = [f'getfattr --absolute-names -d -e hex {" ".join(self._init_dirs)}'] if len(self._init_dirs) > 0 else []
-        dirs_acl = [f'getfacl -n -p -e {" ".join(self._init_dirs)}'] if len(self._init_dirs) > 0 else []
-        dirs_smack = [f'getfattr --absolute-names -d -m "security.SMACK64" {" ".join(self._init_dirs)}']  if len(self._init_dirs) > 0 else []
+        self._init_dirs.sort()  # sorting moves parent folder earlier in the list
+        dirs_stat = (
+            [f"stat --format=%n,%d,%i,%u,%g,%f {' '.join(self._init_dirs)}"]
+            if len(self._init_dirs) > 0
+            else []
+        )
+        dirs_attrs = (
+            [f"getfattr --absolute-names -d -e hex {' '.join(self._init_dirs)}"]
+            if len(self._init_dirs) > 0
+            else []
+        )
+        dirs_acl = (
+            [f"getfacl -n -p -e {' '.join(self._init_dirs)}"]
+            if len(self._init_dirs) > 0
+            else []
+        )
+        dirs_smack = (
+            [
+                f'getfattr --absolute-names -d -m "security.SMACK64" {" ".join(self._init_dirs)}'
+            ]
+            if len(self._init_dirs) > 0
+            else []
+        )
 
-        return [root, *groups, *users, *dirs_stat, *dirs_attrs, 'echo "<>"', 
-                    *files_stat, *files_attrs, 'echo "<>"',
-                    *dirs_acl, *files_acl, 'echo "<>"',
-                    *files_smack, *dirs_smack, 'echo "<>"']
+        return [
+            root,
+            *groups,
+            *users,
+            *dirs_stat,
+            *dirs_attrs,
+            'echo "<>"',
+            *files_stat,
+            *files_attrs,
+            'echo "<>"',
+            *dirs_acl,
+            *files_acl,
+            'echo "<>"',
+            *files_smack,
+            *dirs_smack,
+            'echo "<>"',
+        ]
 
     def _xreadline(self, trace: LineStream):
         line = trace.readline()
         if not line:
-            raise ValueError('EOF')
-        return line.rstrip('\n')
+            raise ValueError("EOF")
+        return line.rstrip("\n")
 
     def read_gathered_info(self, trace: LineStream) -> Snapshot:
 
@@ -135,24 +206,24 @@ class SnapshotBuilder:
         for group in self._init_groups:
             g = self._parse_gid_line(self._xreadline(trace))
             if g.name != group:
-                raise ValueError('Wrong gid line')
+                raise ValueError("Wrong gid line")
             snapshot.groups.append(g)
 
         for user in self._init_users:
             u = self._parse_uid_line(self._xreadline(trace))
             if u.name != user:
-                raise ValueError('Wrong uid line')
+                raise ValueError("Wrong uid line")
             snapshot.users.append(u)
 
         for path in self._init_dirs:
             s = self._parse_stat_line(self._xreadline(trace))
             if s.name != path:
-                raise ValueError('Wrong stat line')
+                raise ValueError("Wrong stat line")
             snapshot.folders[path] = s
 
         line = self._xreadline(trace)
         while True:
-            if line == '<>':
+            if line == "<>":
                 break
             attrs, line = self._parse_getfattr_output(line, trace)
             snapshot.folders_xattrs.append(attrs)
@@ -160,12 +231,12 @@ class SnapshotBuilder:
         for path in self._init_files:
             s = self._parse_stat_line(self._xreadline(trace))
             if s.name != path:
-                raise ValueError('Wrong stat line')
+                raise ValueError("Wrong stat line")
             snapshot.files[path] = s
 
         line = self._xreadline(trace)
         while True:
-            if line == '<>':
+            if line == "<>":
                 break
             attrs, line = self._parse_getfattr_output(line, trace)
             snapshot.files_xattrs.append(attrs)
@@ -176,7 +247,7 @@ class SnapshotBuilder:
         # Smack
         line = self._xreadline(trace)
         while True:
-            if line == '<>':
+            if line == "<>":
                 break
             attrs, line = self._parse_smack_output(line, trace)
             for xattr_key, xattr_value in attrs.xattrs.items():
@@ -187,7 +258,7 @@ class SnapshotBuilder:
 
         line = self._xreadline(trace)
         while True:
-            if line == '<>':
+            if line == "<>":
                 break
             attrs, line = self._parse_smack_output(line, trace)
             for xattr_key, xattr_value in attrs.xattrs.items():
@@ -201,20 +272,15 @@ class SnapshotBuilder:
         return snapshot
 
     def _parse_stat_line(self, line: str):
-        path, sdev, sino, suid, sgid, srawmode = line.strip().split(',')
+        path, sdev, sino, suid, sgid, srawmode = line.strip().split(",")
         return StatLine(
-                path,
-                int(sdev),
-                int(sino),
-                int(suid),
-                int(sgid),
-                int(srawmode, base=16)
+            path, int(sdev), int(sino), int(suid), int(sgid), int(srawmode, base=16)
         )
-    
+
     def _parse_gid_line(self, line: str):
         if len(line) == 0:
-            raise ValueError('EOF')
-        name, _, sgid, _ = line.strip().split(':')
+            raise ValueError("EOF")
+        name, _, sgid, _ = line.strip().split(":")
         return GidLine(
             name,
             int(sgid),
@@ -222,21 +288,16 @@ class SnapshotBuilder:
 
     def _parse_uid_line(self, line: str):
         if len(line) == 0:
-            raise ValueError('EOF')
-        name, suid, sgid, sgids = line.strip().split(':')
-        return UidLine(
-            name,
-            int(suid),
-            int(sgid),
-            [int(g) for g in sgids.split(' ')]
-        )
+            raise ValueError("EOF")
+        name, suid, sgid, sgids = line.strip().split(":")
+        return UidLine(name, int(suid), int(sgid), [int(g) for g in sgids.split(" ")])
 
     def _parse_getfattr_output(self, first_line: str, trace: LineStream):
         attrs = dict[str, str]()
         # first line -- with file name
-        fn = first_line.split('# file: ')
+        fn = first_line.split("# file: ")
         if len(fn) != 2 or len(fn[0]) != 0:
-            raise ValueError('getfattr: wrong first line')
+            raise ValueError("getfattr: wrong first line")
         path = fn[1]
 
         while True:
@@ -244,17 +305,16 @@ class SnapshotBuilder:
             if len(line) == 0:
                 return (Xattrs(path, attrs), self._xreadline(trace))
 
-            name, svalue = line.split('=')
-            if not svalue.startswith('0x'):
-                raise ValueError('Incorrect xattr value encoding')
+            name, svalue = line.split("=")
+            if not svalue.startswith("0x"):
+                raise ValueError("Incorrect xattr value encoding")
             attrs[name] = svalue[2:]
-
 
     def _parse_smack_output(self, first_line: str, trace: LineStream):
         # first line -- with file name
-        fn = first_line.split('# file: ')
+        fn = first_line.split("# file: ")
         if len(fn) != 2 or len(fn[0]) != 0:
-            raise ValueError('getfattr: wrong first line')
+            raise ValueError("getfattr: wrong first line")
         path = fn[1]
         labels = dict[str, str]()
 
@@ -263,22 +323,21 @@ class SnapshotBuilder:
             if len(line) == 0:
                 return (Xattrs(path, labels), self._xreadline(trace))
 
-            name, svalue = line.split('=')
+            name, svalue = line.split("=")
             labels[name] = svalue.strip('"')
-
 
     def _parse_getfacl_output(self, trace: LineStream):
         file_line = self._xreadline(trace)
-        fn = file_line.split('# file: ')
+        fn = file_line.split("# file: ")
         if len(fn) != 2 or len(fn[0]) != 0:
-            raise ValueError('getfacl: Wrong file line')
+            raise ValueError("getfacl: Wrong file line")
         path = fn[1]
         owner_line = self._xreadline(trace)
-        if not owner_line.startswith('# owner: '):
-            raise ValueError('getfacl: Wrong owner line')
+        if not owner_line.startswith("# owner: "):
+            raise ValueError("getfacl: Wrong owner line")
         group_line = self._xreadline(trace)
-        if not group_line.startswith('# group: '):
-            raise ValueError('getfacl: Wrong group line')
+        if not group_line.startswith("# group: "):
+            raise ValueError("getfacl: Wrong group line")
 
         acls = list[str]()
         while True:

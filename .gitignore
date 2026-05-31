@@ -5,3 +5,5 @@ anis.json
 monitor/*.0
 monitor/monitor
 .project
+.idea
+.ruff_cache

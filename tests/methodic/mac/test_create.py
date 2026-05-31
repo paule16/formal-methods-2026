@@ -49,9 +49,27 @@ def test_open(
     if caller_user != "root" or effective_user != "root":
         t.make_user("non_root")
     t.make_rule(proc_label, "ROOT_LABEL", "rx")
-    t.make_dir(path="/sub_parent", owner=obj_user, group=obj_user, mode=sub_parent_mode, smack_label="_")
-    t.make_dir(path="/sub_parent/parent", owner=obj_user, group=obj_user, mode=parent_mode, smack_label="_")
-    t.make_file(path="/sub_parent/parent/file_to_link", owner=obj_user, group=obj_user, mode=0o777, smack_label="*")
+    t.make_dir(
+        path="/sub_parent",
+        owner=obj_user,
+        group=obj_user,
+        mode=sub_parent_mode,
+        smack_label="_",
+    )
+    t.make_dir(
+        path="/sub_parent/parent",
+        owner=obj_user,
+        group=obj_user,
+        mode=parent_mode,
+        smack_label="_",
+    )
+    t.make_file(
+        path="/sub_parent/parent/file_to_link",
+        owner=obj_user,
+        group=obj_user,
+        mode=0o777,
+        smack_label="*",
+    )
     with t.make_program_and_run(
         user=caller_user,
         group=caller_user,
