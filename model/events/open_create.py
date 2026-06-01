@@ -290,28 +290,6 @@ def open_create(
         ),
     )
 
-    print("Guard 18:")
-    for f in function_value(m.PathToRoot, (~parent)):
-        print(
-            (
-                function_value(m.ProcUser, (~proc)) == function_value(m.FileUser, f)
-                and m.UEXECUTE in function_value(m.DACPermissions, f)
-                or function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, f)
-                and (
-                    f not in relation_domain(m.MaskACL)
-                    or len(function_value(m.MaskACL, f)) == 0
-                )
-                and function_value(m.FileGroup, f)
-                != function_value(m.ProcGroup, (~proc))
-                and (
-                    function_value(m.ProcUser, (~proc)),
-                    function_value(m.FileGroup, f),
-                )
-                not in m.UserGroups
-                and m.OEXECUTE in function_value(m.DACPermissions, f)
-            )
-        )
-
     _grd19 = Guard(
         "grd19",
         lambda _: (

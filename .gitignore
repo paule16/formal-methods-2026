@@ -7,3 +7,4 @@ monitor/monitor
 .project
 .idea
 .ruff_cache
+.coverage

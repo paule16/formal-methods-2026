@@ -1,4 +1,11 @@
 {
+    "python.testing.pytestArgs": [
+        ".",
+        "--cov",
+        "--cov-report",
+        "html"
+    ],
+    "python.testing.unittestEnabled": false,
     "anis.componentUnderTest": "MAC_EXT",
     "python.testing.pytestEnabled": true
 }

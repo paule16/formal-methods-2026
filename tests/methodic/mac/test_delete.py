@@ -5,14 +5,18 @@ from pytest import fixture, FixtureRequest
 from tests.spec import LinuxTestSpec
 
 
-@fixture(params=[False, True], ids=["stickyY", "stickyN"])
+@fixture(params=[False, True], ids=["stickyF", "stickyT"])
 def set_sticky_bit(request: FixtureRequest):
     return request.param
 
 
-@fixture
-def parent_mode(parent_write: bool, parent_execute: bool, set_sticky_bit: bool):
-    mode = 0o444
+@fixture(
+    params=[(False, False), (False, True), (True, False), (True, True)],
+    ids=["Parent_WrF_ExF", "Parent_WrF_ExT", "Parent_WrT_ExF", "Parent_WrT_ExT"],
+)
+def parent_mode(request: FixtureRequest, set_sticky_bit: bool):
+    parent_write, parent_execute = request.param
+    mode = 0o444  # Full read
     if parent_write:
         mode |= 0o222
     if parent_execute:
@@ -22,94 +26,75 @@ def parent_mode(parent_write: bool, parent_execute: bool, set_sticky_bit: bool):
     return mode
 
 
-def test_unlink_file(
-    t: LinuxTestSpec,
-    caller_user: str,
-    proc_label: str,
-    obj_label: str,
-    parent_mode: int,
-    sub_parent_mode: int,
-):
-    obj_user = "obj_user"
-    t.make_user(obj_user)
-    if caller_user != "root":
-        t.make_user(caller_user)
-    t.add_setup('sudo echo "label_one label_two rwx" > /sys/fs/smackfs/load')
-    t.make_dir(path="/sub_parent", owner=obj_user, group=obj_user, mode=sub_parent_mode)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /sub_parent')
-    t.make_dir(
-        path="/sub_parent/parent", owner=obj_user, group=obj_user, mode=parent_mode
-    )
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /sub_parent/parent')
-    t.make_file("/sub_parent/parent/file", owner=obj_user, group=obj_user, mode=0o777)
-    with t.make_program_and_run(
-        user=caller_user,
-        group=caller_user,
-        umask=0o000,
-        before_run=f'sudo setfattr -n security.smack -v "{proc_label}" /tst_prog',
-    ) as prog:
-        prog.seteuid(...)  # TODO: make this call
-        prog.unlink("/sub_parent/parent/file")
-
-
-def test_unlink_link(
-    t: LinuxTestSpec,
-    caller_user: str,
-    proc_label: str,
-    obj_label: str,
-    parent_mode: int,
-    sub_parent_mode: int,
-):
-    obj_user = "obj_user"
-    t.make_user(obj_user)
-    if caller_user != "root":
-        t.make_user(caller_user)
-    t.add_setup('sudo echo "label_one label_two rwx" > /sys/fs/smackfs/load')
-    t.make_dir(path="/sub_parent", owner=obj_user, group=obj_user, mode=sub_parent_mode)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /sub_parent')
-    t.make_dir(
-        path="/sub_parent/parent", owner=obj_user, group=obj_user, mode=parent_mode
-    )
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /sub_parent/parent')
-    t.make_file("/sub_parent/parent/file", owner=obj_user, group=obj_user, mode=0o777)
-    t.make_link(
-        "/sub_parent/parent/file", "/sub_parent/parent/link"
-    )  # TODO: no such method
-    with t.make_program_and_run(
-        user=caller_user,
-        group=caller_user,
-        umask=0o000,
-        before_run=f'sudo setfattr -n security.smack -v "{proc_label}" /tst_prog',
-    ) as prog:
-        prog.seteuid(...)  # TODO: make this call
-        prog.unlink("/sub_parent/parent/link")
+@fixture(
+    params=[False, True],
+    ids=["SubParent_ExF", "SubParent_ExT"],
+)
+def sub_parent_mode(request: FixtureRequest):
+    if request.param:
+        return 0o777
+    return 0o666  # At least rw
 
 
 def test_rmdir(
     t: LinuxTestSpec,
     caller_user: str,
+    effective_user: str,
     proc_label: str,
-    obj_label: str,
     parent_mode: int,
     sub_parent_mode: int,
 ):
     obj_user = "obj_user"
     t.make_user(obj_user)
-    if caller_user != "root":
-        t.make_user(caller_user)
-    t.add_setup('sudo echo "label_one label_two rwx" > /sys/fs/smackfs/load')
-    t.make_dir(path="/sub_parent", owner=obj_user, group=obj_user, mode=sub_parent_mode)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /sub_parent')
+    if caller_user != "root" or effective_user != "root":
+        t.make_user("non_root")
+    t.make_rule(proc_label, "ROOT_LABEL", "rx")
     t.make_dir(
-        path="/sub_parent/parent", owner=obj_user, group=obj_user, mode=parent_mode
+        path="/sub_parent",
+        owner=obj_user,
+        group=obj_user,
+        mode=sub_parent_mode,
+        smack_label="_",
     )
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /sub_parent/parent')
-    t.make_dir("/sub_parent/parent/folder", owner=obj_user, group=obj_user, mode=0o777)
+    t.make_dir(
+        path="/sub_parent/parent",
+        owner=obj_user,
+        group=obj_user,
+        mode=parent_mode,
+        smack_label="_",
+    )
+    t.make_file(
+        path="/sub_parent/parent/file_to_link",
+        owner=obj_user,
+        group=obj_user,
+        mode=0o777,
+        smack_label="*",
+    )
+    t.make_file(
+        path="/sub_parent/parent/file_to_unlink",
+        owner=obj_user,
+        group=obj_user,
+        mode=0o777,
+        smack_label="*",
+    )
+    t.make_link("/sub_parent/parent/file_to_link", "/sub_parent/parent/link_to_unlink")
+    t.make_dir(
+        path="/sub_parent/parent/dir_to_remove",
+        owner=obj_user,
+        group=obj_user,
+        mode=parent_mode,
+        smack_label="*",
+    )
     with t.make_program_and_run(
         user=caller_user,
         group=caller_user,
         umask=0o000,
-        before_run=f'sudo setfattr -n security.smack -v "{proc_label}" /tst_prog',
+        proc_label=proc_label,
     ) as prog:
-        prog.seteuid(...)  # TODO: make this call
-        prog.rmdir("/parent/folder", mode=0o777)
+        if effective_user == "root":
+            prog.seteuid(0, fatal=True)
+        else:
+            prog.seteuid(1001, fatal=True)
+        prog.unlink("/sub_parent/parent/file_to_unlink")
+        prog.unlink("/sub_parent/parent/link_to_unlink")
+        prog.rmdir("/sub_parent/parent/dir_to_remove")

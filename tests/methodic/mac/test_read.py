@@ -1,51 +1,81 @@
 from os import O_RDONLY
 
+from pytest import FixtureRequest, fixture
+
 from tests.spec import LinuxTestSpec
+from .conftest import smack_labels
 
 
-def test_open_file(
+@fixture(
+    params=smack_labels,
+    ids=[f"DirL_{label}" for label in smack_labels],
+)
+def dir_label(request: FixtureRequest):
+    return request.param
+
+
+def test_reg_dir(
     t: LinuxTestSpec,
-    caller_user: str,
     proc_label: str,
-    obj_label: str,
+    dir_label: str,
 ):
     obj_user = "obj_user"
     t.make_user(obj_user)
-    if caller_user != "root":
-        t.make_user(caller_user)
-    t.make_dir(path="/parent", owner=obj_user, group=obj_user, mode=0o777)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /parent')
-    t.make_file("/parent/file", owner=obj_user, group=obj_user, mode=O_RDONLY)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /parent/file')
+    caller_user = "caller_user"
+    t.make_user(caller_user)
+    t.make_dir(
+        "/parent", owner=obj_user, group=obj_user, mode=0o777, smack_label=dir_label
+    )
+    for file_type in ("file", "dir"):
+        method = getattr(t, f"make_{file_type}")
+        method(
+            f"/parent/{file_type}",
+            owner=obj_user,
+            group=obj_user,
+            mode=0o777,
+            smack_label=dir_label,
+        )
     with t.make_program_and_run(
         user=caller_user,
         group=caller_user,
+        proc_label=proc_label,
         umask=0o000,
-        before_run=f'sudo setfattr -n security.smack -v "{proc_label}" /tst_prog',
     ) as prog:
-        prog.seteuid(...)  # TODO: make this call
-        prog.open("/parent/file", flags=O_RDONLY, mode=0o777)
+        for file_type in ("file", "dir"):
+            prog.open(f"/parent/{file_type}", flags=O_RDONLY, mode=0o777)
 
 
-def test_open_dir(
+def test_multi_dir(
     t: LinuxTestSpec,
-    caller_user: str,
     proc_label: str,
-    obj_label: str,
 ):
     obj_user = "obj_user"
     t.make_user(obj_user)
-    if caller_user != "root":
-        t.make_user(caller_user)
-    t.make_dir(path="/parent", owner=obj_user, group=obj_user, mode=0o777)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /parent')
-    t.make_dir("/parent/dir", owner=obj_user, group=obj_user, mode=O_RDONLY)
-    t.add_setup(f'sudo setfattr -n security.smack -v "{obj_label}" /parent/dir')
+    caller_user = "caller_user"
+    t.make_user(caller_user)
+    t.make_dir(
+        path="/parent",
+        owner=obj_user,
+        group=obj_user,
+        mode=0o777,
+        smack_label=proc_label,
+    )
+    for file_type in ("file", "dir"):
+        method = getattr(t, f"make_{file_type}")
+        for ind, label in enumerate(smack_labels):
+            method(
+                f"/parent/{file_type}{ind}",
+                obj_user,
+                obj_user,
+                0o777,
+                smack_label=label,
+            )
     with t.make_program_and_run(
         user=caller_user,
         group=caller_user,
+        proc_label=proc_label,
         umask=0o000,
-        before_run=f'sudo setfattr -n security.smack -v "{proc_label}" /tst_prog',
     ) as prog:
-        prog.seteuid(...)  # TODO: make this call
-        prog.open("/parent/dir", flags=O_RDONLY, mode=0o777)
+        for file_type in ("file", "dir"):
+            for ind, label in enumerate(smack_labels):
+                prog.open(f"/parent/{file_type}{ind}", flags=O_RDONLY, mode=0o777)

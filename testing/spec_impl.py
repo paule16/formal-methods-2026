@@ -88,6 +88,16 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         if smack_label is not None:
             self.add_setup(f'setfattr -n security.SMACK64 -v "{smack_label}" {path}')
 
+    def make_link(
+        self,
+        oldpath: str,
+        newpath: str,
+    ):
+        if not isabs(oldpath) or not isabs(newpath):
+            raise ValueError("Relative paths are not supported")
+        self._initialiser.add_file(newpath, smack_label=None)
+        self.add_setup(f"ln {oldpath} {newpath}")
+
     def make_rule(self, label1: str, label2: str, modes: str) -> None:
         self.add_setup(f'echo "{label1} {label2} {modes}" >> /sys/fs/smackfs/load2')
         self._initialiser.add_smack_rule(label1, label2, modes)
