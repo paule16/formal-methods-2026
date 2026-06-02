@@ -1,68 +1,27 @@
 from model.machine import Machine
 from anis.model.lazy import Event, Parameter, Guard, Action
-from anis.model.expressions import (
-    relation_range,
-    relation_domain,
-    NAT,
-    function_value,
-    relation_image,
-    override_relation,
-)
+from anis.model.expressions import relation_range, relation_domain, NAT, function_value, relation_image, override_relation
 
 
-machines: dict[str, list[str]] = {
-    "DAC": [
-        "grd1",
-        "grd2",
-        "grd3",
-        "grd4",
-        "grd5",
-        "grd6",
-        "grd7",
-        "grd8",
-        "grd9",
-        "grd10",
-        "grd11",
-        "grd12",
-        "grd13",
-        "grd14",
-        "grd15",
-        "grd16",
-        "grd17",
-        "grd18",
-        "grd19",
-        "grd20",
-        "grd21",
-        "grd22",
-        "grd23",
-        "grd24",
-        "grd25",
-        "grd26",
-        "grd27",
-        "grd28",
-        "grd29",
-    ],
-    "MAC": ["grd30", "grd31", "grd32"],
-    "MAC_EXT": [],
+machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13', 'grd14', 'grd15', 'grd16', 'grd17', 'grd18', 'grd19', 'grd20', 'grd21', 'grd22', 'grd23', 'grd24', 'grd25', 'grd26', 'grd27', 'grd28', 'grd29'],
+             'MAC': ['grd30', 'grd31', 'grd32'],
+             'MAC_EXT': []
 }
 
-
-def openat_create(
-    m: Machine,
-    _proc: Machine.ProcsItem | None,
-    _dirfd: Machine.FileDescriptorsExtendedItem | None,
-    _parent: Machine.FilesItem | None,
-    _file: Machine.FilesItem | None,
-    _name: Machine.StringsItem | None,
-    _flags: frozenset[int] | None,
-    _mode: frozenset[Machine.PermissionsItem] | None,
-    _fd: Machine.FileDescriptorsExtendedItem | None,
-    _fdNumber: int | None,
-    _cwd: Machine.FilesItem | None,
-    _group: Machine.GroupsItem | None,
-    _perms: frozenset[Machine.PermissionsItem] | None,
-    _fileLabel: Machine.StringsItem | None,
-) -> Event:
+def openat_create(m: Machine,
+                  _proc: Machine.ProcsItem | None,
+                  _dirfd: Machine.FileDescriptorsExtendedItem | None,
+                  _parent: Machine.FilesItem | None,
+                  _file: Machine.FilesItem | None,
+                  _name: Machine.StringsItem | None,
+                  _flags: frozenset[int] | None,
+                  _mode: frozenset[Machine.PermissionsItem] | None,
+                  _fd: Machine.FileDescriptorsExtendedItem | None,
+                  _fdNumber: int | None,
+                  _cwd: Machine.FilesItem | None,
+                  _group: Machine.GroupsItem | None,
+                  _perms: frozenset[Machine.PermissionsItem] | None,
+                  _fileLabel: Machine.StringsItem | None) -> Event:
 
     proc = Parameter(_proc)
     dirfd = Parameter(_dirfd)
@@ -78,918 +37,201 @@ def openat_create(
     perms = Parameter(_perms)
     fileLabel = Parameter(_fileLabel)
 
-    _grd1 = Guard("grd1", lambda _: _(1, (~proc) in m.Procs))
 
-    _grd2 = Guard("grd2", lambda _: _(2, (~dirfd) in m.FILE_DESCRIPTORS_EXTENDED))
+    _grd1 = Guard('grd1', lambda _: (_(1, 
+    (~proc) in m.Procs)))
 
-    _grd3 = Guard("grd3", lambda _: _(3, (~parent) in m.Folders))
+    _grd2 = Guard('grd2', lambda _: (_(2, 
+    (~dirfd) in m.FILE_DESCRIPTORS_EXTENDED)))
 
-    _grd4 = Guard(
-        "grd4",
-        lambda _: _(
-            4,
-            (~file)
-            in (
-                ((m.FILES - m.Files) - relation_range(m.FDFile))
-                - relation_range(m.ProcCwd)
-            ),
-        ),
-    )
+    _grd3 = Guard('grd3', lambda _: (_(3, 
+    (~parent) in m.Folders)))
 
-    _grd5 = Guard(
-        "grd5",
-        lambda _: _(
-            5,
-            not any(
-                True
-                for f in relation_domain(m.FileParents)
-                if not ((f, ((~parent), (~name))) not in m.FileParents)
-            ),
-        ),
-    )
+    _grd4 = Guard('grd4', lambda _: (_(4, 
+    (~file) in (((m.FILES - m.Files) - relation_range(m.FDFile)) - relation_range(m.ProcCwd)))))
 
-    _grd6 = Guard("grd6", lambda _: _(6, (~flags) <= m.OPEN_FLAGS))
+    _grd5 = Guard('grd5', lambda _: (_(5, 
+    not any (True for f in relation_domain(m.FileParents) if not (
+        (f, ((~parent), (~name))) not in m.FileParents
+    )))))
 
-    _grd7 = Guard("grd7", lambda _: _(7, (~mode) <= m.PERMISSIONS))
+    _grd6 = Guard('grd6', lambda _: (_(6, 
+    (~flags) <= m.OPEN_FLAGS)))
 
-    _grd8 = Guard("grd8", lambda _: _(8, (~fd) in (m.FILE_DESCRIPTORS - m.FDs)))
+    _grd7 = Guard('grd7', lambda _: (_(7, 
+    (~mode) <= m.PERMISSIONS)))
 
-    _grd9 = Guard("grd9", lambda _: _(9, (~fdNumber) in NAT))
+    _grd8 = Guard('grd8', lambda _: (_(8, 
+    (~fd) in (m.FILE_DESCRIPTORS - m.FDs))))
 
-    _grd10 = Guard("grd10", lambda _: _(10, (~cwd) in m.Folders))
+    _grd9 = Guard('grd9', lambda _: (_(9, 
+    (~fdNumber) in NAT)))
 
-    _grd11 = Guard(
-        "grd11",
-        lambda _: (
-            not (_(11, (~dirfd) == m.AT_FDCWD))
-            or (_(12, (~cwd) == function_value(m.ProcCwd, (~proc))))
-        ),
-    )
+    _grd10 = Guard('grd10', lambda _: (_(10, 
+    (~cwd) in m.Folders)))
 
-    _grd12 = Guard(
-        "grd12",
-        lambda _: (
-            not (_(13, (~dirfd) != m.AT_FDCWD))
-            or (
-                (_(14, ((~proc), (~dirfd)) in m.ProcFDs))
-                and (_(15, (~cwd) == function_value(m.FDFile, (~dirfd))))
-            )
-        ),
-    )
+    _grd11 = Guard('grd11', lambda _: (not (_(11, 
+    (~dirfd) == m.AT_FDCWD)) or (_(12, (~cwd) == function_value(m.ProcCwd, (~proc))))))
 
-    _grd13 = Guard("grd13", lambda _: _(16, (~cwd) in m.Folders))
+    _grd12 = Guard('grd12', lambda _: (not (_(13, 
+    (~dirfd) != m.AT_FDCWD)) or ((_(14, ((~proc), (~dirfd)) in m.ProcFDs)) and (_(15, (~cwd) == function_value(m.FDFile, (~dirfd)))))))
 
-    _grd14 = Guard(
-        "grd14",
-        lambda _: _(
-            17,
-            (~cwd)
-            in (function_value(m.PathToRoot, (~parent)) | frozenset(((~parent),))),
-        ),
-    )
+    _grd13 = Guard('grd13', lambda _: (_(16, 
+    (~cwd) in m.Folders)))
 
-    _grd15 = Guard(
-        "grd15",
-        lambda _: _(
-            18,
-            not any(
-                True
-                for (key, pfd) in m.ProcFDs
-                if key == (~proc)
-                if not (function_value(m.FDNumber, pfd) != (~fdNumber))
-            ),
-        ),
-    )
+    _grd14 = Guard('grd14', lambda _: (_(17, 
+    (~cwd) in (function_value(m.PathToRoot, (~parent)) | frozenset(((~parent),))))))
 
-    _grd16 = Guard(
-        "grd16",
-        lambda _: (_(19, m.O_CREAT in (~flags))) or (_(20, m.O_TMPFILE in (~flags))),
-    )
+    _grd15 = Guard('grd15', lambda _: (_(18, 
+    not any (True for (key, pfd) in m.ProcFDs if key == (~proc) if not (
+        function_value(m.FDNumber, pfd) != (~fdNumber)
+    )))))
 
-    _grd17 = Guard(
-        "grd17",
-        lambda _: (
-            ((_(21, m.O_RDONLY in (~flags))) or (_(22, m.O_WRONLY in (~flags))))
-            or (_(23, m.O_RDWR in (~flags)))
-        ),
-    )
+    _grd16 = Guard('grd16', lambda _: ((_(19, 
+    m.O_CREAT in (~flags))) or (_(20, m.O_TMPFILE in (~flags)))))
 
-    _grd18 = Guard(
-        "grd18",
-        lambda _: (
-            (
-                (
-                    not (
-                        (_(24, m.O_RDONLY in (~flags)))
-                        and (_(25, m.O_WRONLY in (~flags)))
-                    )
-                )
-                and (
-                    not (
-                        (_(26, m.O_RDONLY in (~flags)))
-                        and (_(27, m.O_RDWR in (~flags)))
-                    )
-                )
-            )
-            and (
-                not ((_(28, m.O_WRONLY in (~flags))) and (_(29, m.O_RDWR in (~flags))))
-            )
-        ),
-    )
+    _grd17 = Guard('grd17', lambda _: (((_(21, 
+    m.O_RDONLY in (~flags))) or (_(22, m.O_WRONLY in (~flags)))) or (_(23, m.O_RDWR in (~flags)))))
 
-    _grd19 = Guard(
-        "grd19",
-        lambda _: (
-            not (_(30, m.O_TMPFILE in (~flags)))
-            or ((_(31, m.O_WRONLY in (~flags))) or (_(32, m.O_RDWR in (~flags))))
-        ),
-    )
+    _grd18 = Guard('grd18', lambda _: (((not ((_(24, 
+    m.O_RDONLY in (~flags))) and (_(25, m.O_WRONLY in (~flags))))) and (not ((_(26, 
+    m.O_RDONLY in (~flags))) and (_(27, m.O_RDWR in (~flags)))))) and (not ((_(28, 
+    m.O_WRONLY in (~flags))) and (_(29, m.O_RDWR in (~flags)))))))
 
-    _grd20 = Guard("grd20", lambda _: _(33, m.O_PATH not in (~flags)))
+    _grd19 = Guard('grd19', lambda _: (not (_(30, 
+    m.O_TMPFILE in (~flags))) or ((_(31, m.O_WRONLY in (~flags))) or (_(32, m.O_RDWR in (~flags))))))
 
-    _grd21 = Guard("grd21", lambda _: _(34, len(m.Files) < m.MAX_FILES))
+    _grd20 = Guard('grd20', lambda _: (_(33, 
+    m.O_PATH not in (~flags))))
 
-    _grd22 = Guard(
-        "grd22",
-        lambda _: _(
-            35,
-            len(relation_image(m.ProcFDs, frozenset(((~proc),)))) < m.PROC_FILE_LIMIT,
-        ),
-    )
+    _grd21 = Guard('grd21', lambda _: (_(34, 
+    len(m.Files) < m.MAX_FILES)))
 
-    _grd23 = Guard(
-        "grd23", lambda _: _(36, len(relation_range(m.ProcFDs)) < m.FILE_LIMIT)
-    )
+    _grd22 = Guard('grd22', lambda _: (_(35, 
+    len(relation_image(m.ProcFDs, frozenset(((~proc),)))) < m.PROC_FILE_LIMIT)))
 
-    _grd24 = Guard(
-        "grd24",
-        lambda _: _(
-            37,
-            not any(
-                True
-                for f in function_value(m.PathToRoot, (~parent))
-                if function_value(m.ProcUser, (~proc)) != m.ROOT_USER
-                if f not in function_value(m.PathToRoot, (~cwd))
-                if not (
-                    (
-                        (
-                            (
-                                (
-                                    function_value(m.ProcUser, (~proc))
-                                    == function_value(m.FileUser, f)
-                                    and m.UEXECUTE
-                                    in function_value(m.DACPermissions, f)
-                                    or function_value(m.ProcUser, (~proc))
-                                    != function_value(m.FileUser, f)
-                                    and (
-                                        f not in relation_domain(m.MaskACL)
-                                        or len(function_value(m.MaskACL, f)) == 0
-                                    )
-                                    and function_value(m.FileGroup, f)
-                                    != function_value(m.ProcGroup, (~proc))
-                                    and (
-                                        function_value(m.ProcUser, (~proc)),
-                                        function_value(m.FileGroup, f),
-                                    )
-                                    not in m.UserGroups
-                                    and m.OEXECUTE
-                                    in function_value(m.DACPermissions, f)
-                                )
-                                or function_value(m.ProcUser, (~proc))
-                                != function_value(m.FileUser, f)
-                                and (f, function_value(m.ProcUser, (~proc)))
-                                in relation_domain(m.UserACL)
-                                and m.UEXECUTE
-                                in function_value(
-                                    m.UserACL, (f, function_value(m.ProcUser, (~proc)))
-                                )
-                                and m.GEXECUTE in function_value(m.MaskACL, f)
-                            )
-                            or function_value(m.ProcUser, (~proc))
-                            != function_value(m.FileUser, f)
-                            and (f, function_value(m.ProcUser, (~proc)))
-                            not in relation_domain(m.UserACL)
-                            and any(
-                                True
-                                for g in (
-                                    frozenset((function_value(m.ProcGroup, (~proc)),))
-                                    | relation_image(
-                                        m.UserGroups,
-                                        frozenset(
-                                            (function_value(m.ProcUser, (~proc)),)
-                                        ),
-                                    )
-                                )
-                                if (
-                                    (f, g) in relation_domain(m.GroupACL)
-                                    and m.GEXECUTE in function_value(m.GroupACL, (f, g))
-                                    or g == function_value(m.FileGroup, f)
-                                    and f in relation_domain(m.GroupObjACL)
-                                    and m.GEXECUTE in function_value(m.GroupObjACL, f)
-                                )
-                            )
-                            and f in relation_domain(m.MaskACL)
-                            and m.GEXECUTE in function_value(m.MaskACL, f)
-                        )
-                        or function_value(m.ProcUser, (~proc))
-                        != function_value(m.FileUser, f)
-                        and f not in relation_domain(m.MaskACL)
-                        and (
-                            function_value(m.FileGroup, f)
-                            == function_value(m.ProcGroup, (~proc))
-                            or (
-                                function_value(m.ProcUser, (~proc)),
-                                function_value(m.FileGroup, f),
-                            )
-                            in m.UserGroups
-                        )
-                        and m.GEXECUTE in function_value(m.DACPermissions, f)
-                    )
-                    or function_value(m.ProcUser, (~proc))
-                    != function_value(m.FileUser, f)
-                    and f in relation_domain(m.MaskACL)
-                    and len(function_value(m.MaskACL, f)) != 0
-                    and (f, function_value(m.ProcUser, (~proc)))
-                    not in relation_domain(m.UserACL)
-                    and not any(
-                        True
-                        for g in (
-                            frozenset((function_value(m.ProcGroup, (~proc)),))
-                            | relation_image(
-                                m.UserGroups,
-                                frozenset((function_value(m.ProcUser, (~proc)),)),
-                            )
-                        )
-                        if not ((f, g) not in relation_domain(m.GroupACL))
-                    )
-                    and function_value(m.FileGroup, f)
-                    != function_value(m.ProcGroup, (~proc))
-                    and (
-                        function_value(m.ProcUser, (~proc)),
-                        function_value(m.FileGroup, f),
-                    )
-                    not in m.UserGroups
-                    and m.OEXECUTE in function_value(m.DACPermissions, f)
-                )
-            ),
-        ),
-    )
+    _grd23 = Guard('grd23', lambda _: (_(36, 
+    len(relation_range(m.ProcFDs)) < m.FILE_LIMIT)))
 
-    _grd25 = Guard(
-        "grd25",
-        lambda _: (
-            not (_(38, function_value(m.ProcUser, (~proc)) != m.ROOT_USER))
-            or (
-                (
-                    (
-                        (
-                            (
-                                (
-                                    (
-                                        _(
-                                            39,
-                                            function_value(m.ProcUser, (~proc))
-                                            == function_value(m.FileUser, (~parent)),
-                                        )
-                                    )
-                                    and (
-                                        _(
-                                            40,
-                                            frozenset((m.UWRITE, m.UEXECUTE))
-                                            <= function_value(
-                                                m.DACPermissions, (~parent)
-                                            ),
-                                        )
-                                    )
-                                )
-                                or (
-                                    (
-                                        (
-                                            (
-                                                (
-                                                    _(
-                                                        41,
-                                                        function_value(
-                                                            m.ProcUser, (~proc)
-                                                        )
-                                                        != function_value(
-                                                            m.FileUser, (~parent)
-                                                        ),
-                                                    )
-                                                )
-                                                and (
-                                                    (
-                                                        _(
-                                                            42,
-                                                            (~parent)
-                                                            not in relation_domain(
-                                                                m.MaskACL
-                                                            ),
-                                                        )
-                                                    )
-                                                    or (
-                                                        _(
-                                                            43,
-                                                            len(
-                                                                function_value(
-                                                                    m.MaskACL, (~parent)
-                                                                )
-                                                            )
-                                                            == 0,
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                            and (
-                                                _(
-                                                    44,
-                                                    function_value(
-                                                        m.FileGroup, (~parent)
-                                                    )
-                                                    != function_value(
-                                                        m.ProcGroup, (~proc)
-                                                    ),
-                                                )
-                                            )
-                                        )
-                                        and (
-                                            _(
-                                                45,
-                                                (
-                                                    function_value(m.ProcUser, (~proc)),
-                                                    function_value(
-                                                        m.FileGroup, (~parent)
-                                                    ),
-                                                )
-                                                not in m.UserGroups,
-                                            )
-                                        )
-                                    )
-                                    and (
-                                        _(
-                                            46,
-                                            frozenset((m.OWRITE, m.OEXECUTE))
-                                            <= function_value(
-                                                m.DACPermissions, (~parent)
-                                            ),
-                                        )
-                                    )
-                                )
-                            )
-                            or (
-                                (
-                                    (
-                                        (
-                                            _(
-                                                47,
-                                                function_value(m.ProcUser, (~proc))
-                                                != function_value(
-                                                    m.FileUser, (~parent)
-                                                ),
-                                            )
-                                        )
-                                        and (
-                                            _(
-                                                48,
-                                                (
-                                                    (~parent),
-                                                    function_value(m.ProcUser, (~proc)),
-                                                )
-                                                in relation_domain(m.UserACL),
-                                            )
-                                        )
-                                    )
-                                    and (
-                                        _(
-                                            49,
-                                            frozenset((m.UWRITE, m.UEXECUTE))
-                                            <= function_value(
-                                                m.UserACL,
-                                                (
-                                                    (~parent),
-                                                    function_value(m.ProcUser, (~proc)),
-                                                ),
-                                            ),
-                                        )
-                                    )
-                                )
-                                and (
-                                    _(
-                                        50,
-                                        frozenset((m.GWRITE, m.GEXECUTE))
-                                        <= function_value(m.MaskACL, (~parent)),
-                                    )
-                                )
-                            )
-                        )
-                        or (
-                            (
-                                (
-                                    (
-                                        (
-                                            _(
-                                                51,
-                                                function_value(m.ProcUser, (~proc))
-                                                != function_value(
-                                                    m.FileUser, (~parent)
-                                                ),
-                                            )
-                                        )
-                                        and (
-                                            _(
-                                                52,
-                                                (
-                                                    (~parent),
-                                                    function_value(m.ProcUser, (~proc)),
-                                                )
-                                                not in relation_domain(m.UserACL),
-                                            )
-                                        )
-                                    )
-                                    and (
-                                        _(
-                                            53,
-                                            any(
-                                                True
-                                                for g in (
-                                                    frozenset(
-                                                        (
-                                                            function_value(
-                                                                m.ProcGroup, (~proc)
-                                                            ),
-                                                        )
-                                                    )
-                                                    | relation_image(
-                                                        m.UserGroups,
-                                                        frozenset(
-                                                            (
-                                                                function_value(
-                                                                    m.ProcUser, (~proc)
-                                                                ),
-                                                            )
-                                                        ),
-                                                    )
-                                                )
-                                                if (
-                                                    ((~parent), g)
-                                                    in relation_domain(m.GroupACL)
-                                                    and frozenset(
-                                                        (m.GWRITE, m.GEXECUTE)
-                                                    )
-                                                    <= function_value(
-                                                        m.GroupACL, ((~parent), g)
-                                                    )
-                                                    or g
-                                                    == function_value(
-                                                        m.FileGroup, (~parent)
-                                                    )
-                                                    and (~parent)
-                                                    in relation_domain(m.GroupObjACL)
-                                                    and frozenset(
-                                                        (m.GWRITE, m.GEXECUTE)
-                                                    )
-                                                    <= function_value(
-                                                        m.GroupObjACL, (~parent)
-                                                    )
-                                                )
-                                            ),
-                                        )
-                                    )
-                                )
-                                and (_(54, (~parent) in relation_domain(m.MaskACL)))
-                            )
-                            and (
-                                _(
-                                    55,
-                                    frozenset((m.GWRITE, m.GEXECUTE))
-                                    <= function_value(m.MaskACL, (~parent)),
-                                )
-                            )
-                        )
-                    )
-                    or (
-                        (
-                            (
-                                (
-                                    _(
-                                        56,
-                                        function_value(m.ProcUser, (~proc))
-                                        != function_value(m.FileUser, (~parent)),
-                                    )
-                                )
-                                and (_(57, (~parent) not in relation_domain(m.MaskACL)))
-                            )
-                            and (
-                                (
-                                    _(
-                                        58,
-                                        function_value(m.FileGroup, (~parent))
-                                        == function_value(m.ProcGroup, (~proc)),
-                                    )
-                                )
-                                or (
-                                    _(
-                                        59,
-                                        (
-                                            function_value(m.ProcUser, (~proc)),
-                                            function_value(m.FileGroup, (~parent)),
-                                        )
-                                        in m.UserGroups,
-                                    )
-                                )
-                            )
-                        )
-                        and (
-                            _(
-                                60,
-                                frozenset((m.GWRITE, m.GEXECUTE))
-                                <= function_value(m.DACPermissions, (~parent)),
-                            )
-                        )
-                    )
-                )
-                or (
-                    (
-                        (
-                            (
-                                (
-                                    (
-                                        (
-                                            (
-                                                _(
-                                                    61,
-                                                    function_value(m.ProcUser, (~proc))
-                                                    != function_value(
-                                                        m.FileUser, (~parent)
-                                                    ),
-                                                )
-                                            )
-                                            and (
-                                                _(
-                                                    62,
-                                                    (~parent)
-                                                    in relation_domain(m.MaskACL),
-                                                )
-                                            )
-                                        )
-                                        and (
-                                            _(
-                                                63,
-                                                len(
-                                                    function_value(m.MaskACL, (~parent))
-                                                )
-                                                != 0,
-                                            )
-                                        )
-                                    )
-                                    and (
-                                        _(
-                                            64,
-                                            (
-                                                (~parent),
-                                                function_value(m.ProcUser, (~proc)),
-                                            )
-                                            not in relation_domain(m.UserACL),
-                                        )
-                                    )
-                                )
-                                and (
-                                    _(
-                                        65,
-                                        not any(
-                                            True
-                                            for g in (
-                                                frozenset(
-                                                    (
-                                                        function_value(
-                                                            m.ProcGroup, (~proc)
-                                                        ),
-                                                    )
-                                                )
-                                                | relation_image(
-                                                    m.UserGroups,
-                                                    frozenset(
-                                                        (
-                                                            function_value(
-                                                                m.ProcUser, (~proc)
-                                                            ),
-                                                        )
-                                                    ),
-                                                )
-                                            )
-                                            if not (
-                                                ((~parent), g)
-                                                not in relation_domain(m.GroupACL)
-                                            )
-                                        ),
-                                    )
-                                )
-                            )
-                            and (
-                                _(
-                                    66,
-                                    function_value(m.FileGroup, (~parent))
-                                    != function_value(m.ProcGroup, (~proc)),
-                                )
-                            )
-                        )
-                        and (
-                            _(
-                                67,
-                                (
-                                    function_value(m.ProcUser, (~proc)),
-                                    function_value(m.FileGroup, (~parent)),
-                                )
-                                not in m.UserGroups,
-                            )
-                        )
-                    )
-                    and (
-                        _(
-                            68,
-                            frozenset((m.OWRITE, m.OEXECUTE))
-                            <= function_value(m.DACPermissions, (~parent)),
-                        )
-                    )
-                )
-            )
-        ),
-    )
+    _grd24 = Guard('grd24', lambda _: (_(37, 
+    not any (True for f in function_value(m.PathToRoot, (~parent)) if function_value(m.ProcUser, (~proc)) != m.ROOT_USER if f not in function_value(m.PathToRoot, (~cwd)) if not (
+        (((((function_value(m.ProcUser, (~proc)) == function_value(m.FileUser, f) and 
+        m.UEXECUTE in function_value(m.DACPermissions, f) or 
+        function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, f) and 
+        (f not in relation_domain(m.MaskACL) or len(function_value(m.MaskACL, f)) == 0) and 
+        function_value(m.FileGroup, f) != function_value(m.ProcGroup, (~proc)) and (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, f)) not in m.UserGroups and 
+        m.OEXECUTE in function_value(m.DACPermissions, f)) or 
+        function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, f) and 
+        (f, function_value(m.ProcUser, (~proc))) in relation_domain(m.UserACL) and m.UEXECUTE in function_value(m.UserACL, (f, function_value(m.ProcUser, (~proc)))) and 
+        m.GEXECUTE in function_value(m.MaskACL, f)) or 
+        function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, f) and 
+        (f, function_value(m.ProcUser, (~proc))) not in relation_domain(m.UserACL) and 
+        any (True for g in (frozenset((function_value(m.ProcGroup, (~proc)),)) | relation_image(m.UserGroups, frozenset((function_value(m.ProcUser, (~proc)),)))) if 
+        ((f, g) in relation_domain(m.GroupACL) and m.GEXECUTE in function_value(m.GroupACL, (f, g)) or g == function_value(m.FileGroup, f) and f in relation_domain(m.GroupObjACL) and m.GEXECUTE in function_value(m.GroupObjACL, f))) and 
+        f in relation_domain(m.MaskACL) and m.GEXECUTE in function_value(m.MaskACL, f)) or 
+        function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, f) and 
+        f not in relation_domain(m.MaskACL) and 
+        (function_value(m.FileGroup, f) == function_value(m.ProcGroup, (~proc)) or (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, f)) in m.UserGroups) and 
+        m.GEXECUTE in function_value(m.DACPermissions, f)) or 
+        function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, f) and 
+        f in relation_domain(m.MaskACL) and len(function_value(m.MaskACL, f)) != 0 and 
+        (f, function_value(m.ProcUser, (~proc))) not in relation_domain(m.UserACL) and 
+        not any (True for g in (frozenset((function_value(m.ProcGroup, (~proc)),)) | relation_image(m.UserGroups, frozenset((function_value(m.ProcUser, (~proc)),)))) if not (
+            (f, g) not in relation_domain(m.GroupACL)
+        )) and 
+        function_value(m.FileGroup, f) != function_value(m.ProcGroup, (~proc)) and (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, f)) not in m.UserGroups and 
+        m.OEXECUTE in function_value(m.DACPermissions, f))
+    )))))
 
-    _grd26 = Guard("grd26", lambda _: _(69, (~group) in m.Groups))
+    _grd25 = Guard('grd25', lambda _: (not (_(38, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or (((((((_(39, 
+    function_value(m.ProcUser, (~proc)) == function_value(m.FileUser, (~parent)))) and (_(40, 
+    frozenset((m.UWRITE, m.UEXECUTE)) <= function_value(m.DACPermissions, (~parent))))) or (((((_(41, 
+    function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, (~parent)))) and ((_(42, 
+    (~parent) not in relation_domain(m.MaskACL))) or (_(43, len(function_value(m.MaskACL, (~parent))) == 0)))) and (_(44, 
+    function_value(m.FileGroup, (~parent)) != function_value(m.ProcGroup, (~proc))))) and (_(45, (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, (~parent))) not in m.UserGroups))) and (_(46, 
+    frozenset((m.OWRITE, m.OEXECUTE)) <= function_value(m.DACPermissions, (~parent)))))) or ((((_(47, 
+    function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, (~parent)))) and (_(48, 
+    ((~parent), function_value(m.ProcUser, (~proc))) in relation_domain(m.UserACL)))) and (_(49, frozenset((m.UWRITE, m.UEXECUTE)) <= function_value(m.UserACL, ((~parent), function_value(m.ProcUser, (~proc))))))) and (_(50, 
+    frozenset((m.GWRITE, m.GEXECUTE)) <= function_value(m.MaskACL, (~parent)))))) or (((((_(51, 
+    function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, (~parent)))) and (_(52, 
+    ((~parent), function_value(m.ProcUser, (~proc))) not in relation_domain(m.UserACL)))) and (_(53, 
+    any (True for g in (frozenset((function_value(m.ProcGroup, (~proc)),)) | relation_image(m.UserGroups, frozenset((function_value(m.ProcUser, (~proc)),)))) if 
+    (((~parent), g) in relation_domain(m.GroupACL) and frozenset((m.GWRITE, m.GEXECUTE)) <= function_value(m.GroupACL, ((~parent), g)) or g == function_value(m.FileGroup, (~parent)) and (~parent) in relation_domain(m.GroupObjACL) and frozenset((m.GWRITE, m.GEXECUTE)) <= function_value(m.GroupObjACL, (~parent))))))) and (_(54, 
+    (~parent) in relation_domain(m.MaskACL)))) and (_(55, frozenset((m.GWRITE, m.GEXECUTE)) <= function_value(m.MaskACL, (~parent)))))) or ((((_(56, 
+    function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, (~parent)))) and (_(57, 
+    (~parent) not in relation_domain(m.MaskACL)))) and ((_(58, 
+    function_value(m.FileGroup, (~parent)) == function_value(m.ProcGroup, (~proc)))) or (_(59, (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, (~parent))) in m.UserGroups)))) and (_(60, 
+    frozenset((m.GWRITE, m.GEXECUTE)) <= function_value(m.DACPermissions, (~parent)))))) or ((((((((_(61, 
+    function_value(m.ProcUser, (~proc)) != function_value(m.FileUser, (~parent)))) and (_(62, 
+    (~parent) in relation_domain(m.MaskACL)))) and (_(63, len(function_value(m.MaskACL, (~parent))) != 0))) and (_(64, 
+    ((~parent), function_value(m.ProcUser, (~proc))) not in relation_domain(m.UserACL)))) and (_(65, 
+    not any (True for g in (frozenset((function_value(m.ProcGroup, (~proc)),)) | relation_image(m.UserGroups, frozenset((function_value(m.ProcUser, (~proc)),)))) if not (
+        ((~parent), g) not in relation_domain(m.GroupACL)
+    ))))) and (_(66, 
+    function_value(m.FileGroup, (~parent)) != function_value(m.ProcGroup, (~proc))))) and (_(67, (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, (~parent))) not in m.UserGroups))) and (_(68, 
+    frozenset((m.OWRITE, m.OEXECUTE)) <= function_value(m.DACPermissions, (~parent))))))))
 
-    _grd27 = Guard(
-        "grd27",
-        lambda _: (
-            not (_(70, m.SET_GID not in function_value(m.DACPermissions, (~parent))))
-            or (_(71, (~group) == function_value(m.ProcGroup, (~proc))))
-        ),
-    )
+    _grd26 = Guard('grd26', lambda _: (_(69, 
+    (~group) in m.Groups)))
 
-    _grd28 = Guard(
-        "grd28",
-        lambda _: (
-            not (_(72, m.SET_GID in function_value(m.DACPermissions, (~parent))))
-            or (_(73, (~group) == function_value(m.FileGroup, (~parent))))
-        ),
-    )
+    _grd27 = Guard('grd27', lambda _: (not (_(70, 
+    m.SET_GID not in function_value(m.DACPermissions, (~parent)))) or (_(71, (~group) == function_value(m.ProcGroup, (~proc))))))
 
-    _grd29 = Guard(
-        "grd29",
-        lambda _: _(
-            74, (~perms) == ((~mode) - ((~mode) & function_value(m.ProcUmask, (~proc))))
-        ),
-    )
+    _grd28 = Guard('grd28', lambda _: (not (_(72, 
+    m.SET_GID in function_value(m.DACPermissions, (~parent)))) or (_(73, (~group) == function_value(m.FileGroup, (~parent))))))
 
-    _grd30 = Guard(
-        "grd30",
-        lambda _: (
-            not (_(75, function_value(m.ProcUser, (~proc)) != m.ROOT_USER))
-            or (
-                _(
-                    76,
-                    not any(
-                        True
-                        for f in (
-                            function_value(m.PathToRoot, (~parent))
-                            | frozenset(((~parent),))
-                        )
-                        if not (
-                            not (function_value(m.ProcLabel, (~proc)) == m.STAR)
-                            and (
-                                (
-                                    (
-                                        (
-                                            function_value(m.ProcLabel, (~proc))
-                                            == m.HAT
-                                            or function_value(m.FileLabel, f) == m.FLOOR
-                                        )
-                                        or function_value(m.FileLabel, f) == m.STAR
-                                    )
-                                    or function_value(m.ProcLabel, (~proc))
-                                    == function_value(m.FileLabel, f)
-                                )
-                                or m.EXECUTE
-                                in relation_image(
-                                    m.SmackRules,
-                                    frozenset(
-                                        (
-                                            (
-                                                function_value(m.ProcLabel, (~proc)),
-                                                function_value(m.FileLabel, f),
-                                            ),
-                                        )
-                                    ),
-                                )
-                            )
-                        )
-                    ),
-                )
-            )
-        ),
-    )
+    _grd29 = Guard('grd29', lambda _: (_(74, 
+    (~perms) == ((~mode) - ((~mode) & function_value(m.ProcUmask, (~proc)))))))
 
-    _grd31 = Guard(
-        "grd31",
-        lambda _: (
-            not (_(77, function_value(m.ProcUser, (~proc)) != m.ROOT_USER))
-            or (
-                (not (_(78, function_value(m.ProcLabel, (~proc)) == m.STAR)))
-                and (
-                    (
-                        (_(79, function_value(m.FileLabel, (~parent)) == m.STAR))
-                        or (
-                            _(
-                                80,
-                                function_value(m.ProcLabel, (~proc))
-                                == function_value(m.FileLabel, (~parent)),
-                            )
-                        )
-                    )
-                    or (
-                        _(
-                            81,
-                            m.WRITE
-                            in relation_image(
-                                m.SmackRules,
-                                frozenset(
-                                    (
-                                        (
-                                            function_value(m.ProcLabel, (~proc)),
-                                            function_value(m.FileLabel, (~parent)),
-                                        ),
-                                    )
-                                ),
-                            ),
-                        )
-                    )
-                )
-            )
-        ),
-    )
+    _grd30 = Guard('grd30', lambda _: (not (_(75, function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or (_(76, 
+    not any (True for f in (function_value(m.PathToRoot, (~parent)) | frozenset(((~parent),))) if not (
+        not (function_value(m.ProcLabel, (~proc)) == m.STAR) and 
+        ((((function_value(m.ProcLabel, (~proc)) == m.HAT or 
+        function_value(m.FileLabel, f) == m.FLOOR) or 
+        function_value(m.FileLabel, f) == m.STAR) or 
+        function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, f)) or 
+        m.EXECUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, f)),))))
+    ))))))
 
-    _grd32 = Guard(
-        "grd32",
-        lambda _: (
-            (
-                (
-                    (_(82, (~parent) in m.TransmuteFolders))
-                    and (
-                        _(
-                            83,
-                            m.TRANSMUTE
-                            in relation_image(
-                                m.SmackRules,
-                                frozenset(
-                                    (
-                                        (
-                                            function_value(m.ProcLabel, (~proc)),
-                                            function_value(m.FileLabel, (~parent)),
-                                        ),
-                                    )
-                                ),
-                            ),
-                        )
-                    )
-                )
-                and (_(84, (~fileLabel) == function_value(m.FileLabel, (~parent))))
-            )
-            or (_(85, (~fileLabel) == function_value(m.ProcLabel, (~proc))))
-        ),
-    )
+    _grd31 = Guard('grd31', lambda _: (not (_(77, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or ((not (_(78, 
+    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((_(79, 
+    function_value(m.FileLabel, (~parent)) == m.STAR)) or (_(80, 
+    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~parent))))) or (_(81, 
+    m.WRITE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))))))
 
-    _act1 = Action("act1", m, "Files", lambda: m.Files | frozenset(((~file),)))
+    _grd32 = Guard('grd32', lambda _: ((((_(82, 
+    (~parent) in m.TransmuteFolders)) and (_(83, m.TRANSMUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))) and (_(84, 
+    (~fileLabel) == function_value(m.FileLabel, (~parent))))) or (_(85, 
+    (~fileLabel) == function_value(m.ProcLabel, (~proc))))))
 
-    _act2 = Action(
-        "act2",
-        m,
-        "FileParents",
-        lambda: m.FileParents | frozenset((((~file), ((~parent), (~name))),)),
-    )
 
-    _act3 = Action("act3", m, "FDs", lambda: m.FDs | frozenset(((~fd),)))
+    _act1 = Action('act1', m, 'Files', lambda: ((m.Files | frozenset(((~file),)))))
 
-    _act4 = Action(
-        "act4",
-        m,
-        "FDNumber",
-        lambda: override_relation(m.FDNumber, frozenset((((~fd), (~fdNumber)),))),
-    )
+    _act2 = Action('act2', m, 'FileParents', lambda: ((m.FileParents | frozenset((((~file), ((~parent), (~name))),)))))
 
-    _act5 = Action(
-        "act5", m, "ProcFDs", lambda: m.ProcFDs | frozenset((((~proc), (~fd)),))
-    )
+    _act3 = Action('act3', m, 'FDs', lambda: ((m.FDs | frozenset(((~fd),)))))
 
-    _act6 = Action(
-        "act6",
-        m,
-        "FDFlags",
-        lambda: override_relation(m.FDFlags, frozenset((((~fd), (~flags)),))),
-    )
+    _act4 = Action('act4', m, 'FDNumber', lambda: (override_relation(m.FDNumber, frozenset((((~fd), (~fdNumber)),)))))
 
-    _act7 = Action(
-        "act7",
-        m,
-        "FDFile",
-        lambda: override_relation(m.FDFile, frozenset((((~fd), (~file)),))),
-    )
+    _act5 = Action('act5', m, 'ProcFDs', lambda: ((m.ProcFDs | frozenset((((~proc), (~fd)),)))))
 
-    _act8 = Action(
-        "act8",
-        m,
-        "DACPermissions",
-        lambda: override_relation(m.DACPermissions, frozenset((((~file), (~perms)),))),
-    )
+    _act6 = Action('act6', m, 'FDFlags', lambda: (override_relation(m.FDFlags, frozenset((((~fd), (~flags)),)))))
 
-    _act9 = Action(
-        "act9",
-        m,
-        "FileUser",
-        lambda: override_relation(
-            m.FileUser, frozenset((((~file), function_value(m.ProcUser, (~proc))),))
-        ),
-    )
+    _act7 = Action('act7', m, 'FDFile', lambda: (override_relation(m.FDFile, frozenset((((~fd), (~file)),)))))
 
-    _act10 = Action(
-        "act10",
-        m,
-        "FileGroup",
-        lambda: override_relation(m.FileGroup, frozenset((((~file), (~group)),))),
-    )
+    _act8 = Action('act8', m, 'DACPermissions', lambda: (override_relation(m.DACPermissions, frozenset((((~file), (~perms)),)))))
 
-    _act11 = Action(
-        "act11",
-        m,
-        "FileXattrs",
-        lambda: override_relation(
-            m.FileXattrs,
-            frozenset(
-                (((~file), frozenset[tuple[Machine.StringsItem, Machine.DataItem]]()),)
-            ),
-        ),
-    )
+    _act9 = Action('act9', m, 'FileUser', lambda: (override_relation(m.FileUser, frozenset((((~file), function_value(m.ProcUser, (~proc))),)))))
 
-    _act12 = Action(
-        "act12",
-        m,
-        "GroupObjACL",
-        lambda: (
-            m.GroupObjACL | frozenset((((~file), ((~perms) & m.GROUP_PERMISSIONS)),))
-        ),
-    )
+    _act10 = Action('act10', m, 'FileGroup', lambda: (override_relation(m.FileGroup, frozenset((((~file), (~group)),)))))
 
-    _act13 = Action(
-        "act13",
-        m,
-        "FileLabel",
-        lambda: override_relation(m.FileLabel, frozenset((((~file), (~fileLabel)),))),
-    )
+    _act11 = Action('act11', m, 'FileXattrs', lambda: (override_relation(m.FileXattrs, frozenset((((~file), frozenset[tuple[Machine.StringsItem, Machine.DataItem]]()),)))))
 
-    return Event(
-        "openat_create",
-        _grd1,
-        _grd2,
-        _grd3,
-        _grd4,
-        _grd5,
-        _grd6,
-        _grd7,
-        _grd8,
-        _grd9,
-        _grd10,
-        _grd11,
-        _grd12,
-        _grd13,
-        _grd14,
-        _grd15,
-        _grd16,
-        _grd17,
-        _grd18,
-        _grd19,
-        _grd20,
-        _grd21,
-        _grd22,
-        _grd23,
-        _grd24,
-        _grd25,
-        _grd26,
-        _grd27,
-        _grd28,
-        _grd29,
-        _grd30,
-        _grd31,
-        _grd32,
-        _act1,
-        _act2,
-        _act3,
-        _act4,
-        _act5,
-        _act6,
-        _act7,
-        _act8,
-        _act9,
-        _act10,
-        _act11,
-        _act12,
-        _act13,
-    )
+    _act12 = Action('act12', m, 'GroupObjACL', lambda: ((m.GroupObjACL | frozenset((((~file), ((~perms) & m.GROUP_PERMISSIONS)),)))))
+
+    _act13 = Action('act13', m, 'FileLabel', lambda: (override_relation(m.FileLabel, frozenset((((~file), (~fileLabel)),)))))
+
+
+    return Event("openat_create", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd26, _grd27, _grd28, _grd29, _grd30, _grd31, _grd32, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13)

@@ -591,6 +591,17 @@ events
         @act10: ProcLabel(proc) ≔ procLabel
     end
 
+    event change_user
+    any
+        proc
+        user
+    where
+        @grd1: user ∈ Users
+        @grd2: proc ∈ Procs
+    then
+        @act: ProcUser(proc) ≔ user
+    end
+
     event set_acl extends set_acl
     end
 

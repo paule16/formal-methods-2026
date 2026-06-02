@@ -4,526 +4,259 @@ from anis.model.expressions import NAT1, finite, partition
 
 
 # @INIT_type: INIT ∈ PROCS
-@assert_depends(
-    lambda m: (
-        m.INIT,
-        m.PROCS,
-    )
-)
+@assert_depends(lambda m: (m.INIT, m.PROCS,))
 def test_INIT_type(m: Machine):
-    assert m.INIT in m.PROCS
-
+    assert (m.INIT in m.PROCS)
 
 # @INIT_EXE_type: INIT_EXE ∈ FILES
-@assert_depends(
-    lambda m: (
-        m.INIT_EXE,
-        m.FILES,
-    )
-)
+@assert_depends(lambda m: (m.INIT_EXE, m.FILES,))
 def test_INIT_EXE_type(m: Machine):
-    assert m.INIT_EXE in m.FILES
-
+    assert (m.INIT_EXE in m.FILES)
 
 # @INIT_NAME_type: INIT_NAME ∈ STRINGS
-@assert_depends(
-    lambda m: (
-        m.INIT_NAME,
-        m.STRINGS,
-    )
-)
+@assert_depends(lambda m: (m.INIT_NAME, m.STRINGS,))
 def test_INIT_NAME_type(m: Machine):
-    assert m.INIT_NAME in m.STRINGS
-
+    assert (m.INIT_NAME in m.STRINGS)
 
 # @ROOT_type: ROOT ∈ FILES
-@assert_depends(
-    lambda m: (
-        m.ROOT,
-        m.FILES,
-    )
-)
+@assert_depends(lambda m: (m.ROOT, m.FILES,))
 def test_ROOT_type(m: Machine):
-    assert m.ROOT in m.FILES
-
+    assert (m.ROOT in m.FILES)
 
 # @ROOT1: ROOT ≠ INIT_EXE
-@assert_depends(
-    lambda m: (
-        m.ROOT,
-        m.INIT_EXE,
-    )
-)
+@assert_depends(lambda m: (m.ROOT, m.INIT_EXE,))
 def test_ROOT1(m: Machine):
-    assert m.ROOT != m.INIT_EXE
-
+    assert (m.ROOT != m.INIT_EXE)
 
 # @MAX_FILES_type: MAX_FILES ∈ ℕ1
 @assert_depends(lambda m: (m.MAX_FILES,))
 def test_MAX_FILES_type(m: Machine):
-    assert m.MAX_FILES in NAT1
-
+    assert (m.MAX_FILES in NAT1)
 
 # @FILES_finite1: finite(FILES)
 @assert_depends(lambda m: (m.FILES,))
 def test_FILES_finite1(m: Machine):
-    assert finite(m.FILES)
-
+    assert (finite(m.FILES))
 
 # @FILES_finite2: card(FILES) ≤ MAX_FILES
-@assert_depends(
-    lambda m: (
-        m.FILES,
-        m.MAX_FILES,
-    )
-)
+@assert_depends(lambda m: (m.FILES, m.MAX_FILES,))
 def test_FILES_finite2(m: Machine):
-    assert len(m.FILES) <= m.MAX_FILES
-
+    assert (len(m.FILES) <= m.MAX_FILES)
 
 # @PROC_FILE_LIMIT_type: PROC_FILE_LIMIT ∈ ℕ1
 @assert_depends(lambda m: (m.PROC_FILE_LIMIT,))
 def test_PROC_FILE_LIMIT_type(m: Machine):
-    assert m.PROC_FILE_LIMIT in NAT1
-
+    assert (m.PROC_FILE_LIMIT in NAT1)
 
 # @FILE_DESCRIPTORS_EXTENDED_finite: finite(FILE_DESCRIPTORS_EXTENDED)
 @assert_depends(lambda m: (m.FILE_DESCRIPTORS_EXTENDED,))
 def test_FILE_DESCRIPTORS_EXTENDED_finite(m: Machine):
-    assert finite(m.FILE_DESCRIPTORS_EXTENDED)
-
+    assert (finite(m.FILE_DESCRIPTORS_EXTENDED))
 
 # @FILE_LIMIT_type: FILE_LIMIT ∈ ℕ1
 @assert_depends(lambda m: (m.FILE_LIMIT,))
 def test_FILE_LIMIT_type(m: Machine):
-    assert m.FILE_LIMIT in NAT1
-
+    assert (m.FILE_LIMIT in NAT1)
 
 # @PERMISSIONS_partition: partition(PERMISSIONS, USER_PERMISSIONS, GROUP_PERMISSIONS, OTHER_PERMISSIONS, FILE_MODES)
-@assert_depends(
-    lambda m: (
-        m.PERMISSIONS,
-        m.USER_PERMISSIONS,
-        m.GROUP_PERMISSIONS,
-        m.OTHER_PERMISSIONS,
-        m.FILE_MODES,
-    )
-)
+@assert_depends(lambda m: (m.PERMISSIONS, m.USER_PERMISSIONS, m.GROUP_PERMISSIONS, m.OTHER_PERMISSIONS, m.FILE_MODES,))
 def test_PERMISSIONS_partition(m: Machine):
-    assert partition(
-        m.PERMISSIONS,
-        m.USER_PERMISSIONS,
-        m.GROUP_PERMISSIONS,
-        m.OTHER_PERMISSIONS,
-        m.FILE_MODES,
-    )
-
+    assert (partition(m.PERMISSIONS, m.USER_PERMISSIONS, m.GROUP_PERMISSIONS, m.OTHER_PERMISSIONS, m.FILE_MODES))
 
 # @USER_PERMISSIONS_partition: partition(USER_PERMISSIONS, {UREAD}, {UWRITE}, {UEXECUTE})
-@assert_depends(
-    lambda m: (
-        m.USER_PERMISSIONS,
-        m.UREAD,
-        m.UWRITE,
-        m.UEXECUTE,
-    )
-)
+@assert_depends(lambda m: (m.USER_PERMISSIONS, m.UREAD, m.UWRITE, m.UEXECUTE,))
 def test_USER_PERMISSIONS_partition(m: Machine):
-    assert partition(
-        m.USER_PERMISSIONS,
-        frozenset((m.UREAD,)),
-        frozenset((m.UWRITE,)),
-        frozenset((m.UEXECUTE,)),
-    )
-
+    assert (partition(m.USER_PERMISSIONS, frozenset((m.UREAD,)), frozenset((m.UWRITE,)), frozenset((m.UEXECUTE,))))
 
 # @GROUP_PERMISSIONS_partition: partition(GROUP_PERMISSIONS, {GREAD}, {GWRITE}, {GEXECUTE})
-@assert_depends(
-    lambda m: (
-        m.GROUP_PERMISSIONS,
-        m.GREAD,
-        m.GWRITE,
-        m.GEXECUTE,
-    )
-)
+@assert_depends(lambda m: (m.GROUP_PERMISSIONS, m.GREAD, m.GWRITE, m.GEXECUTE,))
 def test_GROUP_PERMISSIONS_partition(m: Machine):
-    assert partition(
-        m.GROUP_PERMISSIONS,
-        frozenset((m.GREAD,)),
-        frozenset((m.GWRITE,)),
-        frozenset((m.GEXECUTE,)),
-    )
-
+    assert (partition(m.GROUP_PERMISSIONS, frozenset((m.GREAD,)), frozenset((m.GWRITE,)), frozenset((m.GEXECUTE,))))
 
 # @OTHER_PERMISSIONS_partition: partition(OTHER_PERMISSIONS, {OREAD}, {OWRITE}, {OEXECUTE})
-@assert_depends(
-    lambda m: (
-        m.OTHER_PERMISSIONS,
-        m.OREAD,
-        m.OWRITE,
-        m.OEXECUTE,
-    )
-)
+@assert_depends(lambda m: (m.OTHER_PERMISSIONS, m.OREAD, m.OWRITE, m.OEXECUTE,))
 def test_OTHER_PERMISSIONS_partition(m: Machine):
-    assert partition(
-        m.OTHER_PERMISSIONS,
-        frozenset((m.OREAD,)),
-        frozenset((m.OWRITE,)),
-        frozenset((m.OEXECUTE,)),
-    )
-
+    assert (partition(m.OTHER_PERMISSIONS, frozenset((m.OREAD,)), frozenset((m.OWRITE,)), frozenset((m.OEXECUTE,))))
 
 # @FILE_MODES_partition: partition(FILE_MODES, {SET_UID}, {SET_GID}, {STICKY_BIT})
-@assert_depends(
-    lambda m: (
-        m.FILE_MODES,
-        m.SET_UID,
-        m.SET_GID,
-        m.STICKY_BIT,
-    )
-)
+@assert_depends(lambda m: (m.FILE_MODES, m.SET_UID, m.SET_GID, m.STICKY_BIT,))
 def test_FILE_MODES_partition(m: Machine):
-    assert partition(
-        m.FILE_MODES,
-        frozenset((m.SET_UID,)),
-        frozenset((m.SET_GID,)),
-        frozenset((m.STICKY_BIT,)),
-    )
-
+    assert (partition(m.FILE_MODES, frozenset((m.SET_UID,)), frozenset((m.SET_GID,)), frozenset((m.STICKY_BIT,))))
 
 # @DEF_FILE_PERMS_type: DEF_FILE_PERMS = {UREAD, UWRITE, GREAD, OREAD}
-@assert_depends(
-    lambda m: (
-        m.DEF_FILE_PERMS,
-        m.UREAD,
-        m.UWRITE,
-        m.GREAD,
-        m.OREAD,
-    )
-)
+@assert_depends(lambda m: (m.DEF_FILE_PERMS, m.UREAD, m.UWRITE, m.GREAD, m.OREAD,))
 def test_DEF_FILE_PERMS_type(m: Machine):
-    assert m.DEF_FILE_PERMS == frozenset((m.UREAD, m.UWRITE, m.GREAD, m.OREAD))
-
+    assert (m.DEF_FILE_PERMS == frozenset((m.UREAD, m.UWRITE, m.GREAD, m.OREAD)))
 
 # @DEF_FOLDER_PERMS_type: DEF_FOLDER_PERMS = {UREAD, UWRITE, UEXECUTE, GREAD, GEXECUTE, OREAD, OEXECUTE}
-@assert_depends(
-    lambda m: (
-        m.DEF_FOLDER_PERMS,
-        m.UREAD,
-        m.UWRITE,
-        m.UEXECUTE,
-        m.GREAD,
-        m.GEXECUTE,
-        m.OREAD,
-        m.OEXECUTE,
-    )
-)
+@assert_depends(lambda m: (m.DEF_FOLDER_PERMS, m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GEXECUTE, m.OREAD, m.OEXECUTE,))
 def test_DEF_FOLDER_PERMS_type(m: Machine):
-    assert m.DEF_FOLDER_PERMS == frozenset(
-        (m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GEXECUTE, m.OREAD, m.OEXECUTE)
-    )
-
+    assert (m.DEF_FOLDER_PERMS == frozenset((m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GEXECUTE, m.OREAD, m.OEXECUTE)))
 
 # @DEF_SYMLINK_PERMS_type: DEF_SYMLINK_PERMS = {UREAD, UWRITE, UEXECUTE, GREAD, GWRITE, GEXECUTE, OREAD, OWRITE, OEXECUTE}
-@assert_depends(
-    lambda m: (
-        m.DEF_SYMLINK_PERMS,
-        m.UREAD,
-        m.UWRITE,
-        m.UEXECUTE,
-        m.GREAD,
-        m.GWRITE,
-        m.GEXECUTE,
-        m.OREAD,
-        m.OWRITE,
-        m.OEXECUTE,
-    )
-)
+@assert_depends(lambda m: (m.DEF_SYMLINK_PERMS, m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GWRITE, m.GEXECUTE, m.OREAD, m.OWRITE, m.OEXECUTE,))
 def test_DEF_SYMLINK_PERMS_type(m: Machine):
-    assert m.DEF_SYMLINK_PERMS == frozenset(
-        (
-            m.UREAD,
-            m.UWRITE,
-            m.UEXECUTE,
-            m.GREAD,
-            m.GWRITE,
-            m.GEXECUTE,
-            m.OREAD,
-            m.OWRITE,
-            m.OEXECUTE,
-        )
-    )
-
+    assert (m.DEF_SYMLINK_PERMS == frozenset((m.UREAD, m.UWRITE, m.UEXECUTE, m.GREAD, m.GWRITE, m.GEXECUTE, m.OREAD, m.OWRITE, m.OEXECUTE)))
 
 # @ROOT_USER_type: ROOT_USER ∈ USERS
-@assert_depends(
-    lambda m: (
-        m.ROOT_USER,
-        m.USERS,
-    )
-)
+@assert_depends(lambda m: (m.ROOT_USER, m.USERS,))
 def test_ROOT_USER_type(m: Machine):
-    assert m.ROOT_USER in m.USERS
-
+    assert (m.ROOT_USER in m.USERS)
 
 # @ROOT_GROUP_type: ROOT_GROUP ∈ GROUPS
-@assert_depends(
-    lambda m: (
-        m.ROOT_GROUP,
-        m.GROUPS,
-    )
-)
+@assert_depends(lambda m: (m.ROOT_GROUP, m.GROUPS,))
 def test_ROOT_GROUP_type(m: Machine):
-    assert m.ROOT_GROUP in m.GROUPS
-
+    assert (m.ROOT_GROUP in m.GROUPS)
 
 # @FILE_DESCRIPTORS_type: partition(FILE_DESCRIPTORS_EXTENDED, FILE_DESCRIPTORS, {AT_FDCWD})
-@assert_depends(
-    lambda m: (
-        m.FILE_DESCRIPTORS_EXTENDED,
-        m.FILE_DESCRIPTORS,
-        m.AT_FDCWD,
-    )
-)
+@assert_depends(lambda m: (m.FILE_DESCRIPTORS_EXTENDED, m.FILE_DESCRIPTORS, m.AT_FDCWD,))
 def test_FILE_DESCRIPTORS_type(m: Machine):
-    assert partition(
-        m.FILE_DESCRIPTORS_EXTENDED, m.FILE_DESCRIPTORS, frozenset((m.AT_FDCWD,))
-    )
-
+    assert (partition(m.FILE_DESCRIPTORS_EXTENDED, m.FILE_DESCRIPTORS, frozenset((m.AT_FDCWD,))))
 
 # @RESERVED_LABELS_type: RESERVED_LABELS ⊆ STRINGS
-@assert_depends(
-    lambda m: (
-        m.RESERVED_LABELS,
-        m.STRINGS,
-    )
-)
+@assert_depends(lambda m: (m.RESERVED_LABELS, m.STRINGS,))
 def test_RESERVED_LABELS_type(m: Machine):
-    assert m.RESERVED_LABELS <= m.STRINGS
-
+    assert (m.RESERVED_LABELS <= m.STRINGS)
 
 # @RESERVED_LABELS_partition: partition(RESERVED_LABELS, {FLOOR}, {HAT}, {STAR}, {HUH}, {WEB})
-@assert_depends(
-    lambda m: (
-        m.RESERVED_LABELS,
-        m.FLOOR,
-        m.HAT,
-        m.STAR,
-        m.HUH,
-        m.WEB,
-    )
-)
+@assert_depends(lambda m: (m.RESERVED_LABELS, m.FLOOR, m.HAT, m.STAR, m.HUH, m.WEB,))
 def test_RESERVED_LABELS_partition(m: Machine):
-    assert partition(
-        m.RESERVED_LABELS,
-        frozenset((m.FLOOR,)),
-        frozenset((m.HAT,)),
-        frozenset((m.STAR,)),
-        frozenset((m.HUH,)),
-        frozenset((m.WEB,)),
-    )
-
+    assert (partition(m.RESERVED_LABELS, frozenset((m.FLOOR,)), frozenset((m.HAT,)), frozenset((m.STAR,)), frozenset((m.HUH,)), frozenset((m.WEB,))))
 
 # @ACCESSES_partition: partition(ACCESSES, {READ}, {WRITE}, {EXECUTE}, {TRANSMUTE})
-@assert_depends(
-    lambda m: (
-        m.ACCESSES,
-        m.READ,
-        m.WRITE,
-        m.EXECUTE,
-        m.TRANSMUTE,
-    )
-)
+@assert_depends(lambda m: (m.ACCESSES, m.READ, m.WRITE, m.EXECUTE, m.TRANSMUTE,))
 def test_ACCESSES_partition(m: Machine):
-    assert partition(
-        m.ACCESSES,
-        frozenset((m.READ,)),
-        frozenset((m.WRITE,)),
-        frozenset((m.EXECUTE,)),
-        frozenset((m.TRANSMUTE,)),
-    )
-
+    assert (partition(m.ACCESSES, frozenset((m.READ,)), frozenset((m.WRITE,)), frozenset((m.EXECUTE,)), frozenset((m.TRANSMUTE,))))
 
 # @CAP_MAC_ADMIN_type: CAP_MAC_ADMIN ∈ CAPABILITIES
-@assert_depends(
-    lambda m: (
-        m.CAP_MAC_ADMIN,
-        m.CAPABILITIES,
-    )
-)
+@assert_depends(lambda m: (m.CAP_MAC_ADMIN, m.CAPABILITIES,))
 def test_CAP_MAC_ADMIN_type(m: Machine):
-    assert m.CAP_MAC_ADMIN in m.CAPABILITIES
-
+    assert (m.CAP_MAC_ADMIN in m.CAPABILITIES)
 
 # @CAP_MAC_OVERRIDE_type: CAP_MAC_OVERRIDE ∈ CAPABILITIES
-@assert_depends(
-    lambda m: (
-        m.CAP_MAC_OVERRIDE,
-        m.CAPABILITIES,
-    )
-)
+@assert_depends(lambda m: (m.CAP_MAC_OVERRIDE, m.CAPABILITIES,))
 def test_CAP_MAC_OVERRIDE_type(m: Machine):
-    assert m.CAP_MAC_OVERRIDE in m.CAPABILITIES
-
+    assert (m.CAP_MAC_OVERRIDE in m.CAPABILITIES)
 
 # @INIT_LABEL_type: INIT_LABEL ∈ STRINGS
-@assert_depends(
-    lambda m: (
-        m.INIT_LABEL,
-        m.STRINGS,
-    )
-)
+@assert_depends(lambda m: (m.INIT_LABEL, m.STRINGS,))
 def test_INIT_LABEL_type(m: Machine):
-    assert m.INIT_LABEL in m.STRINGS
-
+    assert (m.INIT_LABEL in m.STRINGS)
 
 # @ROOT_LABEL_type: ROOT_LABEL ∈ STRINGS
-@assert_depends(
-    lambda m: (
-        m.ROOT_LABEL,
-        m.STRINGS,
-    )
-)
+@assert_depends(lambda m: (m.ROOT_LABEL, m.STRINGS,))
 def test_ROOT_LABEL_type(m: Machine):
-    assert m.ROOT_LABEL in m.STRINGS
-
+    assert (m.ROOT_LABEL in m.STRINGS)
 
 # @INIT_EXE_LABEL_type: INIT_EXE_LABEL ∈ STRINGS
-@assert_depends(
-    lambda m: (
-        m.INIT_EXE_LABEL,
-        m.STRINGS,
-    )
-)
+@assert_depends(lambda m: (m.INIT_EXE_LABEL, m.STRINGS,))
 def test_INIT_EXE_LABEL_type(m: Machine):
-    assert m.INIT_EXE_LABEL in m.STRINGS
-
+    assert (m.INIT_EXE_LABEL in m.STRINGS)
 
 # @O_RDONLY_type: O_RDONLY = 1
 @assert_depends(lambda m: (m.O_RDONLY,))
 def test_O_RDONLY_type(m: Machine):
-    assert m.O_RDONLY == 1
-
+    assert (m.O_RDONLY == 1)
 
 # @O_WRONLY_type: O_WRONLY = 2
 @assert_depends(lambda m: (m.O_WRONLY,))
 def test_O_WRONLY_type(m: Machine):
-    assert m.O_WRONLY == 2
-
+    assert (m.O_WRONLY == 2)
 
 # @O_RDWR_type: O_RDWR = 3
 @assert_depends(lambda m: (m.O_RDWR,))
 def test_O_RDWR_type(m: Machine):
-    assert m.O_RDWR == 3
-
+    assert (m.O_RDWR == 3)
 
 # @O_CREAT_type: O_CREAT = 4
 @assert_depends(lambda m: (m.O_CREAT,))
 def test_O_CREAT_type(m: Machine):
-    assert m.O_CREAT == 4
-
+    assert (m.O_CREAT == 4)
 
 # @O_EXCL_type: O_EXCL = 5
 @assert_depends(lambda m: (m.O_EXCL,))
 def test_O_EXCL_type(m: Machine):
-    assert m.O_EXCL == 5
-
+    assert (m.O_EXCL == 5)
 
 # @O_DIRECT_type: O_DIRECT = 6
 @assert_depends(lambda m: (m.O_DIRECT,))
 def test_O_DIRECT_type(m: Machine):
-    assert m.O_DIRECT == 6
-
+    assert (m.O_DIRECT == 6)
 
 # @O_TMPFILE_type: O_TMPFILE = 7
 @assert_depends(lambda m: (m.O_TMPFILE,))
 def test_O_TMPFILE_type(m: Machine):
-    assert m.O_TMPFILE == 7
-
+    assert (m.O_TMPFILE == 7)
 
 # @O_DIRECTORY_type: O_DIRECTORY = 8
 @assert_depends(lambda m: (m.O_DIRECTORY,))
 def test_O_DIRECTORY_type(m: Machine):
-    assert m.O_DIRECTORY == 8
-
+    assert (m.O_DIRECTORY == 8)
 
 # @O_CLOEXEC_type: O_CLOEXEC = 9
 @assert_depends(lambda m: (m.O_CLOEXEC,))
 def test_O_CLOEXEC_type(m: Machine):
-    assert m.O_CLOEXEC == 9
-
+    assert (m.O_CLOEXEC == 9)
 
 # @O_NOCTTY_type: O_NOCTTY = 10
 @assert_depends(lambda m: (m.O_NOCTTY,))
 def test_O_NOCTTY_type(m: Machine):
-    assert m.O_NOCTTY == 10
-
+    assert (m.O_NOCTTY == 10)
 
 # @O_NOFOLLOW_type: O_NOFOLLOW = 11
 @assert_depends(lambda m: (m.O_NOFOLLOW,))
 def test_O_NOFOLLOW_type(m: Machine):
-    assert m.O_NOFOLLOW == 11
-
+    assert (m.O_NOFOLLOW == 11)
 
 # @O_TRUNC_type: O_TRUNC = 12
 @assert_depends(lambda m: (m.O_TRUNC,))
 def test_O_TRUNC_type(m: Machine):
-    assert m.O_TRUNC == 12
-
+    assert (m.O_TRUNC == 12)
 
 # @O_APPEND_type: O_APPEND = 13
 @assert_depends(lambda m: (m.O_APPEND,))
 def test_O_APPEND_type(m: Machine):
-    assert m.O_APPEND == 13
-
+    assert (m.O_APPEND == 13)
 
 # @O_ASYNC_type: O_ASYNC = 14
 @assert_depends(lambda m: (m.O_ASYNC,))
 def test_O_ASYNC_type(m: Machine):
-    assert m.O_ASYNC == 14
-
+    assert (m.O_ASYNC == 14)
 
 # @O_SYNC_type: O_SYNC = 15
 @assert_depends(lambda m: (m.O_SYNC,))
 def test_O_SYNC_type(m: Machine):
-    assert m.O_SYNC == 15
-
+    assert (m.O_SYNC == 15)
 
 # @O_DSYNC_type: O_DSYNC = 16
 @assert_depends(lambda m: (m.O_DSYNC,))
 def test_O_DSYNC_type(m: Machine):
-    assert m.O_DSYNC == 16
-
+    assert (m.O_DSYNC == 16)
 
 # @O_NOATIME_type: O_NOATIME = 17
 @assert_depends(lambda m: (m.O_NOATIME,))
 def test_O_NOATIME_type(m: Machine):
-    assert m.O_NOATIME == 17
-
+    assert (m.O_NOATIME == 17)
 
 # @O_LARGEFILE_type: O_LARGEFILE = 18
 @assert_depends(lambda m: (m.O_LARGEFILE,))
 def test_O_LARGEFILE_type(m: Machine):
-    assert m.O_LARGEFILE == 18
-
+    assert (m.O_LARGEFILE == 18)
 
 # @O_PATH_type: O_PATH = 19
 @assert_depends(lambda m: (m.O_PATH,))
 def test_O_PATH_type(m: Machine):
-    assert m.O_PATH == 19
-
+    assert (m.O_PATH == 19)
 
 # @O_NOBLOCK_type: O_NOBLOCK = 20
 @assert_depends(lambda m: (m.O_NOBLOCK,))
 def test_O_NOBLOCK_type(m: Machine):
-    assert m.O_NOBLOCK == 20
-
+    assert (m.O_NOBLOCK == 20)
 
 # @O_NDELAY_type: O_NDELAY = 21
 @assert_depends(lambda m: (m.O_NDELAY,))
 def test_O_NDELAY_type(m: Machine):
-    assert m.O_NDELAY == 21
-
+    assert (m.O_NDELAY == 21)
 
 # @OPEN_FLAGS_type: OPEN_FLAGS = {
 #     O_RDONLY, O_WRONLY, O_RDWR,
@@ -532,69 +265,16 @@ def test_O_NDELAY_type(m: Machine):
 #     O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,
 #     O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC
 # }
-@assert_depends(
-    lambda m: (
-        m.OPEN_FLAGS,
-        m.O_RDONLY,
-        m.O_WRONLY,
-        m.O_RDWR,
-        m.O_CLOEXEC,
-        m.O_CREAT,
-        m.O_DIRECTORY,
-        m.O_EXCL,
-        m.O_NOCTTY,
-        m.O_NOFOLLOW,
-        m.O_TMPFILE,
-        m.O_TRUNC,
-        m.O_APPEND,
-        m.O_ASYNC,
-        m.O_DIRECT,
-        m.O_DSYNC,
-        m.O_LARGEFILE,
-        m.O_NOATIME,
-        m.O_NOBLOCK,
-        m.O_NDELAY,
-        m.O_PATH,
-        m.O_SYNC,
-    )
-)
+@assert_depends(lambda m: (m.OPEN_FLAGS, m.O_RDONLY, m.O_WRONLY, m.O_RDWR, m.O_CLOEXEC, m.O_CREAT, m.O_DIRECTORY, m.O_EXCL, m.O_NOCTTY, m.O_NOFOLLOW, m.O_TMPFILE, m.O_TRUNC, m.O_APPEND, m.O_ASYNC, m.O_DIRECT, m.O_DSYNC, m.O_LARGEFILE, m.O_NOATIME, m.O_NOBLOCK, m.O_NDELAY, m.O_PATH, m.O_SYNC,))
 def test_OPEN_FLAGS_type(m: Machine):
-    assert m.OPEN_FLAGS == frozenset(
-        (
-            m.O_RDONLY,
-            m.O_WRONLY,
-            m.O_RDWR,
-            m.O_CLOEXEC,
-            m.O_CREAT,
-            m.O_DIRECTORY,
-            m.O_EXCL,
-            m.O_NOCTTY,
-            m.O_NOFOLLOW,
-            m.O_TMPFILE,
-            m.O_TRUNC,
-            m.O_APPEND,
-            m.O_ASYNC,
-            m.O_DIRECT,
-            m.O_DSYNC,
-            m.O_LARGEFILE,
-            m.O_NOATIME,
-            m.O_NOBLOCK,
-            m.O_NDELAY,
-            m.O_PATH,
-            m.O_SYNC,
-        )
-    )
-
+    assert (m.OPEN_FLAGS == frozenset((
+    m.O_RDONLY, m.O_WRONLY, m.O_RDWR, 
+    m.O_CLOEXEC, m.O_CREAT, m.O_DIRECTORY, m.O_EXCL, m.O_NOCTTY, 
+    m.O_NOFOLLOW, m.O_TMPFILE, m.O_TRUNC, 
+    m.O_APPEND, m.O_ASYNC, m.O_DIRECT, m.O_DSYNC, m.O_LARGEFILE, 
+    m.O_NOATIME, m.O_NOBLOCK, m.O_NDELAY, m.O_PATH, m.O_SYNC)))
 
 # @XATTR_FLAGS_partition: partition(XATTR_FLAGS, {XATTR_CREATE}, {XATTR_REPLACE})
-@assert_depends(
-    lambda m: (
-        m.XATTR_FLAGS,
-        m.XATTR_CREATE,
-        m.XATTR_REPLACE,
-    )
-)
+@assert_depends(lambda m: (m.XATTR_FLAGS, m.XATTR_CREATE, m.XATTR_REPLACE,))
 def test_XATTR_FLAGS_partition(m: Machine):
-    assert partition(
-        m.XATTR_FLAGS, frozenset((m.XATTR_CREATE,)), frozenset((m.XATTR_REPLACE,))
-    )
+    assert (partition(m.XATTR_FLAGS, frozenset((m.XATTR_CREATE,)), frozenset((m.XATTR_REPLACE,))))
