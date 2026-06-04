@@ -23,6 +23,7 @@ def test_reg_dir(
     t.make_user(obj_user)
     caller_user = "caller_user"
     t.make_user(caller_user)
+    t.make_rule(proc_label, "ROOT_LABEL", "rx")
     t.make_dir(
         "/parent", owner=obj_user, group=obj_user, mode=0o777, smack_label=dir_label
     )
@@ -53,6 +54,7 @@ def test_multi_dir(
     t.make_user(obj_user)
     caller_user = "caller_user"
     t.make_user(caller_user)
+    t.make_rule(proc_label, "ROOT_LABEL", "rx")
     t.make_dir(
         path="/parent",
         owner=obj_user,

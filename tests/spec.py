@@ -119,7 +119,12 @@ class LinuxTestSpec(Protocol):
     def make_program(self) -> Iterator[ProgramMakerTextProducer]: ...
 
     def compile(
-        self, program_maker: TextProducer, path: str, make_file: bool = True
+        self,
+        program_maker: TextProducer,
+        path: str,
+        make_file: bool = True,
+        proc_label: str = "",
+        setuid_flag: bool = False,
     ) -> Any: ...
 
     def run(
@@ -144,4 +149,5 @@ class LinuxTestSpec(Protocol):
         before_run: str | None = None,
         after_run: str | None = None,
         proc_label: str | None = None,
+        setuid_flag: bool = False,
     ) -> Iterator[ProgramMaker]: ...

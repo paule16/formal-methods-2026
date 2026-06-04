@@ -140,6 +140,9 @@ events
     event login extends login // create first user process
     end
 
+    event change_user extends change_user
+    end
+
     event set_acl extends set_acl
     end
 

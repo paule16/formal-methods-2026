@@ -115,6 +115,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         path: str,
         make_file: bool = True,
         proc_label: str = "",
+        setuid_flag: bool = False,
     ) -> MonitoredExeFile:
         source_path = f"{path}.c"
         if basename(source_path) in self._additional_files:
@@ -125,7 +126,8 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         if make_file:
             self.make_file(path, "root", "root", 0o777)
         self.add_setup(f"gcc -static -o {path} /progs/{basename(source_path)}")
-        self.add_setup(f"chmod u+s {path}")
+        if setuid_flag:
+            self.add_setup(f"chmod u+s {path}")
         if not proc_label:
             proc_label = "^"
         self.add_setup(
@@ -145,10 +147,11 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         after_run: str | None = None,
         additional_runner_cmd: str = "",
         proc_label: str = "",
+        setuid_flag: bool = False,
     ):
         with self.make_program() as prog:
             yield prog
-        exeFile = self.compile(prog, "/tst_prog", make_file, proc_label)
+        exeFile = self.compile(prog, "/tst_prog", make_file, proc_label, setuid_flag)
         self.run(
             exeFile,
             user,

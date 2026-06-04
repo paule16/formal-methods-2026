@@ -4,6 +4,7 @@ import os
 from os.path import basename
 from stat import S_IMODE
 from typing import Optional, Sequence
+from model.events.change_user import change_user
 from model.events.load_rules import load_rules
 from model.events.set_file_exec_label import set_file_exec_label
 from model.events.set_file_label import set_file_label
@@ -810,6 +811,21 @@ class EventsBuilder:
             else None,
             expected=True,
             skip_coverage=True,
+        )
+
+    def change_user(
+        self,
+        pid: int,
+        uid: int,
+        retval: int,
+        skip_coverage: bool = False,
+    ):
+        self._model_trace.add(
+            change_user,
+            _proc=self.translate_proc(pid),
+            _user=self.translate_user(uid),
+            expected=retval >= 0,
+            skip_coverage=skip_coverage,
         )
 
     def create_group(self, gid: int):

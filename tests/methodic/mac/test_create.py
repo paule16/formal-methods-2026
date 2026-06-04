@@ -75,6 +75,7 @@ def test_open(
         group=caller_user,
         umask=0o000,
         proc_label=proc_label,
+        setuid_flag=True,
     ) as prog:
         if effective_user == "root":
             prog.seteuid(0, fatal=True)

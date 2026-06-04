@@ -554,6 +554,14 @@ class TraceTranslator:
             pathname, name, size, parent, file, value, pid, retval
         )
 
+    def setresuid(
+        self,
+        pid: int,
+        euid_new: int,
+        retval: int,
+    ):
+        self._model_trace.change_user(pid, euid_new, retval)
+
     def setxattr(
         self,
         pathname: str,
