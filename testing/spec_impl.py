@@ -222,9 +222,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                 # 3. run runner
 
                 cmd = " && ".join(
-                    [
-                        "mount -t smackfs smackfs /sys/fs/smackfs",
-                    ]
+                    self._setup_smack()
                     + self._setup_commands
                     + gatherinfo_commands
                     + [runner_cmd]
@@ -308,7 +306,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     # 1. run setup
                     # 2. run gather_info with printing output
                     cmd = " && ".join(
-                        ["mount -t smackfs smackfs /sys/fs/smackfs"]
+                        self._setup_smack()
                         + self._setup_commands
                         + gatherinfo_commands
                     )
@@ -396,26 +394,11 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                             ["sudo", "/bin/bash"], input=after_run, encoding="utf-8"
                         )
 
-    # class _PrependedStream(LineStream):
-    #     def __init__(self, beginning: str, stream: LineStream):
-    #         super().__init__()
-    #         self._beginning = beginning.splitlines()
-    #         self._stream = stream
-    #         self._used = 0
-
-    #     def readline(self, *args: Any, **kwargs: Any) -> str:
-    #         if self._used < len(self._beginning):
-    #             self._used += 1
-    #             return self._beginning[self._used - 1] + '\n'
-    #         else:
-    #             return self._stream.readline(*args, **kwargs)
-
-    #     def __iter__(self) -> Iterator[str]:
-    #         while self._used < len(self._beginning):
-    #             self._used += 1
-    #             yield self._beginning[self._used - 1] + '\n'
-
-    #         yield from self._stream
+    def _setup_smack(self) -> list[str]:
+        return [
+            "mount -t smackfs smackfs /sys/fs/smackfs",  # enable smack
+            "setfattr -n \"security.SMACK64\" -v \"ROOT_LABEL\" /",  # set ROOT_Label on root-folder
+        ]
 
     def _check(self, raw_trace: LineStream):
 
