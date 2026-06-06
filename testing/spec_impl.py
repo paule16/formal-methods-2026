@@ -174,11 +174,6 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         after_run: str | None,
         additional_runner_cmd: str = "",
     ):
-
-        # with self._run_with_preparing_image(exeFile=exeFile,
-        #         user=user, group=group, umask=umask, runner=runner,
-        #         before_run=before_run, after_run=after_run) as trace:
-
         with self._run_without_preparing_image(
             exeFile=exeFile,
             user=user,
@@ -190,188 +185,6 @@ class LinuxTestSpecImpl(LinuxTestSpec):
             additional_runner_cmd=additional_runner_cmd,
         ) as trace:
             self._check(trace)
-
-    @contextmanager
-    def _run_with_preparing_image(
-        self,
-        exeFile: MonitoredExeFile,
-        user: str,
-        group: str,
-        umask: int,
-        runner: str,
-        before_run: str | None,
-        after_run: str | None,
-    ):
-
-        setup_cmd = " && ".join(self._setup_commands)
-        runner_cmd = runner.replace(
-            "<>",
-            f'(chfn --other="umask={umask:0o}" {user}; /monitor/monitor run sudo -HE -u {user} -g {group} {exeFile.path})',
-        )
-
-        def main():
-
-            build_image()
-
-            if before_run:
-                subprocess.run(
-                    ["sudo", "/bin/bash"],
-                    input=before_run,
-                    encoding="utf-8",
-                    check=True,
-                )
-
-            container_name = f"anis_{self._label}"
-            proc = None
-            try:
-                proc = subprocess.Popen(
-                    [
-                        "sudo",
-                        "podman",
-                        "run",
-                        "--rm",
-                        "--privileged",
-                        f"--name={container_name}",
-                        "--cap-add=CAP_BPF",
-                        "--cap-add=CAP_SYS_ADMIN",
-                        "-v",
-                        "/sys/fs/bpf:/sys/fs/bpf:rw",
-                        "-v",
-                        "/sys/kernel:/sys/kernel:ro",
-                        # '--pid=host',
-                        # '--network=host',
-                        # '--security-opt', 'label=disable',
-                        f"anis:{self._label}",
-                    ],
-                    stdout=subprocess.PIPE,
-                    text=True,
-                    bufsize=1,
-                    encoding="utf-8",
-                )
-
-                if not proc.stdout:
-                    raise ValueError("No stdout")
-
-                yield proc.stdout
-            except:
-                subprocess.run(["sudo", "podman", "kill", container_name])
-                raise
-            finally:
-                if proc:
-                    if proc.stdout:
-                        proc.stdout.close()
-                    proc.wait(timeout=5)
-
-                if after_run:
-                    subprocess.run(
-                        ["sudo", "/bin/bash"], input=after_run, encoding="utf-8"
-                    )
-
-        def build_image():
-
-            gatherinfo_commands = (
-                self._initialiser.make_text_of_gatherinfo_file()
-            )  # this make important
-            # changings in self._initialiser, so it is necessary to call it also if image is newer
-
-            if image_is_newer_than(
-                self._testpath,
-                Path("conftest.py"),
-                *all_monitoring_files(),
-                *all_py_files(Path("testing")),
-                *all_files(Path("testing") / "base_image"),
-            ):
-                return
-
-            with tempfile.TemporaryDirectory() as base:
-                container_file = make_text_of_container_file()
-                base_path = Path(base)
-                (base_path / "Containerfile").write_text(container_file)
-                (base_path / "gather_info.sh").write_text(
-                    "\n".join(["#! /bin/bash -e"] + gatherinfo_commands)
-                )
-                (base_path / "setup.sh").write_text(setup_cmd)
-                copytree("monitor", str(base_path / "monitor"))
-                (base_path / "progs").mkdir()
-                for path, contents in self._additional_files.items():
-                    (base_path / "progs" / basename(path)).write_text(contents)
-
-                subprocess.run(
-                    [
-                        "sudo",
-                        "podman",
-                        "build",
-                        "-t",
-                        f"anis:{self._label}",
-                        base,
-                    ],
-                    check=True,
-                )
-
-        def all_files(parent: Path):
-            return [p for p in parent.iterdir() if p.is_file()]
-
-        def all_py_files(parent: Path):
-            return [p for p in parent.iterdir() if p.is_file() and p.suffix == ".py"]
-
-        def all_monitoring_files():
-            return [
-                p
-                for p in Path("monitor").iterdir()
-                if p.is_file()
-                and (
-                    p.name == "Makefile"
-                    or p.suffix in {".c", "h"}
-                    and not p.name.endswith(".skel.h")
-                )
-            ]
-
-        def image_is_newer_than(*paths: Path):
-            image_ts = get_image_timestamp()
-            return image_ts is not None and all(
-                file.stat().st_mtime < image_ts for file in paths
-            )
-
-        def get_image_timestamp():
-
-            proc = subprocess.run(
-                [
-                    "sudo",
-                    "podman",
-                    "image",
-                    "inspect",
-                    f"anis:{self._label}",
-                    '--format="{{.Created}}',
-                ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.DEVNULL,
-                encoding="utf-8",
-            )
-            if proc.returncode != 0:
-                return None
-
-            s_clean = proc.stdout.strip('"').replace(" UTC", "")
-            time_part = s_clean.split(" +")[0]
-            if "." in time_part:
-                date_part, micro_part = time_part.split(".")
-                micro_part = micro_part[:6].ljust(
-                    6, "0"
-                )  # если меньше 6 цифр, добавляем нули
-                time_part = f"{date_part}.{micro_part}"
-            return (
-                datetime.strptime(time_part, "%Y-%m-%d %H:%M:%S.%f")
-                .replace(tzinfo=timezone.utc)
-                .timestamp()
-            )
-
-        def make_text_of_container_file():
-            return textwrap.dedent(f"""
-                FROM anis:base
-                COPY ./ /
-                RUN chmod +x /gather_info.sh && chmod +x /setup.sh && /setup.sh
-                CMD /gather_info.sh && ({runner_cmd})""")
-
-        return main()
 
     @contextmanager
     def _run_without_preparing_image(
@@ -411,7 +224,6 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                 cmd = " && ".join(
                     [
                         "mount -t smackfs smackfs /sys/fs/smackfs",
-                        "> /sys/fs/smackfs/load2",
                     ]
                     + self._setup_commands
                     + gatherinfo_commands
