@@ -39,7 +39,6 @@ variables
     FileLabel // Smack метка файла (объекта)
     FileExecLabel // Smack метка, присваиваемая процессу, после выполнения exec данного файла
     SmackRules // Smack правила доступа субъектов к объектам
-    TransmuteFolders
 
 events
 
@@ -49,23 +48,30 @@ events
     event open_create extends open_create
     where
         @grd27: O_DIRECTORY ∉ flags // директорию нельзя создавать при помощи open
+        @grd28: O_CREAT ∉ flags ∨ O_DIRECTORY ∉ flags
     end
 
     event open_exists extends open_exists
     where
         @grd24: O_DIRECTORY∈flags ∧ O_PATH∉flags  ⇒ O_CREAT∉flags // from Linux implementation
         @grd25: O_PATH∉flags ∧ O_DIRECTORY∉flags ∧ O_CREAT∈flags ⇒ file ∉ Folders // from Linux implementation
+        @grd26: O_CREAT ∉ flags ∨ O_DIRECTORY ∉ flags
     end
 
     event creat extends open_create
     where
         @grd27: flags = {O_CREAT, O_WRONLY, O_TRUNC} // @const
+        @grd28: O_CREAT ∉ flags ∨ O_DIRECTORY ∉ flags
     end
 
     event openat_create extends openat_create
+    where
+        @grd33: O_CREAT ∉ flags ∨ O_DIRECTORY ∉ flags
     end
 
     event openat_exists extends openat_exists // in case of absolute pathname you need to call open_create or open_exists
+    where
+        @grd29: O_CREAT ∉ flags ∨ O_DIRECTORY ∉ flags
     end
 
     event mkdir extends mkdir // TODO: add support for mkdirat?
@@ -150,9 +156,6 @@ events
     end
 
     event set_file_exec_label extends set_file_exec_label
-    end
-
-    event set_directory_transmute extends set_directory_transmute
     end
 
     event load_rules extends load_rules
