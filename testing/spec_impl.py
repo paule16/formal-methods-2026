@@ -306,9 +306,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     # 1. run setup
                     # 2. run gather_info with printing output
                     cmd = " && ".join(
-                        self._setup_smack()
-                        + self._setup_commands
-                        + gatherinfo_commands
+                        self._setup_smack() + self._setup_commands + gatherinfo_commands
                     )
                     print("setup...", file=sys.stderr, end=" ")
                     proc = subprocess.run(
@@ -397,7 +395,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
     def _setup_smack(self) -> list[str]:
         return [
             "mount -t smackfs smackfs /sys/fs/smackfs",  # enable smack
-            "setfattr -n \"security.SMACK64\" -v \"ROOT_LABEL\" /",  # set ROOT_Label on root-folder
+            'setfattr -n "security.SMACK64" -v "ROOT_LABEL" /',  # set ROOT_Label on root-folder
         ]
 
     def _check(self, raw_trace: LineStream):
