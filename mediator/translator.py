@@ -67,7 +67,6 @@ class TraceTranslator:
             0o777,
             0,
             0,
-            "INIT_LABEL",
             skip_coverage=True,
         )
         self._model_trace.chown(
@@ -143,7 +142,6 @@ class TraceTranslator:
                 0o777,
                 0,
                 3,
-                "INIT_LABEL",
                 skip_coverage=True,
             )
             self._model_trace.close(3, [ProcFD(0, 3)], 0, 0, skip_coverage=True)
@@ -279,7 +277,6 @@ class TraceTranslator:
         gid: Optional[int],
         perms: Optional[int],
         retval: int,
-        smack_label: Optional[str],
     ) -> None:
 
         # append model trace
@@ -293,7 +290,7 @@ class TraceTranslator:
                 dev = parent.dev
             file = Inode(dev, ino) if ino is not None else None
             self._model_trace.open_create(
-                abspath, flags, mode, parent, file, gid, perms, pid, retval, smack_label
+                abspath, flags, mode, parent, file, gid, perms, pid, retval
             )
 
         # update mediator state
@@ -316,7 +313,6 @@ class TraceTranslator:
         uid: Optional[int],
         gid: Optional[int],
         perms: Optional[int],
-        smack_label: Optional[str],
         retval: int,
     ):
 
@@ -327,7 +323,7 @@ class TraceTranslator:
             dev = parent.dev
         file = Inode(dev, ino) if ino is not None else None
         self._model_trace.creat(
-            abspath, mode, parent, file, gid, perms, pid, retval, smack_label
+            abspath, mode, parent, file, gid, perms, pid, retval
         )
 
         # update mediator state
@@ -352,7 +348,6 @@ class TraceTranslator:
         uid: Optional[int],
         gid: Optional[int],
         perms: Optional[int],
-        smack_label: Optional[str],
         retval: int,
     ):
 
@@ -391,7 +386,6 @@ class TraceTranslator:
                 cwd,
                 pid,
                 retval,
-                smack_label,
             )
 
         # update mediator state
@@ -414,7 +408,6 @@ class TraceTranslator:
         uid: Optional[int],
         gid: Optional[int],
         perms: Optional[int],
-        smack_label: str,
         retval: int,
     ):
 
@@ -425,7 +418,7 @@ class TraceTranslator:
             dev = parent.dev
         folder = Inode(dev, ino) if ino is not None else None
         self._model_trace.mkdir(
-            pathname, mode, parent, folder, gid, perms, pid, retval, smack_label
+            pathname, mode, parent, folder, gid, perms, pid, retval
         )
 
         # update mediator state
