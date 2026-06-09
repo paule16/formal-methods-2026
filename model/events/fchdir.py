@@ -4,8 +4,8 @@ from anis.model.expressions import function_value, relation_domain, relation_ima
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4'],
-             'MAC': ['grd5'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd5']
 }
 
 def fchdir(m: Machine,

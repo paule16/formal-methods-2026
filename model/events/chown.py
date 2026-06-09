@@ -4,8 +4,8 @@ from anis.model.expressions import function_value, relation_domain, relation_ima
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11'],
-             'MAC': ['grd12'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd12']
 }
 
 def chown(m: Machine,

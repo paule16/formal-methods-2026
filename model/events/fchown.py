@@ -4,8 +4,8 @@ from anis.model.expressions import function_value, override_relation
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def fchown(m: Machine,

@@ -4,8 +4,8 @@ from anis.model.expressions import total_relations, cartesian_product, total_fun
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13', 'grd14', 'grd15', 'grd16', 'grd17', 'grd18', 'grd19', 'grd20', 'grd21', 'grd22', 'grd23', 'grd24', 'grd25', 'grd26', 'grd27', 'grd28', 'grd29', 'grd30', 'grd31', 'grd32', 'grd33', 'grd34', 'grd35', 'grd36', 'grd37', 'grd38', 'grd39', 'grd40', 'grd41', 'grd42', 'grd43', 'grd44', 'grd45', 'grd46', 'grd47', 'grd48', 'grd49', 'grd50', 'grd51', 'grd52'],
-             'MAC': ['grd53', 'grd54', 'grd55', 'grd56'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd53', 'grd54', 'grd55', 'grd56']
 }
 
 def any_transition(m: Machine,

@@ -4,8 +4,8 @@ from anis.model.expressions import function_value
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def getdents(m: Machine,

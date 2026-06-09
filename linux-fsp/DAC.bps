@@ -573,4 +573,5 @@
     <org.eventb.core.psStatus name="any_transition/ProcCwd1/INV" org.eventb.core.confidence="1000" org.eventb.core.poStamp="5" org.eventb.core.psManual="false"/>
     <org.eventb.core.psStatus name="any_transition/FDNumber/INV" org.eventb.core.confidence="1000" org.eventb.core.poStamp="5" org.eventb.core.psManual="true"/>
     <org.eventb.core.psStatus name="change_capabilities/UserCaps_type/INV" org.eventb.core.confidence="1000" org.eventb.core.poStamp="5" org.eventb.core.psManual="false"/>
+    <org.eventb.core.psStatus name="change_user/ProcUser_type/INV" org.eventb.core.confidence="1000" org.eventb.core.poStamp="6" org.eventb.core.psManual="false"/>
 </org.eventb.core.psFile>

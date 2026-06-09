@@ -6,7 +6,7 @@
         "html"
     ],
     "python.testing.unittestEnabled": false,
-    "anis.componentUnderTest": "MAC_EXT",
+    "anis.componentUnderTest": "MAC",
     "python.testing.pytestEnabled": true,
     "anis.coverage.kind": "branch-conditions",
     "anis.coverage.scope.machines": "MAC_EXT,MAC",

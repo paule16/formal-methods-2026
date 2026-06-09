@@ -4,8 +4,8 @@ from anis.model.expressions import relation_image, function_value, relation_doma
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10'],
-             'MAC': ['grd11', 'grd12'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd11', 'grd12']
 }
 
 def unlink(m: Machine,

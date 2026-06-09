@@ -1949,4 +1949,15 @@ events
         @act1: UserCaps(user) ≔ caps
     end
 
+    event change_user
+    any
+        proc
+        user
+    where
+        @grd1: user ∈ Users
+        @grd2: proc ∈ Procs
+    then
+        @act: ProcUser(proc) ≔ user
+    end
+
 end

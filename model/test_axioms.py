@@ -278,3 +278,128 @@ def test_OPEN_FLAGS_type(m: Machine):
 @assert_depends(lambda m: (m.XATTR_FLAGS, m.XATTR_CREATE, m.XATTR_REPLACE,))
 def test_XATTR_FLAGS_partition(m: Machine):
     assert (partition(m.XATTR_FLAGS, frozenset((m.XATTR_CREATE,)), frozenset((m.XATTR_REPLACE,))))
+
+# @INTEGRITY_MODES_partition: partition(INTEGRITY_MODES, {ENFORCE}, {FIX}, {OFF})
+@assert_depends(lambda m: (m.INTEGRITY_MODES, m.ENFORCE, m.FIX, m.OFF,))
+def test_INTEGRITY_MODES_partition(m: Machine):
+    assert (partition(m.INTEGRITY_MODES, frozenset((m.ENFORCE,)), frozenset((m.FIX,)), frozenset((m.OFF,))))
+
+# @IMA_STRING_type: IMA_STRING ∈ STRINGS
+@assert_depends(lambda m: (m.IMA_STRING, m.STRINGS,))
+def test_IMA_STRING_type(m: Machine):
+    assert (m.IMA_STRING in m.STRINGS)
+
+# @EVM_STRING_type: EVM_STRING ∈ STRINGS
+@assert_depends(lambda m: (m.EVM_STRING, m.STRINGS,))
+def test_EVM_STRING_type(m: Machine):
+    assert (m.EVM_STRING in m.STRINGS)
+
+# @axm1: MAX_FILES = 20
+@assert_depends(lambda m: (m.MAX_FILES,))
+def test_axm1(m: Machine):
+    assert (m.MAX_FILES == 20)
+
+# @axm2: finite(STRINGS) ∧ card(STRINGS) = 20
+@assert_depends(lambda m: (m.STRINGS,))
+def test_axm2(m: Machine):
+    assert (finite(m.STRINGS) and len(m.STRINGS) == 20)
+
+# @axm3: finite(GROUPS) ∧ card(GROUPS) = 10
+@assert_depends(lambda m: (m.GROUPS,))
+def test_axm3(m: Machine):
+    assert (finite(m.GROUPS) and len(m.GROUPS) == 10)
+
+# @axm4: finite(PROCS) ∧ card(PROCS) = 10
+@assert_depends(lambda m: (m.PROCS,))
+def test_axm4(m: Machine):
+    assert (finite(m.PROCS) and len(m.PROCS) == 10)
+
+# @axm5: finite(USERS) ∧ card(USERS) = 10
+@assert_depends(lambda m: (m.USERS,))
+def test_axm5(m: Machine):
+    assert (finite(m.USERS) and len(m.USERS) == 10)
+
+# @axm6: finite(DATA) ∧ card(DATA) = 20
+@assert_depends(lambda m: (m.DATA,))
+def test_axm6(m: Machine):
+    assert (finite(m.DATA) and len(m.DATA) == 20)
+
+# @axm7: FILE_LIMIT = 20
+@assert_depends(lambda m: (m.FILE_LIMIT,))
+def test_axm7(m: Machine):
+    assert (m.FILE_LIMIT == 20)
+
+# @axm8: PROC_FILE_LIMIT = 20
+@assert_depends(lambda m: (m.PROC_FILE_LIMIT,))
+def test_axm8(m: Machine):
+    assert (m.PROC_FILE_LIMIT == 20)
+
+# @axm9: finite(FILE_DESCRIPTORS) ∧ card(FILE_DESCRIPTORS) = 20
+@assert_depends(lambda m: (m.FILE_DESCRIPTORS,))
+def test_axm9(m: Machine):
+    assert (finite(m.FILE_DESCRIPTORS) and len(m.FILE_DESCRIPTORS) == 20)
+
+# @axm10: finite(CAPABILITIES) ∧ card(CAPABILITIES) ≤ 10
+@assert_depends(lambda m: (m.CAPABILITIES,))
+def test_axm10(m: Machine):
+    assert (finite(m.CAPABILITIES) and len(m.CAPABILITIES) <= 10)
+
+# @S_IRUSR_type: S_IRUSR = UREAD
+@assert_depends(lambda m: (m.S_IRUSR, m.UREAD,))
+def test_S_IRUSR_type(m: Machine):
+    assert (m.S_IRUSR == m.UREAD)
+
+# @S_IWUSR_type: S_IWUSR = UWRITE
+@assert_depends(lambda m: (m.S_IWUSR, m.UWRITE,))
+def test_S_IWUSR_type(m: Machine):
+    assert (m.S_IWUSR == m.UWRITE)
+
+# @S_IXUSR_type: S_IXUSR = UEXECUTE
+@assert_depends(lambda m: (m.S_IXUSR, m.UEXECUTE,))
+def test_S_IXUSR_type(m: Machine):
+    assert (m.S_IXUSR == m.UEXECUTE)
+
+# @S_IRGRP_type: S_IRGRP = GREAD
+@assert_depends(lambda m: (m.S_IRGRP, m.GREAD,))
+def test_S_IRGRP_type(m: Machine):
+    assert (m.S_IRGRP == m.GREAD)
+
+# @S_IWGRP_type: S_IWGRP = GWRITE
+@assert_depends(lambda m: (m.S_IWGRP, m.GWRITE,))
+def test_S_IWGRP_type(m: Machine):
+    assert (m.S_IWGRP == m.GWRITE)
+
+# @S_IXGRP_type: S_IXGRP = GEXECUTE
+@assert_depends(lambda m: (m.S_IXGRP, m.GEXECUTE,))
+def test_S_IXGRP_type(m: Machine):
+    assert (m.S_IXGRP == m.GEXECUTE)
+
+# @S_IROTH_type: S_IROTH = OREAD
+@assert_depends(lambda m: (m.S_IROTH, m.OREAD,))
+def test_S_IROTH_type(m: Machine):
+    assert (m.S_IROTH == m.OREAD)
+
+# @S_IWOTH_type: S_IWOTH = OWRITE
+@assert_depends(lambda m: (m.S_IWOTH, m.OWRITE,))
+def test_S_IWOTH_type(m: Machine):
+    assert (m.S_IWOTH == m.OWRITE)
+
+# @S_IXOTH_type: S_IXOTH = OEXECUTE
+@assert_depends(lambda m: (m.S_IXOTH, m.OEXECUTE,))
+def test_S_IXOTH_type(m: Machine):
+    assert (m.S_IXOTH == m.OEXECUTE)
+
+# @S_ISUID_type: S_ISUID = SET_UID
+@assert_depends(lambda m: (m.S_ISUID, m.SET_UID,))
+def test_S_ISUID_type(m: Machine):
+    assert (m.S_ISUID == m.SET_UID)
+
+# @S_ISGID_type: S_ISGID = SET_GID
+@assert_depends(lambda m: (m.S_ISGID, m.SET_GID,))
+def test_S_ISGID_type(m: Machine):
+    assert (m.S_ISGID == m.SET_GID)
+
+# @S_ISVTX_type: S_ISVTX = STICKY_BIT
+@assert_depends(lambda m: (m.S_ISVTX, m.STICKY_BIT,))
+def test_S_ISVTX_type(m: Machine):
+    assert (m.S_ISVTX == m.STICKY_BIT)

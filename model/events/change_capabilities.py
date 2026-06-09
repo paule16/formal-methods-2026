@@ -4,8 +4,8 @@ from anis.model.expressions import override_relation
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def change_capabilities(m: Machine,

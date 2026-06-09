@@ -3,8 +3,8 @@ from anis.model.lazy import Event, Parameter, Guard, Action
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def create_group(m: Machine,

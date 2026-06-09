@@ -4,8 +4,8 @@ from anis.model.expressions import NAT, relation_domain, function_value, relatio
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd4', 'grd3', 'grd5', 'grd6'],
-             'MAC': ['grd7', 'grd8'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd7', 'grd8']
 }
 
 def getxattr(m: Machine,

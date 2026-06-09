@@ -4,8 +4,8 @@ from anis.model.expressions import subtract_range, subtract_domain
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def close(m: Machine,

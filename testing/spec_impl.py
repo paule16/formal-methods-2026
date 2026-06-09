@@ -494,6 +494,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
 
         for ind, line in enumerate(trace):
             print(f"{ind = }")
+            print(line)
             event = json.loads(line)
             self.clean_event(event)
             t_operation = TraceOperation(

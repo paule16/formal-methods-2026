@@ -4,8 +4,8 @@ from anis.model.expressions import relation_domain, function_value, NAT, relatio
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9'],
-             'MAC': ['grd10', 'grd11'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd10', 'grd11']
 }
 
 def setxattr(m: Machine,

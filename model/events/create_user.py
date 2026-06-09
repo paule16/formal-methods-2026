@@ -4,8 +4,8 @@ from anis.model.expressions import cartesian_product, override_relation
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def create_user(m: Machine,

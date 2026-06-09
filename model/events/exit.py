@@ -4,8 +4,8 @@ from anis.model.expressions import relation_image, subtract_domain, function_val
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3'],
-             'MAC': [],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def exit(m: Machine,

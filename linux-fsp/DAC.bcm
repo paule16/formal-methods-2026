@@ -1010,4 +1010,11 @@
         <org.eventb.core.scParameter name="user" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#858|org.eventb.core.parameter#859" org.eventb.core.type="USERS"/>
         <org.eventb.core.scAction name="uses" org.eventb.core.assignment="UserCaps ≔ UserCaps{user ↦ caps}" org.eventb.core.label="act1" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#858|org.eventb.core.action#863"/>
     </org.eventb.core.scEvent>
+    <org.eventb.core.scEvent name="DACPermissioo=" org.eventb.core.accurate="true" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="change_user" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864">
+        <org.eventb.core.scGuard name="'" org.eventb.core.label="grd1" org.eventb.core.predicate="user∈Users" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.guard#867" org.eventb.core.theorem="false"/>
+        <org.eventb.core.scGuard name="(" org.eventb.core.label="grd2" org.eventb.core.predicate="proc∈Procs" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.guard#868" org.eventb.core.theorem="false"/>
+        <org.eventb.core.scParameter name="proc" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.parameter#865" org.eventb.core.type="PROCS"/>
+        <org.eventb.core.scParameter name="user" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.parameter#866" org.eventb.core.type="USERS"/>
+        <org.eventb.core.scAction name="uses" org.eventb.core.assignment="ProcUser ≔ ProcUser{proc ↦ user}" org.eventb.core.label="act" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.action#869"/>
+    </org.eventb.core.scEvent>
 </org.eventb.core.scMachineFile>

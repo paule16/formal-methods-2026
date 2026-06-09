@@ -3,8 +3,7 @@ from anis.model.lazy import Event, Parameter, Guard, Action
 from anis.model.expressions import cartesian_product
 
 
-machines: dict[str, list[str]] = { 'MAC': ['grd1'],
-             'MAC_EXT': []
+machines: dict[str, list[str]] = { 'MAC': ['grd1']
 }
 
 def load_rules(m: Machine,

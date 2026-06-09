@@ -4,8 +4,8 @@ from anis.model.expressions import relation_range, relation_domain, NAT, functio
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13', 'grd14', 'grd15', 'grd16', 'grd17', 'grd18', 'grd19', 'grd20', 'grd21', 'grd22', 'grd23'],
-             'MAC': ['grd24', 'grd25'],
-             'MAC_EXT': ['grd27', 'grd28']
+             'DAC_EXT': ['grd24', 'grd25'],
+             'MAC': ['grd26', 'grd27']
 }
 
 def open_create(m: Machine,
@@ -160,7 +160,13 @@ def open_create(m: Machine,
     _grd23 = Guard('grd23', lambda _: (_(65, 
     (~perms) == ((~mode) - ((~mode) & function_value(m.ProcUmask, (~proc)))))))
 
-    _grd24 = Guard('grd24', lambda _: (not (_(66, function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or (_(67, 
+    _grd24 = Guard('grd24', lambda _: (_(66, m.O_DIRECTORY not in (~flags))))
+
+    _grd25 = Guard('grd25', lambda _: ((_(67, 
+    m.O_CREAT not in (~flags))) or (_(68, m.O_DIRECTORY not in (~flags)))))
+
+    _grd26 = Guard('grd26', lambda _: (not (_(69, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or (_(70, 
     not any (True for f in (function_value(m.PathToRoot, (~parent)) | frozenset(((~parent),))) if not (
         not (function_value(m.ProcLabel, (~proc)) == m.STAR) and 
         ((((function_value(m.ProcLabel, (~proc)) == m.HAT or 
@@ -170,17 +176,12 @@ def open_create(m: Machine,
         m.EXECUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, f)),))))
     ))))))
 
-    _grd25 = Guard('grd25', lambda _: (not (_(68, 
-    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or ((not (_(69, 
-    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((_(70, 
-    function_value(m.FileLabel, (~parent)) == m.STAR)) or (_(71, 
-    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~parent))))) or (_(72, 
+    _grd27 = Guard('grd27', lambda _: (not (_(71, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or ((not (_(72, 
+    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((_(73, 
+    function_value(m.FileLabel, (~parent)) == m.STAR)) or (_(74, 
+    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~parent))))) or (_(75, 
     m.WRITE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))))))
-
-    _grd27 = Guard('grd27', lambda _: (_(73, m.O_DIRECTORY not in (~flags))))
-
-    _grd28 = Guard('grd28', lambda _: ((_(74, 
-    m.O_CREAT not in (~flags))) or (_(75, m.O_DIRECTORY not in (~flags)))))
 
 
     _act1 = Action('act1', m, 'Files', lambda: ((m.Files | frozenset(((~file),)))))
@@ -210,4 +211,4 @@ def open_create(m: Machine,
     _act13 = Action('act13', m, 'FileLabel', lambda: (override_relation(m.FileLabel, frozenset((((~file), function_value(m.ProcLabel, (~proc))),)))))
 
 
-    return Event("open_create", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd27, _grd28, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13)
+    return Event("open_create", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd26, _grd27, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13)

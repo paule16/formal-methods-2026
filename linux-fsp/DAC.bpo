@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<org.eventb.core.poFile org.eventb.core.poStamp="5">
+<org.eventb.core.poFile org.eventb.core.poStamp="6">
     <org.eventb.core.poPredicateSet name="CTXHYP" org.eventb.core.poStamp="5">
         <org.eventb.core.poIdentifier name="GROUPS" org.eventb.core.type="ℙ(GROUPS)"/>
         <org.eventb.core.poIdentifier name="USERS" org.eventb.core.type="ℙ(USERS)"/>
@@ -5552,6 +5552,23 @@
     <org.eventb.core.poPredicateSet name="EVTALLHYPDACPermissioo;" org.eventb.core.parentSet="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#EVTIDENTDACPermissioo;" org.eventb.core.poStamp="5">
         <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="user∈Users" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#858|org.eventb.core.guard#861"/>
         <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="caps⊆CAPABILITIES" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#858|org.eventb.core.guard#862"/>
+    </org.eventb.core.poPredicateSet>
+    <org.eventb.core.poSequent name="change_user/ProcUser_type/INV" org.eventb.core.accurate="true" org.eventb.core.poDesc="Invariant  preservation" org.eventb.core.poStamp="6">
+        <org.eventb.core.poPredicateSet name="SEQHYP" org.eventb.core.parentSet="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#EVTALLHYPDACPermissioo="/>
+        <org.eventb.core.poPredicate name="SEQHYQ" org.eventb.core.predicate="ProcUser{proc ↦ user}∈Procs → Users" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.invariant#59"/>
+        <org.eventb.core.poSource name="SEQHYR" org.eventb.core.poRole="DEFAULT" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864"/>
+        <org.eventb.core.poSource name="SEQHYS" org.eventb.core.poRole="DEFAULT" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.invariant#59"/>
+        <org.eventb.core.poSelHint name="SEQHYT" org.eventb.core.poSelHintFst="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#ALLHYP" org.eventb.core.poSelHintSnd="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poSequent#change_user\/ProcUser_type\/INV|org.eventb.core.poPredicateSet#SEQHYP"/>
+        <org.eventb.core.poSelHint name="SEQHYU" org.eventb.core.poSelHintFst="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#HYPDAC_CT{|org.eventb.core.poPredicate#PRD23"/>
+    </org.eventb.core.poSequent>
+    <org.eventb.core.poPredicateSet name="EVTIDENTDACPermissioo=" org.eventb.core.parentSet="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#ALLHYP" org.eventb.core.poStamp="0">
+        <org.eventb.core.poIdentifier name="proc" org.eventb.core.type="PROCS"/>
+        <org.eventb.core.poIdentifier name="ProcUser'" org.eventb.core.type="ℙ(PROCS×USERS)"/>
+        <org.eventb.core.poIdentifier name="user" org.eventb.core.type="USERS"/>
+    </org.eventb.core.poPredicateSet>
+    <org.eventb.core.poPredicateSet name="EVTALLHYPDACPermissioo=" org.eventb.core.parentSet="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#EVTIDENTDACPermissioo=" org.eventb.core.poStamp="0">
+        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="user∈Users" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.guard#867"/>
+        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="proc∈Procs" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.event#864|org.eventb.core.guard#868"/>
     </org.eventb.core.poPredicateSet>
     <org.eventb.core.poPredicateSet name="HYPDAC_CT{" org.eventb.core.parentSet="/linux-fsp/DAC.bpo|org.eventb.core.poFile#DAC|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="5">
         <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="Users⊆USERS" org.eventb.core.source="/linux-fsp/DAC.bum|org.eventb.core.machineFile#DAC|org.eventb.core.invariant#36"/>

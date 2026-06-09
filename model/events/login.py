@@ -4,8 +4,8 @@ from anis.model.expressions import powerset, relation_domain, function_value, ov
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7'],
-             'MAC': ['grd8'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd8']
 }
 
 def login(m: Machine,

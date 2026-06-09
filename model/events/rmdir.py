@@ -4,8 +4,8 @@ from anis.model.expressions import relation_domain, relation_image, function_val
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8'],
-             'MAC': ['grd9', 'grd10'],
-             'MAC_EXT': []
+             'DAC_EXT': [],
+             'MAC': ['grd9', 'grd10']
 }
 
 def rmdir(m: Machine,

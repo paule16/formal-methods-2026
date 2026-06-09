@@ -4,8 +4,8 @@ from anis.model.expressions import NAT, function_value, relation_image, relation
 
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13', 'grd14', 'grd15', 'grd16', 'grd17', 'grd18', 'grd19', 'grd20', 'grd21', 'grd22', 'grd23', 'grd24', 'grd25'],
-             'MAC': ['grd26', 'grd27', 'grd28'],
-             'MAC_EXT': ['grd29']
+             'DAC_EXT': ['grd26'],
+             'MAC': ['grd27', 'grd28', 'grd29']
 }
 
 def openat_exists(m: Machine,
@@ -214,7 +214,10 @@ def openat_exists(m: Machine,
     function_value(m.FileGroup, (~file)) != function_value(m.ProcGroup, (~proc))))) and (_(138, (function_value(m.ProcUser, (~proc)), function_value(m.FileGroup, (~file))) not in m.UserGroups))) and (_(139, 
     frozenset((m.OREAD, m.OWRITE)) <= function_value(m.DACPermissions, (~file))))))))
 
-    _grd26 = Guard('grd26', lambda _: (not (_(140, function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or (_(141, 
+    _grd26 = Guard('grd26', lambda _: ((_(140, m.O_CREAT not in (~flags))) or (_(141, m.O_DIRECTORY not in (~flags)))))
+
+    _grd27 = Guard('grd27', lambda _: (not (_(142, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) or (_(143, 
     not any (True for f in (function_value(m.PathToRoot, (~parent)) | frozenset(((~parent),))) if not (
         not (function_value(m.ProcLabel, (~proc)) == m.STAR) and 
         ((((function_value(m.ProcLabel, (~proc)) == m.HAT or 
@@ -224,23 +227,21 @@ def openat_exists(m: Machine,
         m.EXECUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, f)),))))
     ))))))
 
-    _grd27 = Guard('grd27', lambda _: (not (((_(142, 
-    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) and ((_(143, m.O_RDONLY in (~flags))) or (_(144, m.O_RDWR in (~flags))))) and (_(145, m.O_PATH not in (~flags)))) or ((not (_(146, 
-    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((((_(147, 
-    function_value(m.ProcLabel, (~proc)) == m.HAT)) or (_(148, 
-    function_value(m.FileLabel, (~file)) == m.FLOOR))) or (_(149, 
-    function_value(m.FileLabel, (~file)) == m.STAR))) or (_(150, 
-    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~file))))) or (_(151, 
+    _grd28 = Guard('grd28', lambda _: (not (((_(144, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) and ((_(145, m.O_RDONLY in (~flags))) or (_(146, m.O_RDWR in (~flags))))) and (_(147, m.O_PATH not in (~flags)))) or ((not (_(148, 
+    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((((_(149, 
+    function_value(m.ProcLabel, (~proc)) == m.HAT)) or (_(150, 
+    function_value(m.FileLabel, (~file)) == m.FLOOR))) or (_(151, 
+    function_value(m.FileLabel, (~file)) == m.STAR))) or (_(152, 
+    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~file))))) or (_(153, 
     m.READ in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~file))),)))))))))
 
-    _grd28 = Guard('grd28', lambda _: (not (((_(152, 
-    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) and ((_(153, m.O_WRONLY in (~flags))) or (_(154, m.O_RDWR in (~flags))))) and (_(155, m.O_PATH not in (~flags)))) or ((not (_(156, 
-    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((_(157, 
-    function_value(m.FileLabel, (~file)) == m.STAR)) or (_(158, 
-    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~file))))) or (_(159, 
+    _grd29 = Guard('grd29', lambda _: (not (((_(154, 
+    function_value(m.ProcUser, (~proc)) != m.ROOT_USER)) and ((_(155, m.O_WRONLY in (~flags))) or (_(156, m.O_RDWR in (~flags))))) and (_(157, m.O_PATH not in (~flags)))) or ((not (_(158, 
+    function_value(m.ProcLabel, (~proc)) == m.STAR))) and (((_(159, 
+    function_value(m.FileLabel, (~file)) == m.STAR)) or (_(160, 
+    function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~file))))) or (_(161, 
     m.WRITE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~file))),)))))))))
-
-    _grd29 = Guard('grd29', lambda _: ((_(160, m.O_CREAT not in (~flags))) or (_(161, m.O_DIRECTORY not in (~flags)))))
 
 
     _act1 = Action('act1', m, 'FDs', lambda: ((m.FDs | frozenset(((~fd),)))))

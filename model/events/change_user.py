@@ -3,8 +3,9 @@ from anis.model.lazy import Event, Parameter, Guard, Action
 from anis.model.expressions import override_relation
 
 
-machines: dict[str, list[str]] = { 'MAC': ['grd1', 'grd2'],
-             'MAC_EXT': []
+machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2'],
+             'DAC_EXT': [],
+             'MAC': []
 }
 
 def change_user(m: Machine,
