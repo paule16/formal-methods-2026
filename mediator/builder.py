@@ -211,6 +211,7 @@ class EventsBuilder:
         perms: Optional[int],
         proc: int,
         retval: int,
+        smack_label: Optional[str],
         skip_coverage: bool = False,
     ):
         self._model_trace.add(
@@ -232,6 +233,9 @@ class EventsBuilder:
             _fdNumber=retval if retval >= 0 else None,
             _group=self.translate_group(gid) if gid is not None else None,
             _perms=self.translate_mode(perms) if perms is not None else None,
+            _fileLabel=self.translate_string(smack_label)
+            if smack_label is not None
+            else None,
             expected=retval >= 0,
             skip_coverage=skip_coverage,
         )
@@ -276,6 +280,7 @@ class EventsBuilder:
         perms: Optional[int],
         proc: int,
         retval: int,
+        smack_label: Optional[str],
         skip_coverage: bool = False,
     ):
         self._model_trace.add(
@@ -299,6 +304,9 @@ class EventsBuilder:
             _fdNumber=retval if retval >= 0 else None,
             _group=self.translate_group(gid) if gid is not None else None,
             _perms=self.translate_mode(perms) if perms is not None else None,
+            _fileLabel=self.translate_string(smack_label)
+            if smack_label is not None
+            else None,
             expected=retval >= 0,
             skip_coverage=skip_coverage,
         )
@@ -316,6 +324,7 @@ class EventsBuilder:
         cwd: Inode,
         proc: int,
         retval: int,
+        smack_label: Optional[str],
         skip_coverage: bool = False,
     ):
         self._model_trace.add(
@@ -339,6 +348,9 @@ class EventsBuilder:
             _cwd=self.translate_inode(cwd),
             _group=self.translate_group(gid) if gid is not None else None,
             _perms=self.translate_mode(perms) if perms is not None else None,
+            _fileLabel=self.translate_string(smack_label)
+            if smack_label is not None
+            else None,
             expected=retval >= 0,
             skip_coverage=skip_coverage,
         )
@@ -387,6 +399,7 @@ class EventsBuilder:
         perms: Optional[int],
         proc: int,
         retval: int,
+        smack_label: Optional[str],
         skip_coverage: bool = False,
     ):
         self._model_trace.add(
@@ -398,6 +411,10 @@ class EventsBuilder:
             _mode=self.translate_mode(mode),
             _group=self.translate_group(gid) if gid is not None else None,
             _perms=self.translate_mode(perms) if perms is not None else None,
+            _fileLabel=self.translate_string(smack_label)
+            if smack_label is not None
+            else None,
+            _newTransmute=frozenset(),
             expected=retval >= 0,
             skip_coverage=skip_coverage,
         )
