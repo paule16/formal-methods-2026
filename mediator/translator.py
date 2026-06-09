@@ -560,7 +560,7 @@ class TraceTranslator:
         euid_new: int,
         retval: int,
     ):
-        self._model_trace.change_user(pid, euid_new, retval)
+        self._model_trace.change_user(pid, euid_new, retval, skip_coverage=False)
 
     def setxattr(
         self,

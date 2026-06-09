@@ -810,7 +810,7 @@ class EventsBuilder:
             if smack_label is not None
             else None,
             expected=True,
-            skip_coverage=True,
+            skip_coverage=False,
         )
 
     def change_user(

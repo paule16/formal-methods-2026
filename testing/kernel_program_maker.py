@@ -265,6 +265,50 @@ class KernelProgramMaker(ProgramMakerTextProducer):
 
         return fd
 
+    def open_openat_close(
+        self,
+        # open params
+        open_pathname: str, open_flags: int, open_mode: int,
+        # openat params
+        openat_pathname: str, openat_flags: int, openat_mode: int,
+    ):
+        assert '"' not in open_pathname
+        assert '"' not in openat_pathname
+
+        self.includes.add("#include <fcntl.h>")
+        self.includes.add("#include <unistd.h>")
+        self.includes.add("#include <sys/syscall.h>")
+        self.includes.add("#include <sys/stat.h>")
+        self.includes.add("#include <sys/types.h>")
+
+        open_fd = self.bound_value_as_int(prefix="open_fd")
+        openat_fd = self.bound_value_as_int(prefix="openat_fd")
+
+        open_flags_expr = openflags2expr(open_flags)
+        openat_flags_expr = openflags2expr(openat_flags)
+
+        open_syscall = f"syscall(SYS_open, pathname, {open_flags_expr.text}, 0{open_mode:0o})"
+        openat_syscall = f"syscall(SYS_openat, {open_fd.text}, pathname, {openat_flags_expr.text}, 0{openat_mode:0o})"
+        close_open_syscall = f"syscall(SYS_close, {open_fd.text})"
+        close_openat_syscall = f"syscall(SYS_close, {openat_fd.text})"
+
+        self.main_lines.append(
+            f"""
+            {{
+                {self._make_pathname(open_pathname)}
+                {open_fd.text} = {open_syscall};
+                if ({open_fd.text} >= 0) {{
+                    {self._make_pathname(openat_pathname)}
+                    {openat_fd.text} = {openat_syscall};
+                    if ({openat_fd.text} >= 0) {{
+                        {close_openat_syscall};
+                    }}
+                    {close_open_syscall};
+                }}
+            }}
+            """
+        )
+
     def creat(self, pathname: str, mode: int, fatal: bool = False):
         assert '"' not in pathname
 

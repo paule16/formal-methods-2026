@@ -39,7 +39,7 @@ def sub_parent_mode(request: FixtureRequest) -> tuple[int, str]:
     return 0o666, "bad_label"  # At least rw
 
 
-def test_open(
+def test_create(
     t: LinuxTestSpec,
     caller_user: str,
     effective_user: str,
@@ -71,7 +71,7 @@ def test_open(
         owner=obj_user,
         group=obj_user,
         mode=0o777,
-        smack_label="*",  # parent_mode[1]
+        smack_label=parent_mode[1],
     )
     with t.make_program_and_run(
         user=caller_user,
@@ -84,9 +84,11 @@ def test_open(
             prog.seteuid(0, fatal=True)
         else:
             prog.seteuid(1001, fatal=True)
-        # dirfd = prog.open("/sub_parent/parent", O_DIRECTORY, 0)
-        # prog.openat(dirfd, "file", O_CREAT, 0o777)
-        prog.open("/sub_parent/parent/creat_file0", flags=O_CREAT, mode=0o777)
-        prog.creat("/sub_parent/parent/creat_file1", mode=0o777)
+        prog.open_openat_close(
+            "/sub_parent", O_DIRECTORY, 0,
+            "parent/created_file0", O_CREAT, 0o777,
+        )
+        prog.open("/sub_parent/parent/created_file1", flags=O_CREAT, mode=0o777)
+        prog.creat("/sub_parent/parent/created_file2", mode=0o777)
         prog.link("/sub_parent/parent/file_to_link", "/sub_parent/parent/linked_file")
         prog.mkdir("/sub_parent/parent/folder", mode=0o777)

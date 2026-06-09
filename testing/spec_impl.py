@@ -114,6 +114,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         program_maker: TextProducer,
         path: str,
         make_file: bool = True,
+        file_label: Optional[str] = None,
         proc_label: str = "",
         setuid_flag: bool = False,
     ) -> MonitoredExeFile:
@@ -124,7 +125,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         program_text = program_maker.get_text()
         self._additional_files[basename(source_path)] = program_text
         if make_file:
-            self.make_file(path, "root", "root", 0o777)
+            self.make_file(path, "root", "root", 0o777, smack_label=file_label)
         self.add_setup(f"gcc -static -o {path} /progs/{basename(source_path)}")
         if setuid_flag:
             self.add_setup(f"chmod u+s {path}")
@@ -151,7 +152,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
     ):
         with self.make_program() as prog:
             yield prog
-        exeFile = self.compile(prog, "/tst_prog", make_file, proc_label, setuid_flag)
+        exeFile = self.compile(prog, "/tst_prog", make_file, None, proc_label, setuid_flag)
         self.run(
             exeFile,
             user,

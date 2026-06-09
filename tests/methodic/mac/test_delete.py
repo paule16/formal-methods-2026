@@ -24,7 +24,7 @@ def parent_mode(request: FixtureRequest, set_sticky_bit: bool) -> tuple[int, str
     if parent_write:
         mode |= 0o222
         label = "*"
-    if set_sticky_bit:
+    if set_sticky_bit:  # TODO: make it label diverce
         mode |= S_ISVTX
     return mode, label
 
