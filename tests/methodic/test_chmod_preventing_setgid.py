@@ -18,75 +18,54 @@ from pytest import fixture, FixtureRequest
 from typing import Literal
 from tests.spec import LinuxTestSpec
 
-
-@fixture(params=["file", "dir"])
+@fixture(params=['file', 'dir'])
 def object_kind(request: FixtureRequest):
     return request.param
 
-
-@fixture(params=[False, True], ids=["setgidN", "setgidY"])
+@fixture(params=[False, True], ids=['setgidN', 'setgidY'])
 def setgid(request: FixtureRequest):
     return request.param
 
-
-@fixture(params=["root", "user"], ids=["root", "nonroot"])
+@fixture(params=['root', 'user'], ids=['root', 'nonroot'])
 def caller_user(request: FixtureRequest):
     return request.param
 
-
-@fixture(params=[False, True], ids=["caller_notin_objgr", "caller_in_objgr"])
+@fixture(params=[False, True], ids=['caller_notin_objgr', 'caller_in_objgr'])
 def in_groups(request: FixtureRequest):
     return request.param
 
-
-def test_chmod(
-    t: LinuxTestSpec,
-    caller_user: str,
-    in_groups: bool,
-    setgid: bool,
-    object_kind: Literal["file", "dir"],
-):
+def test_chmod(t: LinuxTestSpec, caller_user: str, in_groups: bool, setgid: bool, object_kind: Literal['file', 'dir']):
 
     requested_mode = (0o123 | S_ISGID) if setgid else 0o123
-    object_user = "object_user"
+    object_user = 'object_user'
     t.make_user(object_user)
-    if caller_user != "root":
-        supplementary_groups = [object_user] if in_groups else []
+    if caller_user != 'root':
+        supplementary_groups = ([object_user] if in_groups else [])
         t.make_user(caller_user, supplementary_groups)
-    if object_kind == "file":
-        t.make_file(path="/obj", owner=object_user, group=object_user, mode=0o777)
-    elif object_kind == "dir":
-        t.make_dir(path="/obj", owner=object_user, group=object_user, mode=0o777)
+    if object_kind == 'file':
+        t.make_file(path='/obj', owner=object_user, group=object_user, mode=0o777)
+    elif object_kind == 'dir':
+        t.make_dir(path='/obj', owner=object_user, group=object_user, mode=0o777)
 
-    with t.make_program_and_run(
-        user=caller_user, group=caller_user, umask=0o022
-    ) as child:
-        child.chmod("/obj", requested_mode)
+    with t.make_program_and_run(user=caller_user, group=caller_user, umask=0o022) as child:
+        child.chmod('/obj', requested_mode)
 
 
-def test_fchmod(
-    t: LinuxTestSpec,
-    caller_user: str,
-    in_groups: bool,
-    setgid: bool,
-    object_kind: Literal["file", "dir"],
-):
+def test_fchmod(t: LinuxTestSpec, caller_user: str, in_groups: bool, setgid: bool, object_kind: Literal['file', 'dir']):
 
     requested_mode = (0o623 | S_ISGID) if setgid else 0o623
-    object_user = "object_user"
+    object_user = 'object_user'
     t.make_user(object_user)
-    if caller_user != "root":
-        supplementary_groups = [object_user] if in_groups else []
+    if caller_user != 'root':
+        supplementary_groups = ([object_user] if in_groups else [])
         t.make_user(caller_user, supplementary_groups)
-    if object_kind == "file":
-        t.make_file(path="/obj", owner=object_user, group=object_user, mode=0o777)
+    if object_kind == 'file':
+        t.make_file(path='/obj', owner=object_user, group=object_user, mode=0o777)
         flags = O_RDONLY
-    elif object_kind == "dir":
-        t.make_dir(path="/obj", owner=object_user, group=object_user, mode=0o777)
+    elif object_kind == 'dir':
+        t.make_dir(path='/obj', owner=object_user, group=object_user, mode=0o777)
         flags = O_RDONLY | O_DIRECTORY
-
-    with t.make_program_and_run(
-        user=caller_user, group=caller_user, umask=0o022
-    ) as child:
-        fd = child.open("/obj", flags, 0, fatal=True)
+    
+    with t.make_program_and_run(user=caller_user, group=caller_user, umask=0o022) as child:
+        fd = child.open('/obj', flags, 0, fatal=True)
         child.fchmod(fd, requested_mode)

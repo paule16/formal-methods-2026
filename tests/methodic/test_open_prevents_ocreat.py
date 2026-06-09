@@ -22,20 +22,18 @@ from pytest import FixtureRequest, fixture
 
 from tests.spec import LinuxTestSpec
 
-
 @fixture(params=[0, 1, 2], ids=["noprotect", "othprotect", "grpprotect"])
 def protect(request: FixtureRequest):
     return request.param
 
-
 def test_open(t: LinuxTestSpec, protect: int):
-    parent_owner = parent_group = "owner"
-    caller_user = "user"
+    parent_owner = parent_group = 'owner'
+    caller_user = 'user'
     if protect == 2:
         caller_group = parent_group
     else:
         caller_group = caller_user
-    attacker = "attacker"
+    attacker = 'attacker'
     t.make_user(caller_user)
     t.make_user(parent_owner)
     # move attacker to the group of parent_owner if needed
@@ -45,31 +43,23 @@ def test_open(t: LinuxTestSpec, protect: int):
         t.make_user(attacker)
     # disable umask
     # all setup commands are executed as one command! we use it here!
-    t.add_setup("umask 0")
+    t.add_setup('umask 0')
     parent_mode = [
-        0o777 | S_ISVTX,  # any
-        0o777 | S_ISVTX,  # world writable
-        0o770 | S_ISVTX,
-    ][protect]  # group writable
-    t.make_dir("/dir", parent_owner, parent_group, parent_mode)
-    t.make_file("/dir/file", owner=attacker, group=parent_group, mode=0o777)
+        0o777 | S_ISVTX, # any
+        0o777 | S_ISVTX, # world writable
+        0o770 | S_ISVTX][protect] # group writable
+    t.make_dir('/dir', parent_owner, parent_group, parent_mode)
+    t.make_file('/dir/file', owner=attacker, group=parent_group, mode=0o777)
 
-    with t.make_program_and_run(
-        caller_user,
-        caller_group,
-        umask=0,
-        before_run=(
-            # set protected
-            "cat /proc/sys/fs/protected_regular > /tmp/old_protect.anis && "
-            f"echo {protect} > /proc/sys/fs/protected_regular"
-        ),
-        after_run=(
-            "cat /tmp/old_protect.anis > /proc/sys/fs/protected_regular && "
-            "rm -f /tmp/old_protect.anis"
-        ),
-    ) as child:
-        child.open("/dir/file", O_CREAT, 0)
-
+    with t.make_program_and_run(caller_user, caller_group, umask=0,
+                                before_run=(
+                                # set protected
+                                'cat /proc/sys/fs/protected_regular > /tmp/old_protect.anis && '
+                                f'echo {protect} > /proc/sys/fs/protected_regular'),
+                                after_run=(
+                                    'cat /tmp/old_protect.anis > /proc/sys/fs/protected_regular && '
+                                    'rm -f /tmp/old_protect.anis')) as child:
+        child.open('/dir/file', O_CREAT, 0)
 
 # there is now "test_creat" function because it requires "creat_exists" event in the model
 # The current model has "creat_create" only

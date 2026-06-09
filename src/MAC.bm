@@ -134,7 +134,7 @@ events
     any
         fileLabel
     where
-        @grd31: ProcUser(proc) ≠ ROOT_USER ⇒
+        @grd32: ProcUser(proc) ≠ ROOT_USER ⇒
             (∀ f · f ∈ PathToRoot(parent) ∪ {parent} ⇒
                 ¬(ProcLabel(proc) = STAR) ∧
                 (
@@ -147,7 +147,7 @@ events
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории согласно правилам из
               // документации Smack
-        @grd32: ProcUser(proc) ≠ ROOT_USER ⇒
+        @grd33: ProcUser(proc) ≠ ROOT_USER ⇒
             (
                 ¬(ProcLabel(proc) = STAR) ∧
                 (
@@ -156,7 +156,7 @@ events
                     WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
-        @grd33: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
+        @grd34: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
                 fileLabel = FileLabel(parent)) ∨
                 fileLabel = ProcLabel(proc) // Если SMACK64TRANSMUTE аттрибут установлен для родительской директории
                                             // и правило содержит TRANSMUTE, то файл получает метку родительской
@@ -203,7 +203,7 @@ events
 
     event openat_exists extends openat_exists // in case of absolute pathname you need to call open_create or open_exists
     where
-        @grd27: ProcUser(proc) ≠ ROOT_USER ⇒
+        @grd28: ProcUser(proc) ≠ ROOT_USER ⇒
             (∀ f · f ∈ PathToRoot(parent) ∪ {parent} ⇒
                 ¬(ProcLabel(proc) = STAR) ∧
                 (
@@ -215,7 +215,7 @@ events
                 )
             ) // проверка прав доступа на выполнение к каждой директории на пути от
               // родительской к корневой директории
-        @grd28: ProcUser(proc) ≠ ROOT_USER ∧ (O_RDONLY ∈ flags ∨ O_RDWR ∈ flags) ∧ O_PATH ∉ flags ⇒
+        @grd29: ProcUser(proc) ≠ ROOT_USER ∧ (O_RDONLY ∈ flags ∨ O_RDWR ∈ flags) ∧ O_PATH ∉ flags ⇒
             (
                 ¬(ProcLabel(proc) = STAR) ∧
                 (
@@ -226,7 +226,7 @@ events
                     READ ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(file)}]
                 )
             ) // проверка прав доступа на чтение файла
-        @grd29: ProcUser(proc) ≠ ROOT_USER ∧ (O_WRONLY ∈ flags ∨ O_RDWR ∈ flags) ∧ O_PATH ∉ flags ⇒
+        @grd30: ProcUser(proc) ≠ ROOT_USER ∧ (O_WRONLY ∈ flags ∨ O_RDWR ∈ flags) ∧ O_PATH ∉ flags ⇒
             (
                 ¬(ProcLabel(proc) = STAR) ∧
                 (

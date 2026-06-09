@@ -44,7 +44,6 @@ variables
     EVMMode
 
 events
-
     event INITIALISATION extends INITIALISATION
     end
 
@@ -55,7 +54,7 @@ events
     end
 
     event creat extends open_create
-    where
+      where
         @grd31: flags = {O_CREAT, O_WRONLY, O_TRUNC}
     end
 

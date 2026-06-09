@@ -259,12 +259,12 @@ def test_O_NDELAY_type(m: Machine):
     assert (m.O_NDELAY == 21)
 
 # @OPEN_FLAGS_type: OPEN_FLAGS = {
-#     O_RDONLY, O_WRONLY, O_RDWR,
-#     O_CLOEXEC, O_CREAT, O_DIRECTORY, O_EXCL, O_NOCTTY,
-#     O_NOFOLLOW, O_TMPFILE, O_TRUNC,
-#     O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,
-#     O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC
-# }
+#             O_RDONLY, O_WRONLY, O_RDWR,
+#             O_CLOEXEC, O_CREAT, O_DIRECTORY, O_EXCL, O_NOCTTY,
+#             O_NOFOLLOW, O_TMPFILE, O_TRUNC,
+#             O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,
+#             O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC
+#         }
 @assert_depends(lambda m: (m.OPEN_FLAGS, m.O_RDONLY, m.O_WRONLY, m.O_RDWR, m.O_CLOEXEC, m.O_CREAT, m.O_DIRECTORY, m.O_EXCL, m.O_NOCTTY, m.O_NOFOLLOW, m.O_TMPFILE, m.O_TRUNC, m.O_APPEND, m.O_ASYNC, m.O_DIRECT, m.O_DSYNC, m.O_LARGEFILE, m.O_NOATIME, m.O_NOBLOCK, m.O_NDELAY, m.O_PATH, m.O_SYNC,))
 def test_OPEN_FLAGS_type(m: Machine):
     assert (m.OPEN_FLAGS == frozenset((
@@ -279,55 +279,25 @@ def test_OPEN_FLAGS_type(m: Machine):
 def test_XATTR_FLAGS_partition(m: Machine):
     assert (partition(m.XATTR_FLAGS, frozenset((m.XATTR_CREATE,)), frozenset((m.XATTR_REPLACE,))))
 
-# @axm1: MAX_FILES = 20
+# @axm1: MAX_FILES = 1048576
 @assert_depends(lambda m: (m.MAX_FILES,))
 def test_axm1(m: Machine):
-    assert (m.MAX_FILES == 20)
+    assert (m.MAX_FILES == 1048576)
 
-# @axm2: finite(STRINGS) ∧ card(STRINGS) = 20
-@assert_depends(lambda m: (m.STRINGS,))
-def test_axm2(m: Machine):
-    assert (finite(m.STRINGS) and len(m.STRINGS) == 20)
-
-# @axm3: finite(GROUPS) ∧ card(GROUPS) = 10
-@assert_depends(lambda m: (m.GROUPS,))
-def test_axm3(m: Machine):
-    assert (finite(m.GROUPS) and len(m.GROUPS) == 10)
-
-# @axm4: finite(PROCS) ∧ card(PROCS) = 10
-@assert_depends(lambda m: (m.PROCS,))
-def test_axm4(m: Machine):
-    assert (finite(m.PROCS) and len(m.PROCS) == 10)
-
-# @axm5: finite(USERS) ∧ card(USERS) = 10
-@assert_depends(lambda m: (m.USERS,))
-def test_axm5(m: Machine):
-    assert (finite(m.USERS) and len(m.USERS) == 10)
-
-# @axm6: finite(DATA) ∧ card(DATA) = 20
-@assert_depends(lambda m: (m.DATA,))
-def test_axm6(m: Machine):
-    assert (finite(m.DATA) and len(m.DATA) == 20)
-
-# @axm7: FILE_LIMIT = 20
+# @axm2: FILE_LIMIT = 1024
 @assert_depends(lambda m: (m.FILE_LIMIT,))
-def test_axm7(m: Machine):
-    assert (m.FILE_LIMIT == 20)
+def test_axm2(m: Machine):
+    assert (m.FILE_LIMIT == 1024)
 
-# @axm8: PROC_FILE_LIMIT = 20
+# @axm3: PROC_FILE_LIMIT = 1024
 @assert_depends(lambda m: (m.PROC_FILE_LIMIT,))
-def test_axm8(m: Machine):
-    assert (m.PROC_FILE_LIMIT == 20)
+def test_axm3(m: Machine):
+    assert (m.PROC_FILE_LIMIT == 1024)
 
-# @axm9: finite(FILE_DESCRIPTORS) ∧ card(FILE_DESCRIPTORS) = 20
+# @axm4: finite(FILE_DESCRIPTORS) ∧ card(FILE_DESCRIPTORS) ≤ 1024
 @assert_depends(lambda m: (m.FILE_DESCRIPTORS,))
-def test_axm9(m: Machine):
-    assert (finite(m.FILE_DESCRIPTORS) and len(m.FILE_DESCRIPTORS) == 20)
-
-# @axm10: finite(CAPABILITIES) ∧ card(CAPABILITIES) ≤ 10
-@assert_depends(lambda m: (m.CAPABILITIES,))
-def test_axm10(m: Machine):
-    assert (finite(m.CAPABILITIES) and len(m.CAPABILITIES) <= 10)
+def test_axm4(m: Machine):
+    assert (finite(m.FILE_DESCRIPTORS) and len(m.FILE_DESCRIPTORS) <= 1024)
 
 # @S_IRUSR_type: S_IRUSR = UREAD
 @assert_depends(lambda m: (m.S_IRUSR, m.UREAD,))
