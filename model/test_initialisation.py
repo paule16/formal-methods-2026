@@ -144,3 +144,7 @@ def test_act35(m: Machine):
 # @act36: FileExecLabel ≔ ∅
 def test_act36(m: Machine):
     assert ((m.FileExecLabel) == (frozenset[tuple[Machine.FilesItem, Machine.StringsItem]]()))
+
+# @act37: TransmuteFolders ≔ ∅
+def test_act37(m: Machine):
+    assert ((m.TransmuteFolders) == (frozenset[Machine.FilesItem]()))

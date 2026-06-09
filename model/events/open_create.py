@@ -5,7 +5,7 @@ from anis.model.expressions import relation_range, relation_domain, NAT, functio
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13', 'grd14', 'grd15', 'grd16', 'grd17', 'grd18', 'grd19', 'grd20', 'grd21', 'grd22', 'grd23'],
              'DAC_EXT': ['grd24', 'grd25'],
-             'MAC': ['grd26', 'grd27']
+             'MAC': ['grd26', 'grd27', 'grd28']
 }
 
 def open_create(m: Machine,
@@ -18,7 +18,8 @@ def open_create(m: Machine,
                 _fd: Machine.FileDescriptorsExtendedItem | None,
                 _fdNumber: int | None,
                 _group: Machine.GroupsItem | None,
-                _perms: frozenset[Machine.PermissionsItem] | None) -> Event:
+                _perms: frozenset[Machine.PermissionsItem] | None,
+                _fileLabel: Machine.StringsItem | None) -> Event:
 
     proc = Parameter(_proc)
     parent = Parameter(_parent)
@@ -30,6 +31,7 @@ def open_create(m: Machine,
     fdNumber = Parameter(_fdNumber)
     group = Parameter(_group)
     perms = Parameter(_perms)
+    fileLabel = Parameter(_fileLabel)
 
 
     _grd1 = Guard('grd1', lambda _: (_(1, 
@@ -183,6 +185,11 @@ def open_create(m: Machine,
     function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~parent))))) or (_(75, 
     m.WRITE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))))))
 
+    _grd28 = Guard('grd28', lambda _: ((((_(76, 
+    (~parent) in m.TransmuteFolders)) and (_(77, m.TRANSMUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))) and (_(78, 
+    (~fileLabel) == function_value(m.FileLabel, (~parent))))) or (_(79, 
+    (~fileLabel) == function_value(m.ProcLabel, (~proc))))))
+
 
     _act1 = Action('act1', m, 'Files', lambda: ((m.Files | frozenset(((~file),)))))
 
@@ -208,7 +215,7 @@ def open_create(m: Machine,
 
     _act12 = Action('act12', m, 'GroupObjACL', lambda: ((m.GroupObjACL | frozenset((((~file), ((~perms) & m.GROUP_PERMISSIONS)),)))))
 
-    _act13 = Action('act13', m, 'FileLabel', lambda: (override_relation(m.FileLabel, frozenset((((~file), function_value(m.ProcLabel, (~proc))),)))))
+    _act13 = Action('act13', m, 'FileLabel', lambda: (override_relation(m.FileLabel, frozenset((((~file), (~fileLabel)),)))))
 
 
-    return Event("open_create", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd26, _grd27, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13)
+    return Event("open_create", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd26, _grd27, _grd28, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13)

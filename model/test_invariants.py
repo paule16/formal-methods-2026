@@ -311,3 +311,8 @@ def test_inv3(m: Machine):
 @assert_depends(lambda m: (m.FileExecLabel, m.Files, m.STRINGS,))
 def test_inv4(m: Machine):
     assert (m.FileExecLabel in partial_functions(m.Files, m.STRINGS))
+
+# @inv5: TransmuteFolders ⊆ Folders
+@assert_depends(lambda m: (m.TransmuteFolders, m.Folders,))
+def test_inv5(m: Machine):
+    assert (m.TransmuteFolders <= m.Folders)

@@ -5,7 +5,7 @@ from anis.model.expressions import relation_range, relation_domain, function_val
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13'],
              'DAC_EXT': [],
-             'MAC': ['grd14', 'grd15']
+             'MAC': ['grd14', 'grd15', 'grd16', 'grd17']
 }
 
 def mkdir(m: Machine,
@@ -15,7 +15,9 @@ def mkdir(m: Machine,
           _name: Machine.StringsItem | None,
           _mode: frozenset[Machine.PermissionsItem] | None,
           _group: Machine.GroupsItem | None,
-          _perms: frozenset[Machine.PermissionsItem] | None) -> Event:
+          _perms: frozenset[Machine.PermissionsItem] | None,
+          _fileLabel: Machine.StringsItem | None,
+          _newTransmute: frozenset[Machine.FilesItem] | None) -> Event:
 
     proc = Parameter(_proc)
     parent = Parameter(_parent)
@@ -24,6 +26,8 @@ def mkdir(m: Machine,
     mode = Parameter(_mode)
     group = Parameter(_group)
     perms = Parameter(_perms)
+    fileLabel = Parameter(_fileLabel)
+    newTransmute = Parameter(_newTransmute)
 
 
     _grd1 = Guard('grd1', lambda _: (_(1, 
@@ -139,6 +143,14 @@ def mkdir(m: Machine,
     function_value(m.ProcLabel, (~proc)) == function_value(m.FileLabel, (~parent))))) or (_(52, 
     m.WRITE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))))))
 
+    _grd16 = Guard('grd16', lambda _: (_(53, 
+    (~newTransmute) <= m.FILES)))
+
+    _grd17 = Guard('grd17', lambda _: (((((_(54, 
+    (~parent) in m.TransmuteFolders)) and (_(55, m.TRANSMUTE in relation_image(m.SmackRules, frozenset(((function_value(m.ProcLabel, (~proc)), function_value(m.FileLabel, (~parent))),)))))) and (_(56, 
+    (~fileLabel) == function_value(m.FileLabel, (~parent))))) and (_(57, (~newTransmute) == frozenset(((~folder),))))) or ((_(58, 
+    (~fileLabel) == function_value(m.ProcLabel, (~proc)))) and (_(59, len((~newTransmute)) == 0)))))
+
 
     _act1 = Action('act1', m, 'Files', lambda: ((m.Files | frozenset(((~folder),)))))
 
@@ -158,7 +170,9 @@ def mkdir(m: Machine,
 
     _act9 = Action('act9', m, 'GroupObjACL', lambda: ((m.GroupObjACL | frozenset((((~folder), ((~perms) & m.GROUP_PERMISSIONS)),)))))
 
-    _act10 = Action('act10', m, 'FileLabel', lambda: (override_relation(m.FileLabel, frozenset((((~folder), function_value(m.ProcLabel, (~proc))),)))))
+    _act10 = Action('act10', m, 'FileLabel', lambda: (override_relation(m.FileLabel, frozenset((((~folder), (~fileLabel)),)))))
+
+    _act11 = Action('act11', m, 'TransmuteFolders', lambda: ((m.TransmuteFolders | (~newTransmute))))
 
 
-    return Event("mkdir", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10)
+    return Event("mkdir", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11)

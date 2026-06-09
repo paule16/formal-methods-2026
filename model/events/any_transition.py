@@ -5,7 +5,7 @@ from anis.model.expressions import total_relations, cartesian_product, total_fun
 
 machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7', 'grd8', 'grd9', 'grd10', 'grd11', 'grd12', 'grd13', 'grd14', 'grd15', 'grd16', 'grd17', 'grd18', 'grd19', 'grd20', 'grd21', 'grd22', 'grd23', 'grd24', 'grd25', 'grd26', 'grd27', 'grd28', 'grd29', 'grd30', 'grd31', 'grd32', 'grd33', 'grd34', 'grd35', 'grd36', 'grd37', 'grd38', 'grd39', 'grd40', 'grd41', 'grd42', 'grd43', 'grd44', 'grd45', 'grd46', 'grd47', 'grd48', 'grd49', 'grd50', 'grd51', 'grd52'],
              'DAC_EXT': [],
-             'MAC': ['grd53', 'grd54', 'grd55', 'grd56']
+             'MAC': ['grd53', 'grd54', 'grd55', 'grd56', 'grd57']
 }
 
 def any_transition(m: Machine,
@@ -44,7 +44,8 @@ def any_transition(m: Machine,
                    _fProcLabel: frozenset[tuple[Machine.ProcsItem, Machine.StringsItem]] | None,
                    _fFileLabel: frozenset[tuple[Machine.FilesItem, Machine.StringsItem]] | None,
                    _fFileExecLabel: frozenset[tuple[Machine.FilesItem, Machine.StringsItem]] | None,
-                   _fSmackRules: frozenset[tuple[tuple[Machine.StringsItem, Machine.StringsItem], Machine.AccessesItem]] | None) -> Event:
+                   _fSmackRules: frozenset[tuple[tuple[Machine.StringsItem, Machine.StringsItem], Machine.AccessesItem]] | None,
+                   _fTransmuteFolders: frozenset[Machine.FilesItem] | None) -> Event:
 
     fUsers = Parameter(_fUsers)
     fGroups = Parameter(_fGroups)
@@ -82,6 +83,7 @@ def any_transition(m: Machine,
     fFileLabel = Parameter(_fFileLabel)
     fFileExecLabel = Parameter(_fFileExecLabel)
     fSmackRules = Parameter(_fSmackRules)
+    fTransmuteFolders = Parameter(_fTransmuteFolders)
 
 
     _grd1 = Guard('grd1', lambda _: (_(1, 
@@ -279,6 +281,9 @@ def any_transition(m: Machine,
     _grd56 = Guard('grd56', lambda _: (_(56, 
     (~fFileExecLabel) in partial_functions((~fFiles), m.STRINGS))))
 
+    _grd57 = Guard('grd57', lambda _: (_(57, 
+    (~fTransmuteFolders) <= (~fFolders))))
+
 
     _act1 = Action('act1', m, 'Users', lambda: ((~fUsers)))
 
@@ -352,5 +357,7 @@ def any_transition(m: Machine,
 
     _act36 = Action('act36', m, 'FileExecLabel', lambda: ((~fFileExecLabel)))
 
+    _act37 = Action('act37', m, 'TransmuteFolders', lambda: ((~fTransmuteFolders)))
 
-    return Event("any_transition", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd26, _grd27, _grd28, _grd29, _grd30, _grd31, _grd32, _grd33, _grd34, _grd35, _grd36, _grd37, _grd38, _grd39, _grd40, _grd41, _grd42, _grd43, _grd44, _grd45, _grd46, _grd47, _grd48, _grd49, _grd50, _grd51, _grd52, _grd53, _grd54, _grd55, _grd56, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13, _act14, _act15, _act16, _act17, _act18, _act19, _act20, _act21, _act22, _act23, _act24, _act25, _act26, _act27, _act28, _act29, _act30, _act31, _act32, _act33, _act34, _act35, _act36)
+
+    return Event("any_transition", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _grd11, _grd12, _grd13, _grd14, _grd15, _grd16, _grd17, _grd18, _grd19, _grd20, _grd21, _grd22, _grd23, _grd24, _grd25, _grd26, _grd27, _grd28, _grd29, _grd30, _grd31, _grd32, _grd33, _grd34, _grd35, _grd36, _grd37, _grd38, _grd39, _grd40, _grd41, _grd42, _grd43, _grd44, _grd45, _grd46, _grd47, _grd48, _grd49, _grd50, _grd51, _grd52, _grd53, _grd54, _grd55, _grd56, _grd57, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13, _act14, _act15, _act16, _act17, _act18, _act19, _act20, _act21, _act22, _act23, _act24, _act25, _act26, _act27, _act28, _act29, _act30, _act31, _act32, _act33, _act34, _act35, _act36, _act37)

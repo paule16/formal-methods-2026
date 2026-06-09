@@ -176,6 +176,8 @@ class Machine:
     SmackRules: Set[tuple[tuple[StringsItem, StringsItem], AccessesItem]]
     # @act36: FileExecLabel ≔ ∅
     FileExecLabel: Set[tuple[FilesItem, StringsItem]]
+    # @act37: TransmuteFolders ≔ ∅
+    TransmuteFolders: Set[FilesItem]
 
     def __init__(self):
         self.FILES = carrier_set('FILES', self, Machine.FilesItem)
@@ -239,3 +241,4 @@ class Machine:
         self.FileLabel = frozenset()
         self.SmackRules = frozenset()
         self.FileExecLabel = frozenset()
+        self.TransmuteFolders = frozenset()

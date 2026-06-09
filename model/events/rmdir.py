@@ -145,5 +145,7 @@ def rmdir(m: Machine,
 
     _act14 = Action('act14', m, 'FileExecLabel', lambda: (subtract_domain(m.FileExecLabel, frozenset(((~folder),)))))
 
+    _act15 = Action('act15', m, 'TransmuteFolders', lambda: ((m.TransmuteFolders - frozenset(((~folder),)))))
 
-    return Event("rmdir", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13, _act14)
+
+    return Event("rmdir", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _grd9, _grd10, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10, _act11, _act12, _act13, _act14, _act15)

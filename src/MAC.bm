@@ -39,12 +39,14 @@ variables
     FileLabel // Smack метка файла (объекта)
     FileExecLabel // Smack метка, присваиваемая процессу, после выполнения exec данного файла
     SmackRules // Smack правила доступа субъектов к объектам
+    TransmuteFolders
 
 invariants
     @inv1: ProcLabel ∈ Procs → STRINGS
     @inv2: FileLabel ∈ Files → STRINGS
     @inv3: SmackRules ⊆ STRINGS × STRINGS × ACCESSES
     @inv4: FileExecLabel ∈ Files ⇸ STRINGS
+    @inv5: TransmuteFolders ⊆ Folders
 
 events
 
@@ -54,9 +56,12 @@ events
         @act34: FileLabel ≔ {ROOT ↦ ROOT_LABEL, INIT_EXE ↦ INIT_EXE_LABEL}
         @act35: SmackRules ≔ ∅
         @act36: FileExecLabel ≔ ∅
+        @act37: TransmuteFolders ≔ ∅
     end
 
     event open_create extends open_create
+    any
+        fileLabel // -
     where
         @grd26: ProcUser(proc) ≠ ROOT_USER ⇒
             (∀ f · f ∈ PathToRoot(parent) ∪ {parent} ⇒
@@ -80,8 +85,13 @@ events
                     WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
+        @grd28: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
+                fileLabel = FileLabel(parent)) ∨
+                fileLabel = ProcLabel(proc) // Если SMACK64TRANSMUTE аттрибут установлен для родительской директории
+                                            // и правило содержит TRANSMUTE, то файл получает метку родительской
+                                            // директории, иначе -- процесса.
     then
-        @act13: FileLabel(file) ≔ ProcLabel(proc)
+        @act13: FileLabel(file) ≔ fileLabel
     end
 
     event open_exists extends open_exists
@@ -121,6 +131,8 @@ events
     end
 
     event openat_create extends openat_create
+    any
+        fileLabel
     where
         @grd31: ProcUser(proc) ≠ ROOT_USER ⇒
             (∀ f · f ∈ PathToRoot(parent) ∪ {parent} ⇒
@@ -144,8 +156,13 @@ events
                     WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
+        @grd33: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
+                fileLabel = FileLabel(parent)) ∨
+                fileLabel = ProcLabel(proc) // Если SMACK64TRANSMUTE аттрибут установлен для родительской директории
+                                            // и правило содержит TRANSMUTE, то файл получает метку родительской
+                                            // директории, иначе -- процесса.
     then
-        @act13: FileLabel(file) ≔ ProcLabel(proc)
+        @act13: FileLabel(file) ≔ fileLabel
     end
 
     event creat extends creat
@@ -214,6 +231,9 @@ events
     end
 
     event mkdir extends mkdir // TODO: add support for mkdirat?
+    any
+        fileLabel
+        newTransmute
     where
         @grd14: ProcUser(proc) ≠ ROOT_USER ⇒
             (∀ f · f ∈ PathToRoot(parent) ∪ {parent} ⇒
@@ -237,8 +257,18 @@ events
                     WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
+        @grd16: newTransmute ⊆ FILES
+        @grd17: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
+                fileLabel = FileLabel(parent) ∧ newTransmute = {folder}) ∨
+                (fileLabel = ProcLabel(proc) ∧ newTransmute = ∅) // Если SMACK64TRANSMUTE аттрибут
+                                                                 // установлен для родительской директории
+                                                                 // и правило содержит TRANSMUTE, то новая
+                                                                 // директория получает аттрибут
+                                                                 // SMACK64TRANSMUTE и метку родительской
+                                                                 // директории, иначе -- процесса.
     then
-        @act10: FileLabel(folder) ≔ ProcLabel(proc)
+        @act10: FileLabel(folder) ≔ fileLabel
+        @act11: TransmuteFolders ≔ TransmuteFolders ∪ newTransmute
     end
 
     event chmod extends chmod // TODO: уточнить условия
@@ -567,6 +597,7 @@ events
     then
         @act13: FileLabel ≔ {folder} ⩤ FileLabel
         @act14: FileExecLabel ≔ {folder} ⩤ FileExecLabel
+        @act15: TransmuteFolders ≔ TransmuteFolders ∖ {folder}
     end
 
     event fork extends fork
@@ -611,6 +642,15 @@ events
         @act1: FileExecLabel(file) ≔ label
     end
 
+    event set_directory_transmute
+    any
+        dir
+    where
+        @grd1: dir ∈ Folders
+    then
+        @act1: TransmuteFolders ≔ TransmuteFolders ∪ {dir}
+    end
+
     event load_rules
     any
         rules
@@ -626,16 +666,19 @@ events
         fFileLabel
         fFileExecLabel
         fSmackRules
+        fTransmuteFolders
     where
         @grd53: fProcLabel ∈ fProcs → STRINGS
         @grd54: fFileLabel ∈ fFiles → STRINGS
         @grd55: fSmackRules ⊆ STRINGS × STRINGS × ACCESSES
         @grd56: fFileExecLabel ∈ fFiles ⇸ STRINGS
+        @grd57: fTransmuteFolders ⊆ fFolders
     then
         @act33: ProcLabel ≔ fProcLabel
         @act34: FileLabel ≔ fFileLabel
         @act35: SmackRules ≔ fSmackRules
         @act36: FileExecLabel ≔ fFileExecLabel
+        @act37: TransmuteFolders ≔ fTransmuteFolders
     end
 
     event change_capabilities extends change_capabilities
