@@ -166,6 +166,8 @@ events
     end
 
     event creat extends creat
+    any
+        fileLabel
     where
         @grd26: ProcUser(proc) ≠ ROOT_USER ⇒
             (∀ f · f ∈ PathToRoot(parent) ∪ {parent} ⇒
@@ -189,8 +191,13 @@ events
                     WRITE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}]
                 )
             ) // для самой родительской директории осталось только проверить права на запись
+        @grd28: (parent ∈ TransmuteFolders ∧ TRANSMUTE ∈ SmackRules[{ProcLabel(proc) ↦ FileLabel(parent)}] ∧
+                fileLabel = FileLabel(parent)) ∨
+                fileLabel = ProcLabel(proc) // Если SMACK64TRANSMUTE аттрибут установлен для родительской директории
+                                            // и правило содержит TRANSMUTE, то файл получает метку родительской
+                                            // директории, иначе -- процесса.
     then
-        @act13: FileLabel(file) ≔ ProcLabel(proc)
+        @act13: FileLabel(file) ≔ fileLabel
     end
 
 
@@ -658,6 +665,9 @@ events
         @grd1: rules ⊆ STRINGS × STRINGS × ACCESSES
     then
         @act1: SmackRules ≔ SmackRules ∪ rules
+    end
+
+    event set_acl extends set_acl
     end
 
     event any_transition extends any_transition

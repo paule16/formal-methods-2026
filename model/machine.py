@@ -14,8 +14,6 @@ class Machine:
     class CapabilitiesItem(CarrierSetItem): pass
     class AccessesItem(CarrierSetItem): pass
     class XattrFlagsItem(CarrierSetItem): pass
-    class IntegrityModesItem(CarrierSetItem): pass
-    class HashesItem(CarrierSetItem): pass
 
     INIT: ProcsItem
     INIT_EXE: FilesItem
@@ -86,11 +84,6 @@ class Machine:
     O_NDELAY: int
     XATTR_CREATE: XattrFlagsItem
     XATTR_REPLACE: XattrFlagsItem
-    ENFORCE: IntegrityModesItem
-    FIX: IntegrityModesItem
-    OFF: IntegrityModesItem
-    IMA_STRING: StringsItem
-    EVM_STRING: StringsItem
     S_IRUSR: PermissionsItem
     S_IWUSR: PermissionsItem
     S_IXUSR: PermissionsItem
@@ -191,8 +184,6 @@ class Machine:
         self.CAPABILITIES = carrier_set('CAPABILITIES', self, Machine.CapabilitiesItem)
         self.ACCESSES = carrier_set('ACCESSES', self, Machine.AccessesItem)
         self.XATTR_FLAGS = carrier_set('XATTR_FLAGS', self, Machine.XattrFlagsItem)
-        self.INTEGRITY_MODES = carrier_set('INTEGRITY_MODES', self, Machine.IntegrityModesItem)
-        self.HASHES = carrier_set('HASHES', self, Machine.HashesItem)
 
         self.USER_PERMISSIONS = frozenset()  # pyright: ignore[reportConstantRedefinition]}
         self.GROUP_PERMISSIONS = frozenset()  # pyright: ignore[reportConstantRedefinition]}

@@ -279,21 +279,6 @@ def test_OPEN_FLAGS_type(m: Machine):
 def test_XATTR_FLAGS_partition(m: Machine):
     assert (partition(m.XATTR_FLAGS, frozenset((m.XATTR_CREATE,)), frozenset((m.XATTR_REPLACE,))))
 
-# @INTEGRITY_MODES_partition: partition(INTEGRITY_MODES, {ENFORCE}, {FIX}, {OFF})
-@assert_depends(lambda m: (m.INTEGRITY_MODES, m.ENFORCE, m.FIX, m.OFF,))
-def test_INTEGRITY_MODES_partition(m: Machine):
-    assert (partition(m.INTEGRITY_MODES, frozenset((m.ENFORCE,)), frozenset((m.FIX,)), frozenset((m.OFF,))))
-
-# @IMA_STRING_type: IMA_STRING ∈ STRINGS
-@assert_depends(lambda m: (m.IMA_STRING, m.STRINGS,))
-def test_IMA_STRING_type(m: Machine):
-    assert (m.IMA_STRING in m.STRINGS)
-
-# @EVM_STRING_type: EVM_STRING ∈ STRINGS
-@assert_depends(lambda m: (m.EVM_STRING, m.STRINGS,))
-def test_EVM_STRING_type(m: Machine):
-    assert (m.EVM_STRING in m.STRINGS)
-
 # @axm1: MAX_FILES = 20
 @assert_depends(lambda m: (m.MAX_FILES,))
 def test_axm1(m: Machine):
