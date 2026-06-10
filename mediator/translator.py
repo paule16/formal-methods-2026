@@ -595,6 +595,14 @@ class TraceTranslator:
 
         self._model_trace.set_file_exec_label(file, smack_label, retval)
 
+    def set_directory_transmute(
+        self, pathname: str, pid: int, retval: int
+    ):
+        abspath = self.mediator_state.normalize(pathname, pid)
+        dir = self.mediator_state.get_ino(abspath)
+        
+        self._model_trace.set_directory_transmute(dir, retval)
+
     def link(self, oldname: str, newname: str, pid: int, retval: int):
 
         # append model trace

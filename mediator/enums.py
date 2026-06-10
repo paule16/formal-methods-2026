@@ -57,4 +57,5 @@ def AccessModes(m: Machine):
         "r": m.READ,
         "w": m.WRITE,
         "x": m.EXECUTE,
+        "t": m.TRANSMUTE,
     }

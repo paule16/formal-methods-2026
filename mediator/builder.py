@@ -4,6 +4,7 @@ import os
 from os.path import basename
 from stat import S_IMODE
 from typing import Optional, Sequence
+from model.events.set_directory_transmute import set_directory_transmute
 from model.events.change_user import change_user
 from model.events.load_rules import load_rules
 from model.events.set_file_exec_label import set_file_exec_label
@@ -608,6 +609,16 @@ class EventsBuilder:
             _label=self.translate_string(smack_label)
             if smack_label is not None
             else None,
+            expected=retval >= 0,
+            skip_coverage=skip_coverage,
+        )
+
+    def set_directory_transmute(
+        self, dir: Inode, retval: int, skip_coverage: bool = False
+    ):
+        self._model_trace.add(
+            set_directory_transmute,
+            _dir=self.translate_inode(dir),
             expected=retval >= 0,
             skip_coverage=skip_coverage,
         )

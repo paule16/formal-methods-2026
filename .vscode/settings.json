@@ -10,5 +10,7 @@
     "python.testing.pytestEnabled": true,
     "anis.coverage.kind": "line",
     "anis.coverage.scope.machines": "MAC_EXT,MAC",
-    "anis.coverage.enabled": true
+    "anis.coverage.enabled": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "standard"
 }

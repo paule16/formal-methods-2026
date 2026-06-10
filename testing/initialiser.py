@@ -53,6 +53,11 @@ class Snapshot:
     file_exec_smack_labels: list[tuple[str, str]] = field(
         default_factory=list[tuple[str, str]]
     )
+
+    dirs_transmute: list[tuple[str, str]] = field(
+        default_factory=list[tuple[str, str]]
+    )
+
     smack_rules: list[tuple[str, str, str]] = field(
         default_factory=list[tuple[str, str, str]]
     )
@@ -253,9 +258,11 @@ class SnapshotBuilder:
             for xattr_key, xattr_value in attrs.xattrs.items():
                 if xattr_key.startswith("security.SMACK64EXEC"):
                     snapshot.file_exec_smack_labels.append((attrs.path, xattr_value))
+                elif xattr_key.startswith("security.SMACK64TRANSMUTE"):
+                    snapshot.dirs_transmute.append((attrs.path, xattr_value))
                 elif xattr_key.startswith("security.SMACK64"):
                     snapshot.file_smack_labels.append((attrs.path, xattr_value))
-
+                
         line = self._xreadline(trace)
         while True:
             if line == "<>":
@@ -264,8 +271,11 @@ class SnapshotBuilder:
             for xattr_key, xattr_value in attrs.xattrs.items():
                 if xattr_key.startswith("security.SMACK64EXEC"):
                     snapshot.file_exec_smack_labels.append((attrs.path, xattr_value))
+                elif xattr_key.startswith("security.SMACK64TRANSMUTE"):
+                    snapshot.dirs_transmute.append((attrs.path, xattr_value))
                 elif xattr_key.startswith("security.SMACK64"):
                     snapshot.file_smack_labels.append((attrs.path, xattr_value))
+                
 
         snapshot.smack_rules = self._init_smack_rules
 

@@ -78,6 +78,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         group: str,
         mode: int,
         smack_label: Optional[str] = None,
+        transmute: bool = False
     ) -> None:
         if not isabs(path):
             raise ValueError("Relative paths are not supported")
@@ -87,6 +88,8 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         self.add_setup(f"chmod {mode:0o} {path}")
         if smack_label is not None:
             self.add_setup(f'setfattr -n security.SMACK64 -v "{smack_label}" {path}')
+        if transmute:
+            self.add_setup(f'setfattr -n security.SMACK64TRANSMUTE -v "TRUE" {path}')
 
     def make_link(
         self,
@@ -467,6 +470,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
 
         for path, file_exec_smack_label in snapshot.file_exec_smack_labels:
             tt.set_file_exec_label(path, 0, file_exec_smack_label, 0)
+
+        for path, dir_transmute in snapshot.dirs_transmute:
+            tt.set_directory_transmute(path, 0, 0)
 
         for label1, label2, modes in snapshot.smack_rules:
             tt.add_smack_rule(label1, label2, modes)
