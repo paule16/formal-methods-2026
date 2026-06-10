@@ -3,17 +3,38 @@ from collections.abc import Set
 
 
 class Machine:
-    class FilesItem(CarrierSetItem): pass
-    class ProcsItem(CarrierSetItem): pass
-    class UsersItem(CarrierSetItem): pass
-    class GroupsItem(CarrierSetItem): pass
-    class FileDescriptorsExtendedItem(CarrierSetItem): pass
-    class PermissionsItem(CarrierSetItem): pass
-    class StringsItem(CarrierSetItem): pass
-    class DataItem(CarrierSetItem): pass
-    class CapabilitiesItem(CarrierSetItem): pass
-    class AccessesItem(CarrierSetItem): pass
-    class XattrFlagsItem(CarrierSetItem): pass
+    class FilesItem(CarrierSetItem):
+        pass
+
+    class ProcsItem(CarrierSetItem):
+        pass
+
+    class UsersItem(CarrierSetItem):
+        pass
+
+    class GroupsItem(CarrierSetItem):
+        pass
+
+    class FileDescriptorsExtendedItem(CarrierSetItem):
+        pass
+
+    class PermissionsItem(CarrierSetItem):
+        pass
+
+    class StringsItem(CarrierSetItem):
+        pass
+
+    class DataItem(CarrierSetItem):
+        pass
+
+    class CapabilitiesItem(CarrierSetItem):
+        pass
+
+    class AccessesItem(CarrierSetItem):
+        pass
+
+    class XattrFlagsItem(CarrierSetItem):
+        pass
 
     INIT: ProcsItem
     INIT_EXE: FilesItem
@@ -173,17 +194,19 @@ class Machine:
     TransmuteFolders: Set[FilesItem]
 
     def __init__(self):
-        self.FILES = carrier_set('FILES', self, Machine.FilesItem)
-        self.PROCS = carrier_set('PROCS', self, Machine.ProcsItem)
-        self.USERS = carrier_set('USERS', self, Machine.UsersItem)
-        self.GROUPS = carrier_set('GROUPS', self, Machine.GroupsItem)
-        self.FILE_DESCRIPTORS_EXTENDED = carrier_set('FILE_DESCRIPTORS_EXTENDED', self, Machine.FileDescriptorsExtendedItem)
-        self.PERMISSIONS = carrier_set('PERMISSIONS', self, Machine.PermissionsItem)
-        self.STRINGS = carrier_set('STRINGS', self, Machine.StringsItem)
-        self.DATA = carrier_set('DATA', self, Machine.DataItem)
-        self.CAPABILITIES = carrier_set('CAPABILITIES', self, Machine.CapabilitiesItem)
-        self.ACCESSES = carrier_set('ACCESSES', self, Machine.AccessesItem)
-        self.XATTR_FLAGS = carrier_set('XATTR_FLAGS', self, Machine.XattrFlagsItem)
+        self.FILES = carrier_set("FILES", self, Machine.FilesItem)
+        self.PROCS = carrier_set("PROCS", self, Machine.ProcsItem)
+        self.USERS = carrier_set("USERS", self, Machine.UsersItem)
+        self.GROUPS = carrier_set("GROUPS", self, Machine.GroupsItem)
+        self.FILE_DESCRIPTORS_EXTENDED = carrier_set(
+            "FILE_DESCRIPTORS_EXTENDED", self, Machine.FileDescriptorsExtendedItem
+        )
+        self.PERMISSIONS = carrier_set("PERMISSIONS", self, Machine.PermissionsItem)
+        self.STRINGS = carrier_set("STRINGS", self, Machine.StringsItem)
+        self.DATA = carrier_set("DATA", self, Machine.DataItem)
+        self.CAPABILITIES = carrier_set("CAPABILITIES", self, Machine.CapabilitiesItem)
+        self.ACCESSES = carrier_set("ACCESSES", self, Machine.AccessesItem)
+        self.XATTR_FLAGS = carrier_set("XATTR_FLAGS", self, Machine.XattrFlagsItem)
 
         self.USER_PERMISSIONS = frozenset()  # pyright: ignore[reportConstantRedefinition]}
         self.GROUP_PERMISSIONS = frozenset()  # pyright: ignore[reportConstantRedefinition]}

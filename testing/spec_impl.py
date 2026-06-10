@@ -152,7 +152,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
     ):
         with self.make_program() as prog:
             yield prog
-        exeFile = self.compile(prog, "/tst_prog", make_file, None, proc_label, setuid_flag)
+        exeFile = self.compile(
+            prog, "/tst_prog", make_file, None, proc_label, setuid_flag
+        )
         self.run(
             exeFile,
             user,

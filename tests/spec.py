@@ -30,9 +30,13 @@ class ProgramMaker(Protocol):
     def open_openat_close(
         self,
         # open params
-        open_pathname: str, open_flags: int, open_mode: int,
+        open_pathname: str,
+        open_flags: int,
+        open_mode: int,
         # openat params
-        openat_pathname: str, openat_flags: int, openat_mode: int,
+        openat_pathname: str,
+        openat_flags: int,
+        openat_mode: int,
     ) -> Any: ...
 
     def creat(self, pathname: str, mode: int, fatal: bool = False) -> Any: ...
@@ -85,7 +89,6 @@ class TextProducer(Protocol):
 
 
 class ProgramMakerTextProducer(ProgramMaker, TextProducer):
-
     pass
 
 

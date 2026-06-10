@@ -85,8 +85,12 @@ def test_create(
         else:
             prog.seteuid(1001, fatal=True)
         prog.open_openat_close(
-            "/sub_parent", O_DIRECTORY, 0,
-            "parent/created_file0", O_CREAT, 0o777,
+            "/sub_parent",
+            O_DIRECTORY,
+            0,
+            "parent/created_file0",
+            O_CREAT,
+            0o777,
         )
         prog.open("/sub_parent/parent/created_file1", flags=O_CREAT, mode=0o777)
         prog.creat("/sub_parent/parent/created_file2", mode=0o777)

@@ -47,7 +47,9 @@ def test_ch_syscalls(
         proc_label="_",
         runner=f"export NEW_OBJ_USER=$(id -u {new_obj_user}); <>",
     ) as prog:
-        new_obj_user_id = prog.bound_value_as_uid_t(prog.to_int(prog.xgetenv("NEW_OBJ_USER")))
+        new_obj_user_id = prog.bound_value_as_uid_t(
+            prog.to_int(prog.xgetenv("NEW_OBJ_USER"))
+        )
         # All of them should fail
         prog.chmod("/parent/file", 0o000)
         prog.chown("/parent/file", new_obj_user_id, 1001)
@@ -108,12 +110,9 @@ def test_getxattr(
         0o777,
         smack_label="*" if file_read else "bad_label",
     )
-    t.add_setup("setfattr -n user.test -v \"test\" /parent/file")
+    t.add_setup('setfattr -n user.test -v "test" /parent/file')
     with t.make_program_and_run(
-        user=obj_user,
-        group=obj_user,
-        umask=0o000,
-        proc_label="proc_label"
+        user=obj_user, group=obj_user, umask=0o000, proc_label="proc_label"
     ) as prog:
         buf = prog.bound_value_as_chararray(1024)
         prog.getxattr("/parent/file", "user.test", buf, 16)

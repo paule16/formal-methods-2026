@@ -1,9 +1,9 @@
-
 from tests.spec import LinuxTestSpec
 import os
 
+
 def test_open_create(t: LinuxTestSpec):
-    with t.make_program_and_run('root', 'root', umask=0o022) as child:
+    with t.make_program_and_run("root", "root", umask=0o022) as child:
         child.open("/file0", os.O_RDWR | os.O_TMPFILE, 0o777)
         child.open("/file1", os.O_PATH | os.O_RDONLY | os.O_CREAT, 0o777)
         child.open("/file2", os.O_RDONLY | os.O_CREAT, 0o777)
@@ -14,6 +14,7 @@ def test_open_create(t: LinuxTestSpec):
         child.open("/file7", os.O_CREAT | os.O_WRONLY, 0o777)
         child.open("/file8", os.O_RDONLY, 0o777)
         child.open("/file9", os.O_TMPFILE | os.O_WRONLY, 0o777)
+
 
 def test_open_exists(t: LinuxTestSpec):
     t.make_file("/file0", "root", "root", 0o777)
@@ -30,7 +31,7 @@ def test_open_exists(t: LinuxTestSpec):
     t.make_dir("/dir11", "root", "root", 0o777)
     t.make_file("/file12", "root", "root", 0o777)
     t.make_dir("/dir13", "root", "root", 0o777)
-    with t.make_program_and_run('root', 'root', umask=0o022) as child:
+    with t.make_program_and_run("root", "root", umask=0o022) as child:
         child.open("/file0", os.O_PATH | os.O_RDONLY, 0)
         child.open("/file1", os.O_RDONLY | os.O_CREAT, 0)
         child.open("/dir2", os.O_DIRECTORY | os.O_RDONLY, 0)
@@ -46,9 +47,10 @@ def test_open_exists(t: LinuxTestSpec):
         child.open("/file12", os.O_WRONLY, 0)
         child.open("/dir13", os.O_RDWR, 0)
 
+
 def test_openat_create(t: LinuxTestSpec):
     t.make_dir("/dir", "root", "root", 0o777)
-    with t.make_program_and_run('root', 'root', umask=0o022) as child:
+    with t.make_program_and_run("root", "root", umask=0o022) as child:
         fd = child.open("/dir", os.O_DIRECTORY | os.O_RDONLY, 0)
         child.openat(fd, "file0", os.O_RDWR | os.O_TMPFILE, 0o777)
         child.openat(fd, "file1", os.O_PATH | os.O_RDONLY | os.O_CREAT, 0o777)
@@ -60,6 +62,7 @@ def test_openat_create(t: LinuxTestSpec):
         child.openat(fd, "file7", os.O_CREAT | os.O_WRONLY, 0o777)
         child.openat(fd, "file8", os.O_RDONLY, 0o777)
         child.openat(fd, "file9", os.O_TMPFILE | os.O_WRONLY, 0o777)
+
 
 def test_openat_exists(t: LinuxTestSpec):
     t.make_dir("/dir", "root", "root", 0o777)
@@ -77,7 +80,7 @@ def test_openat_exists(t: LinuxTestSpec):
     t.make_dir("/dir/dir11", "root", "root", 0o777)
     t.make_file("/dir/file12", "root", "root", 0o777)
     t.make_dir("/dir/dir13", "root", "root", 0o777)
-    with t.make_program_and_run('root', 'root', umask=0o022) as child:
+    with t.make_program_and_run("root", "root", umask=0o022) as child:
         fd = child.open("/dir", os.O_DIRECTORY | os.O_RDONLY, 0)
         child.openat(fd, "file0", os.O_PATH | os.O_RDONLY, 0)
         child.openat(fd, "file1", os.O_RDONLY | os.O_CREAT, 0)

@@ -21,6 +21,7 @@ def dir_label(request: FixtureRequest):
 def file_read(request: FixtureRequest):
     return request.param
 
+
 @fixture(
     params=[False, True],
     ids=["WrF", "WrT"],
@@ -172,7 +173,11 @@ def test_open_file(
     )
     t.make_rule(proc_label, "ROOT_LABEL", "rx")
     if file_mode_int2file_mode_str[file_mode] != file_mode_int2file_mode_str[0o000]:
-        t.make_rule(proc_label, file_mode2smack_label[file_mode | 0o111], file_mode_int2file_mode_str[file_mode | 0o111])
+        t.make_rule(
+            proc_label,
+            file_mode2smack_label[file_mode | 0o111],
+            file_mode_int2file_mode_str[file_mode | 0o111],
+        )
     with t.make_program_and_run(
         user=caller_user,
         group=caller_user,
@@ -246,7 +251,11 @@ def test_openat_file(
     )
     t.make_rule(proc_label, "ROOT_LABEL", "rx")
     if file_mode_int2file_mode_str[file_mode] != file_mode_int2file_mode_str[0o000]:
-        t.make_rule(proc_label, file_mode2smack_label[file_mode | 0o111], file_mode_int2file_mode_str[file_mode | 0o111])
+        t.make_rule(
+            proc_label,
+            file_mode2smack_label[file_mode | 0o111],
+            file_mode_int2file_mode_str[file_mode | 0o111],
+        )
     with t.make_program_and_run(
         user=caller_user,
         group=caller_user,
@@ -260,18 +269,34 @@ def test_openat_file(
             prog.seteuid(1001, fatal=True)
 
         prog.open_openat_close(
-            "/sub_parent", O_DIRECTORY, 0,
-            "parent/dir_to_read", O_RDONLY, file_mode,
+            "/sub_parent",
+            O_DIRECTORY,
+            0,
+            "parent/dir_to_read",
+            O_RDONLY,
+            file_mode,
         )
         prog.open_openat_close(
-            "/sub_parent", O_DIRECTORY, 0,
-            "parent/dir_to_write", O_RDWR, file_mode,
+            "/sub_parent",
+            O_DIRECTORY,
+            0,
+            "parent/dir_to_write",
+            O_RDWR,
+            file_mode,
         )
         prog.open_openat_close(
-            "/sub_parent", O_DIRECTORY, 0,
-            "parent/file_to_read", O_RDONLY, file_mode,
+            "/sub_parent",
+            O_DIRECTORY,
+            0,
+            "parent/file_to_read",
+            O_RDONLY,
+            file_mode,
         )
         prog.open_openat_close(
-            "/sub_parent", O_DIRECTORY, 0,
-            "parent/file_to_write", O_RDWR, file_mode,
+            "/sub_parent",
+            O_DIRECTORY,
+            0,
+            "parent/file_to_write",
+            O_RDWR,
+            file_mode,
         )

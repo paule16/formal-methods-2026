@@ -268,9 +268,13 @@ class KernelProgramMaker(ProgramMakerTextProducer):
     def open_openat_close(
         self,
         # open params
-        open_pathname: str, open_flags: int, open_mode: int,
+        open_pathname: str,
+        open_flags: int,
+        open_mode: int,
         # openat params
-        openat_pathname: str, openat_flags: int, openat_mode: int,
+        openat_pathname: str,
+        openat_flags: int,
+        openat_mode: int,
     ):
         assert '"' not in open_pathname
         assert '"' not in openat_pathname
@@ -287,7 +291,9 @@ class KernelProgramMaker(ProgramMakerTextProducer):
         open_flags_expr = openflags2expr(open_flags)
         openat_flags_expr = openflags2expr(openat_flags)
 
-        open_syscall = f"syscall(SYS_open, pathname, {open_flags_expr.text}, 0{open_mode:0o})"
+        open_syscall = (
+            f"syscall(SYS_open, pathname, {open_flags_expr.text}, 0{open_mode:0o})"
+        )
         openat_syscall = f"syscall(SYS_openat, {open_fd.text}, pathname, {openat_flags_expr.text}, 0{openat_mode:0o})"
         close_open_syscall = f"syscall(SYS_close, {open_fd.text})"
         close_openat_syscall = f"syscall(SYS_close, {openat_fd.text})"

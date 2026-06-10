@@ -1,22 +1,31 @@
 from model.machine import Machine
 from anis.model.lazy import Event, Parameter, Guard, Action
-from anis.model.expressions import powerset, relation_domain, function_value, override_relation
+from anis.model.expressions import (
+    powerset,
+    relation_domain,
+    function_value,
+    override_relation,
+)
 
 
-machines: dict[str, list[str]] = { 'DAC': ['grd1', 'grd2', 'grd3', 'grd4', 'grd5', 'grd6', 'grd7'],
-             'DAC_EXT': [],
-             'MAC': ['grd8']
+machines: dict[str, list[str]] = {
+    "DAC": ["grd1", "grd2", "grd3", "grd4", "grd5", "grd6", "grd7"],
+    "DAC_EXT": [],
+    "MAC": ["grd8"],
 }
 
-def login(m: Machine,
-          _user: Machine.UsersItem | None,
-          _proc: Machine.ProcsItem | None,
-          _group: Machine.GroupsItem | None,
-          _exeFile: Machine.FilesItem | None,
-          _argv: frozenset[Machine.StringsItem] | None,
-          _envp: frozenset[Machine.StringsItem] | None,
-          _umask: frozenset[Machine.PermissionsItem] | None,
-          _procLabel: Machine.StringsItem | None) -> Event:
+
+def login(
+    m: Machine,
+    _user: Machine.UsersItem | None,
+    _proc: Machine.ProcsItem | None,
+    _group: Machine.GroupsItem | None,
+    _exeFile: Machine.FilesItem | None,
+    _argv: frozenset[Machine.StringsItem] | None,
+    _envp: frozenset[Machine.StringsItem] | None,
+    _umask: frozenset[Machine.PermissionsItem] | None,
+    _procLabel: Machine.StringsItem | None,
+) -> Event:
 
     user = Parameter(_user)
     proc = Parameter(_proc)
@@ -27,50 +36,114 @@ def login(m: Machine,
     umask = Parameter(_umask)
     procLabel = Parameter(_procLabel)
 
+    _grd1 = Guard("grd1", lambda _: _(1, (~user) in m.Users))
 
-    _grd1 = Guard('grd1', lambda _: (_(1, 
-    (~user) in m.Users)))
+    _grd2 = Guard("grd2", lambda _: _(2, (~proc) in (m.PROCS - m.Procs)))
 
-    _grd2 = Guard('grd2', lambda _: (_(2, 
-    (~proc) in (m.PROCS - m.Procs))))
+    _grd3 = Guard("grd3", lambda _: _(3, (~group) in m.Groups))
 
-    _grd3 = Guard('grd3', lambda _: (_(3, 
-    (~group) in m.Groups)))
+    _grd4 = Guard("grd4", lambda _: _(4, (~exeFile) in (m.Files - m.Folders)))
 
-    _grd4 = Guard('grd4', lambda _: (_(4, 
-    (~exeFile) in (m.Files - m.Folders))))
+    _grd5 = Guard("grd5", lambda _: _(5, (~argv) in powerset(m.STRINGS)))
 
-    _grd5 = Guard('grd5', lambda _: (_(5, 
-    (~argv) in powerset(m.STRINGS))))
+    _grd6 = Guard("grd6", lambda _: _(6, (~envp) in powerset(m.STRINGS)))
 
-    _grd6 = Guard('grd6', lambda _: (_(6, 
-    (~envp) in powerset(m.STRINGS))))
+    _grd7 = Guard("grd7", lambda _: _(7, (~umask) <= (m.PERMISSIONS - m.FILE_MODES)))
 
-    _grd7 = Guard('grd7', lambda _: (_(7, 
-    (~umask) <= (m.PERMISSIONS - m.FILE_MODES))))
+    _grd8 = Guard(
+        "grd8",
+        lambda _: (
+            (
+                (_(8, (~exeFile) in relation_domain(m.FileExecLabel)))
+                and (_(9, (~procLabel) == function_value(m.FileExecLabel, (~exeFile))))
+            )
+            or (_(10, (~procLabel) == function_value(m.ProcLabel, m.INIT)))
+        ),
+    )
 
-    _grd8 = Guard('grd8', lambda _: (((_(8, (~exeFile) in relation_domain(m.FileExecLabel))) and (_(9, (~procLabel) == function_value(m.FileExecLabel, (~exeFile))))) or (_(10, (~procLabel) == function_value(m.ProcLabel, m.INIT)))))
+    _act1 = Action("act1", m, "Procs", lambda: m.Procs | frozenset(((~proc),)))
 
+    _act2 = Action(
+        "act2",
+        m,
+        "ProcUser",
+        lambda: override_relation(m.ProcUser, frozenset((((~proc), (~user)),))),
+    )
 
-    _act1 = Action('act1', m, 'Procs', lambda: ((m.Procs | frozenset(((~proc),)))))
+    _act3 = Action(
+        "act3",
+        m,
+        "ProcGroup",
+        lambda: override_relation(m.ProcGroup, frozenset((((~proc), (~group)),))),
+    )
 
-    _act2 = Action('act2', m, 'ProcUser', lambda: (override_relation(m.ProcUser, frozenset((((~proc), (~user)),)))))
+    _act4 = Action(
+        "act4",
+        m,
+        "ProcUmask",
+        lambda: override_relation(m.ProcUmask, frozenset((((~proc), (~umask)),))),
+    )
 
-    _act3 = Action('act3', m, 'ProcGroup', lambda: (override_relation(m.ProcGroup, frozenset((((~proc), (~group)),)))))
+    _act5 = Action(
+        "act5",
+        m,
+        "ProcEXE",
+        lambda: override_relation(m.ProcEXE, frozenset((((~proc), (~exeFile)),))),
+    )
 
-    _act4 = Action('act4', m, 'ProcUmask', lambda: (override_relation(m.ProcUmask, frozenset((((~proc), (~umask)),)))))
+    _act6 = Action(
+        "act6",
+        m,
+        "ProcArgv",
+        lambda: override_relation(m.ProcArgv, frozenset((((~proc), (~argv)),))),
+    )
 
-    _act5 = Action('act5', m, 'ProcEXE', lambda: (override_relation(m.ProcEXE, frozenset((((~proc), (~exeFile)),)))))
+    _act7 = Action(
+        "act7",
+        m,
+        "ProcEnvp",
+        lambda: override_relation(m.ProcEnvp, frozenset((((~proc), (~envp)),))),
+    )
 
-    _act6 = Action('act6', m, 'ProcArgv', lambda: (override_relation(m.ProcArgv, frozenset((((~proc), (~argv)),)))))
+    _act8 = Action(
+        "act8",
+        m,
+        "ProcCwd",
+        lambda: override_relation(m.ProcCwd, frozenset((((~proc), m.ROOT),))),
+    )
 
-    _act7 = Action('act7', m, 'ProcEnvp', lambda: (override_relation(m.ProcEnvp, frozenset((((~proc), (~envp)),)))))
+    _act9 = Action(
+        "act9",
+        m,
+        "ProcParent",
+        lambda: override_relation(m.ProcParent, frozenset((((~proc), m.INIT),))),
+    )
 
-    _act8 = Action('act8', m, 'ProcCwd', lambda: (override_relation(m.ProcCwd, frozenset((((~proc), m.ROOT),)))))
+    _act10 = Action(
+        "act10",
+        m,
+        "ProcLabel",
+        lambda: override_relation(m.ProcLabel, frozenset((((~proc), (~procLabel)),))),
+    )
 
-    _act9 = Action('act9', m, 'ProcParent', lambda: (override_relation(m.ProcParent, frozenset((((~proc), m.INIT),)))))
-
-    _act10 = Action('act10', m, 'ProcLabel', lambda: (override_relation(m.ProcLabel, frozenset((((~proc), (~procLabel)),)))))
-
-
-    return Event("login", _grd1, _grd2, _grd3, _grd4, _grd5, _grd6, _grd7, _grd8, _act1, _act2, _act3, _act4, _act5, _act6, _act7, _act8, _act9, _act10)
+    return Event(
+        "login",
+        _grd1,
+        _grd2,
+        _grd3,
+        _grd4,
+        _grd5,
+        _grd6,
+        _grd7,
+        _grd8,
+        _act1,
+        _act2,
+        _act3,
+        _act4,
+        _act5,
+        _act6,
+        _act7,
+        _act8,
+        _act9,
+        _act10,
+    )
