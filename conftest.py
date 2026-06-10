@@ -47,9 +47,6 @@ def monitor_loaded():
     the "Finished running tests!" message was appeared in "Test Results"!
     """
 
-    yield
-    return
-
     rcvc1, sndc1 = Pipe(duplex=False)
     rcvc2, sndc2 = Pipe(duplex=False)
     loader = Process(
