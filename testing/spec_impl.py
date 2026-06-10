@@ -233,6 +233,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     + gatherinfo_commands
                     + [runner_cmd]
                 )
+
+                cmd = f"flock /tmp/tests.lock -c '{cmd}'"
+
                 proc = None
                 try:
                     print("run...", file=sys.stderr, end=" ")
@@ -255,6 +258,8 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                             "/sys/kernel:/sys/kernel:ro",
                             "-v",
                             "./monitor:/monitor:ro",
+                            "-v",
+                            "/tmp:/tmp:rw",
                             # '--pid=host',
                             # '--network=host',
                             # '--security-opt', 'label=disable',
@@ -269,6 +274,9 @@ class LinuxTestSpecImpl(LinuxTestSpec):
                     if proc.stderr:
                         raise ValueError(proc.stderr)
                     print("ok", file=sys.stderr)
+
+                    with open("/tmp/" + container_name, "w") as f:
+                        print(proc.stdout, file=f)
 
                     yield io.StringIO(proc.stdout)
                     # yield self._PrependedStream(info, proc.stdout)

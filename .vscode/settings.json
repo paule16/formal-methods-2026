@@ -3,7 +3,9 @@
         ".",
         "--cov",
         "--cov-report",
-        "html"
+        "html",
+        "-n",
+        "1"
     ],
     "python.testing.unittestEnabled": false,
     "anis.componentUnderTest": "MAC",
