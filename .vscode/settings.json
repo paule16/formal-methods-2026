@@ -5,7 +5,7 @@
         "--cov-report",
         "html",
         "-n",
-        "1"
+        "auto"
     ],
     "python.testing.unittestEnabled": false,
     "anis.componentUnderTest": "MAC",
