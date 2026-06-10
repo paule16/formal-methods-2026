@@ -78,7 +78,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         group: str,
         mode: int,
         smack_label: Optional[str] = None,
-        transmute: bool = False
+        transmute: bool = False,
     ) -> None:
         if not isabs(path):
             raise ValueError("Relative paths are not supported")
@@ -402,6 +402,7 @@ class LinuxTestSpecImpl(LinuxTestSpec):
         return [
             "mount -t smackfs smackfs /sys/fs/smackfs",  # enable smack
             'setfattr -n "security.SMACK64" -v "ROOT_LABEL" /',  # set ROOT_Label on root-folder
+            'echo "_ ROOT_LABEL rwx" >> /sys/fs/smackfs/load2',
         ]
 
     def _check(self, raw_trace: LineStream):

@@ -59,6 +59,8 @@ class ProgramMaker(Protocol):
         self, path: str, name: str, value: Any, size: int, fatal: bool = False
     ) -> Any: ...
 
+    def seteuid(self, euid: int, fatal: bool = False) -> Any: ...
+
     def setxattr(
         self,
         path: str,
@@ -161,6 +163,7 @@ class LinuxTestSpec(Protocol):
         make_file: bool = True,
         before_run: str | None = None,
         after_run: str | None = None,
-        proc_label: str | None = None,
+        additional_runner_cmd: str = "",
+        proc_label: str = "",
         setuid_flag: bool = False,
     ) -> Iterator[ProgramMaker]: ...

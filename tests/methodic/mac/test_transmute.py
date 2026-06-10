@@ -5,15 +5,12 @@ from pytest import FixtureRequest, fixture
 from tests.spec import LinuxTestSpec
 
 
-@fixture(params=[False, True], ids=["with_rule", "without_rule"])
+@fixture(params=[False, True], ids=["without_rule", "with_rule"])
 def set_rule(request: FixtureRequest):
     return request.param
 
 
-def test_transmute(
-    t: LinuxTestSpec,
-    set_rule: bool
-):
+def test_transmute(t: LinuxTestSpec, set_rule: bool):
     proc_label = "proc"
     dir_label = "dir"
     t.make_user("user")
@@ -26,15 +23,15 @@ def test_transmute(
         transmute=True,
     )
 
+    t.make_rule(proc_label, "ROOT_LABEL", "rx")
     if set_rule:
-        t.make_rule(proc_label, dir_label, "rwt")
+        t.make_rule(proc_label, dir_label, "rwxt")
 
     with t.make_program_and_run(
         user="user",
         group="user",
         umask=0o000,
         proc_label=proc_label,
-        setuid_flag=True,
     ) as prog:
         prog.creat(
             pathname="/dir/file1",
@@ -65,4 +62,3 @@ def test_transmute(
             mode=0o777,
             fatal=True,
         )
-

@@ -54,9 +54,7 @@ class Snapshot:
         default_factory=list[tuple[str, str]]
     )
 
-    dirs_transmute: list[tuple[str, str]] = field(
-        default_factory=list[tuple[str, str]]
-    )
+    dirs_transmute: list[tuple[str, str]] = field(default_factory=list[tuple[str, str]])
 
     smack_rules: list[tuple[str, str, str]] = field(
         default_factory=list[tuple[str, str, str]]
@@ -262,7 +260,7 @@ class SnapshotBuilder:
                     snapshot.dirs_transmute.append((attrs.path, xattr_value))
                 elif xattr_key.startswith("security.SMACK64"):
                     snapshot.file_smack_labels.append((attrs.path, xattr_value))
-                
+
         line = self._xreadline(trace)
         while True:
             if line == "<>":
@@ -275,7 +273,6 @@ class SnapshotBuilder:
                     snapshot.dirs_transmute.append((attrs.path, xattr_value))
                 elif xattr_key.startswith("security.SMACK64"):
                     snapshot.file_smack_labels.append((attrs.path, xattr_value))
-                
 
         snapshot.smack_rules = self._init_smack_rules
 

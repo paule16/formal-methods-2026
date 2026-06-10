@@ -359,7 +359,17 @@ class TraceTranslator:
         # append model trace
         if isabs(pathname):
             return self.open(
-                pathname, flags, mode, pid, dev, ino, uid, gid, perms, retval
+                pathname,
+                flags,
+                mode,
+                pid,
+                dev,
+                ino,
+                uid,
+                gid,
+                perms,
+                retval,
+                smack_label,
             )
         if dfd == -100:
             cwd_path = self.mediator_state.do_getcwd(pid)
@@ -595,12 +605,10 @@ class TraceTranslator:
 
         self._model_trace.set_file_exec_label(file, smack_label, retval)
 
-    def set_directory_transmute(
-        self, pathname: str, pid: int, retval: int
-    ):
+    def set_directory_transmute(self, pathname: str, pid: int, retval: int):
         abspath = self.mediator_state.normalize(pathname, pid)
         dir = self.mediator_state.get_ino(abspath)
-        
+
         self._model_trace.set_directory_transmute(dir, retval)
 
     def link(self, oldname: str, newname: str, pid: int, retval: int):
