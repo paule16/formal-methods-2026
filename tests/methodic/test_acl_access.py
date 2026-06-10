@@ -468,6 +468,7 @@ int main(int argc, char *argv[], char *envp[])
         t.add_setup(f"cp /tst_prog0 /tst_prog{i + 1}")
         t.add_setup(f"chown {object_user}:{object_group} /tst_prog{i + 1}")
         t.add_setup(f"setfacl -m {','.join(acl_entries)} /tst_prog{i + 1}")
+        t.add_setup(f'setfattr -n security.SMACK64EXEC -v "^" /tst_prog{i + 1}')
 
     with t.make_program_and_run(
         user=caller_user, group=caller_group, umask=0o022

@@ -8,7 +8,7 @@
     "python.testing.unittestEnabled": false,
     "anis.componentUnderTest": "MAC",
     "python.testing.pytestEnabled": true,
-    "anis.coverage.kind": "branch-conditions",
+    "anis.coverage.kind": "line",
     "anis.coverage.scope.machines": "MAC_EXT,MAC",
     "anis.coverage.enabled": true
 }

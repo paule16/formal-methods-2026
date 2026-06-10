@@ -26,7 +26,7 @@ def wxmode(request: FixtureRequest):
 def test_chdir_creat_unlink_mkdir(t: LinuxTestSpec):
 
     t.make_user("user")
-    t.make_dir("/parent", "user", "user", 0o777)
+    t.make_dir("/parent", "user", "user", 0o777, smack_label="*")
     with t.make_program_and_run("user", "user", umask=0o022) as child:
         child.chdir("/parent", fatal=True)
         fd = child.creat("new", 0, fatal=True)
@@ -38,7 +38,7 @@ def test_chdir_creat_unlink_mkdir(t: LinuxTestSpec):
 def test_chdir_mkdir_chdir_open(t: LinuxTestSpec, wmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", "user", "user", 0o777)
+    t.make_dir("/parent", "user", "user", 0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.chdir("/parent", fatal=True)
         child.mkdir("dir", wmode, fatal=True)
@@ -49,7 +49,7 @@ def test_chdir_mkdir_chdir_open(t: LinuxTestSpec, wmode: int):
 def test_chdir_mkdir_rmdir_open(t: LinuxTestSpec):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.chdir("/parent", fatal=True)
         child.mkdir("new", 0, fatal=True)
@@ -103,7 +103,7 @@ def test_chdir_open(t: LinuxTestSpec, rmode: int):
 def test_chmod_open_openatcreate(t: LinuxTestSpec, wxmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.chmod("/parent", wxmode, fatal=True)
         dirfd = child.open("/parent", O_DIRECTORY, 0, fatal=True)
@@ -114,7 +114,7 @@ def test_chmod_open_openatexists(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
     t.make_dir("/parent", owner="user", group="user", mode=0o777)
-    t.make_file("/parent/file", owner="user", group="user", mode=0o777)
+    t.make_file("/parent/file", owner="user", group="user", mode=0o777, smack_label="*")
     t.add_setup("echo aaaaaa > /parent/file")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.chmod("/parent/file", rmode, fatal=True)
@@ -126,7 +126,7 @@ def test_chmod_open_openatexists(t: LinuxTestSpec, rmode: int):
 def test_creat_close_unlink_repeated(t: LinuxTestSpec):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.chdir("/parent", fatal=True)
         for _ in range(10):
@@ -138,7 +138,7 @@ def test_creat_close_unlink_repeated(t: LinuxTestSpec):
 def test_creat_link_unlink_open(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.chdir("/parent", fatal=True)
         fd = child.creat("new", rmode, fatal=True)
@@ -151,7 +151,7 @@ def test_creat_link_unlink_open(t: LinuxTestSpec, rmode: int):
 def test_mkdir_open_close_chmod_open(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.mkdir("/parent/dir", 0o777, fatal=True)
         fd = child.open(
@@ -165,7 +165,7 @@ def test_mkdir_open_close_chmod_open(t: LinuxTestSpec, rmode: int):
 def test_mkdir_open_close_open(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.mkdir("/parent/dir", 0o700, fatal=True)
         fd = child.open(
@@ -178,7 +178,7 @@ def test_mkdir_open_close_open(t: LinuxTestSpec, rmode: int):
 def test_mkdir_open_fchdir_open(t: LinuxTestSpec, wmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         child.mkdir("/parent/dir", wmode, fatal=True)
         dfd = child.open("/parent/dir", O_DIRECTORY, 0, fatal=True)
@@ -189,7 +189,7 @@ def test_mkdir_open_fchdir_open(t: LinuxTestSpec, wmode: int):
 def test_open_close_chmod_open(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         fd = child.open("/parent/file", O_CREAT | O_TRUNC | O_WRONLY, 0o600, fatal=True)
         child.close(fd, fatal=True)
@@ -200,7 +200,7 @@ def test_open_close_chmod_open(t: LinuxTestSpec, rmode: int):
 def test_open_close_open(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
-    t.make_dir("/parent", owner="user", group="user", mode=0o777)
+    t.make_dir("/parent", owner="user", group="user", mode=0o777, smack_label="*")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         fd = child.open("/parent/file", O_CREAT | O_TRUNC | O_WRONLY, rmode, fatal=True)
         child.close(fd, fatal=True)
@@ -222,7 +222,7 @@ def test_open_fchmod_close_open(t: LinuxTestSpec, rmode: int):
 
     t.make_user("user")
     t.make_dir("/parent", owner="user", group="user", mode=0o777)
-    t.make_file("/parent/file", owner="user", group="user", mode=0o777)
+    t.make_file("/parent/file", owner="user", group="user", mode=0o777, smack_label="*")
     t.add_setup("echo aaaaa > /parent/file")
     with t.make_program_and_run(user="user", group="user", umask=0o022) as child:
         fd = child.open("/parent/file", O_RDONLY, 0, fatal=True)
