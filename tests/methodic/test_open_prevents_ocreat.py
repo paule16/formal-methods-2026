@@ -49,10 +49,12 @@ def test_open(t: LinuxTestSpec, protect: int):
     parent_mode = [
         0o777 | S_ISVTX,  # any
         0o777 | S_ISVTX,  # world writable
-        0o770 | S_ISVTX,
-    ][protect]  # group writable
-    t.make_dir("/dir", parent_owner, parent_group, parent_mode)
-    t.make_file("/dir/file", owner=attacker, group=parent_group, mode=0o777)
+        0o770 | S_ISVTX,  # group writable
+    ][protect]
+    t.make_dir("/dir", parent_owner, parent_group, parent_mode, smack_label="*")
+    t.make_file(
+        "/dir/file", owner=attacker, group=parent_group, mode=0o777, smack_label="*"
+    )
 
     with t.make_program_and_run(
         caller_user,

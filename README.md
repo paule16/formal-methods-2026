@@ -1,29 +1,19 @@
-1. Open this directory in VSCode
+# formal-method-2026
 
-2. Create Python environment
+В репозитории была проведена верификация подсистемы Linux Smack.
+Smack - это мандатная система доступа, основанная на метках.
 
-   1. Open any .py file in editor
-   
-   2. Install Python extensions which will be suggested
-   
-   3. Create virtual environment with installing dependencies
-      (right-bottom corner)
+Разработчики проекта:
+1.) Сахаров Павел
+2.) Званцов Матвей
+3.) Должков Александр
+4.) Межуев Тимофей
 
-3. Allow using of sudo:
+## Ограничения
 
-   1. Make current user capabilities of sudoers:
-   
-       sudo usermod -G sudo <current user>
+1.) По документации Linux Smack процесс может обладать меткой *, но при разработке это не удалось воспроизвести;
+2.) В архитектуре Linux Smack предполагается, что правила не могут быть удалены. Это приводит к значительному увеличению количества меток;
 
-   2. Allow of sudo without password for current user:
+## Устройство тестирования
 
-       sudo visudo
-       add line to the end: <current user> ALL=(ALL:ALL) NOPASSWD:ALL
 
-4. Install utilities depedencies:
-
-   sudo apt install podman
-
-5. Make base image:
-
-   make -C testing/base_image
