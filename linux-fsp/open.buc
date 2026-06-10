@@ -43,5 +43,5 @@
   <org.eventb.core.axiom name="41" org.eventb.core.label="O_PATH_type" org.eventb.core.predicate="O_PATH = 19" org.eventb.core.theorem="false"/>
   <org.eventb.core.axiom name="42" org.eventb.core.label="O_NOBLOCK_type" org.eventb.core.predicate="O_NOBLOCK = 20" org.eventb.core.theorem="false"/>
   <org.eventb.core.axiom name="43" org.eventb.core.label="O_NDELAY_type" org.eventb.core.predicate="O_NDELAY = 21" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="44" org.eventb.core.label="OPEN_FLAGS_type" org.eventb.core.predicate="OPEN_FLAGS = {&#xA;    O_RDONLY, O_WRONLY, O_RDWR,&#xA;    O_CLOEXEC, O_CREAT, O_DIRECTORY, O_EXCL, O_NOCTTY,&#xA;    O_NOFOLLOW, O_TMPFILE, O_TRUNC,&#xA;    O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,&#xA;    O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC&#xA;}" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="44" org.eventb.core.label="OPEN_FLAGS_type" org.eventb.core.predicate="OPEN_FLAGS = {&#xA;            O_RDONLY, O_WRONLY, O_RDWR,&#xA;            O_CLOEXEC, O_CREAT, O_DIRECTORY, O_EXCL, O_NOCTTY,&#xA;            O_NOFOLLOW, O_TMPFILE, O_TRUNC,&#xA;            O_APPEND, O_ASYNC, O_DIRECT, O_DSYNC, O_LARGEFILE,&#xA;            O_NOATIME, O_NOBLOCK, O_NDELAY, O_PATH, O_SYNC&#xA;        }" org.eventb.core.theorem="false"/>
 </org.eventb.core.contextFile>

@@ -5,7 +5,7 @@
   <org.eventb.core.carrierSet name="3" org.eventb.core.comment="множество всех возможных учетных записей пользователей" org.eventb.core.identifier="USERS"/>
   <org.eventb.core.carrierSet name="4" org.eventb.core.comment="множество всех возможных групп пользователей" org.eventb.core.identifier="GROUPS"/>
   <org.eventb.core.carrierSet name="5" org.eventb.core.comment="множество всех файловых дескрипторов, расширенное специальным дескриптором AT_FDCWD" org.eventb.core.identifier="FILE_DESCRIPTORS_EXTENDED"/>
-  <org.eventb.core.carrierSet name="6" org.eventb.core.comment="права доступа включают в себя rwx права для владельца файла (USER_PERMISSIONS), группы (GROUP_PERMISSIONS), и остальных (OTHER_PERMISSIOS),&#xA;а также дополнительные флаги SET_UID, SET_GID, STICKY_BIT" org.eventb.core.identifier="PERMISSIONS"/>
+  <org.eventb.core.carrierSet name="6" org.eventb.core.comment="права доступа включают в себя rwx права для владельца файла (USER_PERMISSIONS), группы (GROUP_PERMISSIONS), и остальных (OTHER_PERMISSIOS), а также дополнительные флаги SET_UID, SET_GID, STICKY_BIT" org.eventb.core.identifier="PERMISSIONS"/>
   <org.eventb.core.carrierSet name="7" org.eventb.core.comment="множество всех возможных строк" org.eventb.core.identifier="STRINGS"/>
   <org.eventb.core.carrierSet name="8" org.eventb.core.comment="некоторые абстрактные данные, структура которых нам не важна" org.eventb.core.identifier="DATA"/>
   <org.eventb.core.carrierSet name="9" org.eventb.core.comment="привилегии учетной записи" org.eventb.core.identifier="CAPABILITIES"/>

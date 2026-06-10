@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <org.eventb.core.contextFile version="3" org.eventb.core.configuration="org.eventb.core.fwd;de.prob.symbolic.ctxBase">
-  <org.eventb.core.extendsContext name="1" org.eventb.core.target="IMA_CTX"/>
+  <org.eventb.core.extendsContext name="1" org.eventb.core.target="DAC_CTX"/>
   <org.eventb.core.constant name="2" org.eventb.core.identifier="S_IRUSR" de.prob.symbolic.symbolicAttribute="false"/>
   <org.eventb.core.constant name="3" org.eventb.core.identifier="S_IWUSR" de.prob.symbolic.symbolicAttribute="false"/>
   <org.eventb.core.constant name="4" org.eventb.core.identifier="S_IXUSR" de.prob.symbolic.symbolicAttribute="false"/>
@@ -13,26 +13,20 @@
   <org.eventb.core.constant name="11" org.eventb.core.identifier="S_ISUID" de.prob.symbolic.symbolicAttribute="false"/>
   <org.eventb.core.constant name="12" org.eventb.core.identifier="S_ISGID" de.prob.symbolic.symbolicAttribute="false"/>
   <org.eventb.core.constant name="13" org.eventb.core.identifier="S_ISVTX" de.prob.symbolic.symbolicAttribute="false"/>
-  <org.eventb.core.axiom name="14" org.eventb.core.label="axm1" org.eventb.core.predicate="MAX_FILES = 20" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="15" org.eventb.core.label="axm2" org.eventb.core.predicate="finite(STRINGS) ∧ card(STRINGS) = 20" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="16" org.eventb.core.label="axm3" org.eventb.core.predicate="finite(GROUPS) ∧ card(GROUPS) = 10" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="17" org.eventb.core.label="axm4" org.eventb.core.predicate="finite(PROCS) ∧ card(PROCS) = 10" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="18" org.eventb.core.label="axm5" org.eventb.core.predicate="finite(USERS) ∧ card(USERS) = 10" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="19" org.eventb.core.label="axm6" org.eventb.core.predicate="finite(DATA) ∧ card(DATA) = 20" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="20" org.eventb.core.label="axm7" org.eventb.core.predicate="FILE_LIMIT = 20" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="21" org.eventb.core.label="axm8" org.eventb.core.predicate="PROC_FILE_LIMIT = 20" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="22" org.eventb.core.label="axm9" org.eventb.core.predicate="finite(FILE_DESCRIPTORS) ∧ card(FILE_DESCRIPTORS) = 20" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="23" org.eventb.core.comment="&#xA;" org.eventb.core.label="axm10" org.eventb.core.predicate="finite(CAPABILITIES) ∧ card(CAPABILITIES) ≤ 10" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="24" org.eventb.core.label="S_IRUSR_type" org.eventb.core.predicate="S_IRUSR = UREAD" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="25" org.eventb.core.label="S_IWUSR_type" org.eventb.core.predicate="S_IWUSR = UWRITE" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="26" org.eventb.core.label="S_IXUSR_type" org.eventb.core.predicate="S_IXUSR = UEXECUTE" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="27" org.eventb.core.label="S_IRGRP_type" org.eventb.core.predicate="S_IRGRP = GREAD" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="28" org.eventb.core.label="S_IWGRP_type" org.eventb.core.predicate="S_IWGRP = GWRITE" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="29" org.eventb.core.label="S_IXGRP_type" org.eventb.core.predicate="S_IXGRP = GEXECUTE" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="30" org.eventb.core.label="S_IROTH_type" org.eventb.core.predicate="S_IROTH = OREAD" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="31" org.eventb.core.label="S_IWOTH_type" org.eventb.core.predicate="S_IWOTH = OWRITE" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="32" org.eventb.core.label="S_IXOTH_type" org.eventb.core.predicate="S_IXOTH = OEXECUTE" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="33" org.eventb.core.label="S_ISUID_type" org.eventb.core.predicate="S_ISUID = SET_UID" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="34" org.eventb.core.label="S_ISGID_type" org.eventb.core.predicate="S_ISGID = SET_GID" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="35" org.eventb.core.label="S_ISVTX_type" org.eventb.core.predicate="S_ISVTX = STICKY_BIT" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="14" org.eventb.core.label="axm1" org.eventb.core.predicate="MAX_FILES = 1048576" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="15" org.eventb.core.label="axm2" org.eventb.core.predicate="FILE_LIMIT = 1024" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="16" org.eventb.core.label="axm3" org.eventb.core.predicate="PROC_FILE_LIMIT = 1024" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="17" org.eventb.core.label="axm4" org.eventb.core.predicate="finite(FILE_DESCRIPTORS) ∧ card(FILE_DESCRIPTORS) ≤ 1024" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="18" org.eventb.core.label="S_IRUSR_type" org.eventb.core.predicate="S_IRUSR = UREAD" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="19" org.eventb.core.label="S_IWUSR_type" org.eventb.core.predicate="S_IWUSR = UWRITE" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="20" org.eventb.core.label="S_IXUSR_type" org.eventb.core.predicate="S_IXUSR = UEXECUTE" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="21" org.eventb.core.label="S_IRGRP_type" org.eventb.core.predicate="S_IRGRP = GREAD" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="22" org.eventb.core.label="S_IWGRP_type" org.eventb.core.predicate="S_IWGRP = GWRITE" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="23" org.eventb.core.label="S_IXGRP_type" org.eventb.core.predicate="S_IXGRP = GEXECUTE" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="24" org.eventb.core.label="S_IROTH_type" org.eventb.core.predicate="S_IROTH = OREAD" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="25" org.eventb.core.label="S_IWOTH_type" org.eventb.core.predicate="S_IWOTH = OWRITE" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="26" org.eventb.core.label="S_IXOTH_type" org.eventb.core.predicate="S_IXOTH = OEXECUTE" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="27" org.eventb.core.label="S_ISUID_type" org.eventb.core.predicate="S_ISUID = SET_UID" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="28" org.eventb.core.label="S_ISGID_type" org.eventb.core.predicate="S_ISGID = SET_GID" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="29" org.eventb.core.label="S_ISVTX_type" org.eventb.core.predicate="S_ISVTX = STICKY_BIT" org.eventb.core.theorem="false"/>
 </org.eventb.core.contextFile>

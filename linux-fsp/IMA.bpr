@@ -1088,14 +1088,307 @@
         <org.eventb.core.prReas name="r1" org.eventb.core.prRID="org.eventb.core.seqprover.autoRewritesL4:0"/>
         <org.eventb.core.prReas name="r3" org.eventb.core.prRID="org.eventb.core.seqprover.typeRewrites:1"/>
     </org.eventb.core.prProof>
-    <org.eventb.core.prProof name="INITIALISATION/ContentHash_type/INV" org.eventb.core.confidence="1000" org.eventb.core.prFresh="" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p0" org.eventb.core.prSets="FILES,HASHES">
+    <org.eventb.core.prProof name="INITIALISATION/ContentHash_type/INV" org.eventb.core.confidence="1000" org.eventb.core.prFresh="" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24,p25,p26,p27,p28,p29,p30,p31,p32,p33,p34,p35,p36,p37,p38,p39,p40" org.eventb.core.prSets="FILES,FILE_DESCRIPTORS_EXTENDED,HASHES,INTEGRITY_MODES,PERMISSIONS,XATTR_FLAGS">
         <org.eventb.core.lang name="L"/>
-        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="hyp" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p0"/>
-        <org.eventb.core.prIdent name="ContentHash'" org.eventb.core.type="ℙ(FILES×HASHES)"/>
+        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(PERMISSIONS,USER_PERMISSIONS,GROUP_PERMISSIONS,OTHER_PERMISSIONS,FILE_MODES))" org.eventb.core.prHyps="">
+            <org.eventb.core.prAnte name="'">
+                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p7" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p41,p42,p43,p44,p45,p46,p47"/>
+                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p41,p42,p43,p44,p45,p46,p47"/>
+                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(USER_PERMISSIONS,{UREAD},{UWRITE},{UEXECUTE}))" org.eventb.core.prHyps="">
+                    <org.eventb.core.prAnte name="'">
+                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p3" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p48,p49,p50,p51"/>
+                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p48,p49,p50,p51"/>
+                        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(GROUP_PERMISSIONS,{GREAD},{GWRITE},{GEXECUTE}))" org.eventb.core.prHyps="">
+                            <org.eventb.core.prAnte name="'">
+                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p28" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p52,p53,p54,p55"/>
+                                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p52,p53,p54,p55"/>
+                                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(OTHER_PERMISSIONS,{OREAD},{OWRITE},{OEXECUTE}))" org.eventb.core.prHyps="">
+                                    <org.eventb.core.prAnte name="'">
+                                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p10" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p56,p57,p58,p59"/>
+                                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p56,p57,p58,p59"/>
+                                        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(FILE_MODES,{SET_UID},{SET_GID},{STICKY_BIT}))" org.eventb.core.prHyps="">
+                                            <org.eventb.core.prAnte name="'">
+                                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p9" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p60,p61,p62,p63"/>
+                                                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p60,p61,p62,p63"/>
+                                                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD}))" org.eventb.core.prHyps="">
+                                                    <org.eventb.core.prAnte name="'">
+                                                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p5" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p64,p65"/>
+                                                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p64,p65"/>
+                                                        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF}))" org.eventb.core.prHyps="">
+                                                            <org.eventb.core.prAnte name="'">
+                                                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p18" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p66,p67,p68,p69"/>
+                                                                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p66,p67,p68,p69"/>
+                                                                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(XATTR_FLAGS,{XATTR_CREATE},{XATTR_REPLACE}))" org.eventb.core.prHyps="">
+                                                                    <org.eventb.core.prAnte name="'">
+                                                                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p38" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p70,p71"/>
+                                                                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p70,p71"/>
+                                                                        <org.eventb.core.prRule name="r1" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="simplification rewrites" org.eventb.core.prHyps="">
+                                                                            <org.eventb.core.prAnte name="'">
+                                                                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p27" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p72"/>
+                                                                                <org.eventb.core.prRule name="r2" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="type rewrites" org.eventb.core.prHyps="">
+                                                                                    <org.eventb.core.prAnte name="'">
+                                                                                        <org.eventb.core.prHypAction name="HIDE0" org.eventb.core.prHyps="p73"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE1" org.eventb.core.prHyps="p74"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE2" org.eventb.core.prHyps="p75"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE3" org.eventb.core.prHyps="p76"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE4" org.eventb.core.prHyps="p77"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE5" org.eventb.core.prHyps="p78"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE6" org.eventb.core.prHyps="p79"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE7" org.eventb.core.prHyps="p80"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE8" org.eventb.core.prHyps="p81"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE9" org.eventb.core.prHyps="p82"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE10" org.eventb.core.prHyps="p83"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE11" org.eventb.core.prHyps="p84"/>
+                                                                                        <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with USER_PERMISSIONS={UREAD,UWRITE,UEXECUTE}" org.eventb.core.prHyps="p48">
+                                                                                            <org.eventb.core.prAnte name="'">
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p41" org.eventb.core.prInfHyps="p85"/>
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p42" org.eventb.core.prInfHyps="p86"/>
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p43" org.eventb.core.prInfHyps="p87"/>
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p44" org.eventb.core.prInfHyps="p88"/>
+                                                                                                <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p41,p42,p43,p44"/>
+                                                                                                <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with GROUP_PERMISSIONS={GREAD,GWRITE,GEXECUTE}" org.eventb.core.prHyps="p52">
+                                                                                                    <org.eventb.core.prAnte name="'">
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p45" org.eventb.core.prInfHyps="p89"/>
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p46" org.eventb.core.prInfHyps="p90"/>
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p85" org.eventb.core.prInfHyps="p91"/>
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p86" org.eventb.core.prInfHyps="p92"/>
+                                                                                                        <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p45,p46,p85,p86"/>
+                                                                                                        <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with OTHER_PERMISSIONS={OREAD,OWRITE,OEXECUTE}" org.eventb.core.prHyps="p56">
+                                                                                                            <org.eventb.core.prAnte name="'">
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p47" org.eventb.core.prInfHyps="p93"/>
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p87" org.eventb.core.prInfHyps="p94"/>
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p89" org.eventb.core.prInfHyps="p95"/>
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p91" org.eventb.core.prInfHyps="p96"/>
+                                                                                                                <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p47,p87,p89,p91"/>
+                                                                                                                <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with FILE_MODES={SET_UID,SET_GID,STICKY_BIT}" org.eventb.core.prHyps="p60">
+                                                                                                                    <org.eventb.core.prAnte name="'">
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p88" org.eventb.core.prInfHyps="p97"/>
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p90" org.eventb.core.prInfHyps="p98"/>
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p93" org.eventb.core.prInfHyps="p99"/>
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p96" org.eventb.core.prInfHyps="p100"/>
+                                                                                                                        <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p88,p90,p93,p96"/>
+                                                                                                                        <org.eventb.core.prRule name="r4" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="ML" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p11,p20,p31,p16,p4,p14,p40,p25,p6,p34,p13,p21,p37,p35,p29,p32,p26,p39,p1,p17,p15,p36,p22,p12,p30,p23,p8,p24,p33,p2,p19,p41,p42,p43,p44,p45,p46,p47,p48,p49,p50,p51,p52,p53,p54,p55,p56,p57,p58,p59,p60,p61,p62,p63,p64,p65,p66,p67,p68,p69,p70,p71,p72,p85,p86,p87,p88,p89,p90,p91,p92,p93,p94,p95,p96,p97,p98,p99,p100">
+                                                                                                                            <org.eventb.core.prString name=".arg" org.eventb.core.prSValue="0;1:500"/>
+                                                                                                                        </org.eventb.core.prRule>
+                                                                                                                    </org.eventb.core.prAnte>
+                                                                                                                </org.eventb.core.prRule>
+                                                                                                            </org.eventb.core.prAnte>
+                                                                                                        </org.eventb.core.prRule>
+                                                                                                    </org.eventb.core.prAnte>
+                                                                                                </org.eventb.core.prRule>
+                                                                                            </org.eventb.core.prAnte>
+                                                                                        </org.eventb.core.prRule>
+                                                                                    </org.eventb.core.prAnte>
+                                                                                </org.eventb.core.prRule>
+                                                                            </org.eventb.core.prAnte>
+                                                                        </org.eventb.core.prRule>
+                                                                    </org.eventb.core.prAnte>
+                                                                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                                                </org.eventb.core.prRule>
+                                                            </org.eventb.core.prAnte>
+                                                            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                                        </org.eventb.core.prRule>
+                                                    </org.eventb.core.prAnte>
+                                                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                                </org.eventb.core.prRule>
+                                            </org.eventb.core.prAnte>
+                                            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                        </org.eventb.core.prRule>
+                                    </org.eventb.core.prAnte>
+                                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                </org.eventb.core.prRule>
+                            </org.eventb.core.prAnte>
+                            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                        </org.eventb.core.prRule>
+                    </org.eventb.core.prAnte>
+                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                </org.eventb.core.prRule>
+            </org.eventb.core.prAnte>
+            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+        </org.eventb.core.prRule>
+        <org.eventb.core.prIdent name="AT_FDCWD" org.eventb.core.type="FILE_DESCRIPTORS_EXTENDED"/>
+        <org.eventb.core.prIdent name="DEF_FILE_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="DEF_FOLDER_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="DEF_SYMLINK_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="ENFORCE" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.prIdent name="FILE_DESCRIPTORS" org.eventb.core.type="ℙ(FILE_DESCRIPTORS_EXTENDED)"/>
+        <org.eventb.core.prIdent name="FILE_LIMIT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="FILE_MODES" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="FIX" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.prIdent name="GEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="GREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="GROUP_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="GWRITE" org.eventb.core.type="PERMISSIONS"/>
         <org.eventb.core.prIdent name="INIT_EXE" org.eventb.core.type="FILES"/>
+        <org.eventb.core.prIdent name="INIT_EXE_CONTENT_HASH" org.eventb.core.type="HASHES"/>
+        <org.eventb.core.prIdent name="MAX_FILES" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="OEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="OFF" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.prIdent name="OPEN_FLAGS" org.eventb.core.type="ℙ(ℤ)"/>
+        <org.eventb.core.prIdent name="OREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="OTHER_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="OWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="O_APPEND" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_ASYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_CLOEXEC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_CREAT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_DIRECT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_DIRECTORY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_DSYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_EXCL" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_LARGEFILE" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NDELAY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOATIME" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOBLOCK" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOCTTY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOFOLLOW" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_PATH" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_RDONLY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_RDWR" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_SYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_TMPFILE" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_TRUNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_WRONLY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="PROC_FILE_LIMIT" org.eventb.core.type="ℤ"/>
         <org.eventb.core.prIdent name="ROOT" org.eventb.core.type="FILES"/>
-        <org.eventb.core.prPred name="p0" org.eventb.core.predicate="ContentHash'∈{ROOT,INIT_EXE} → HASHES"/>
-        <org.eventb.core.prReas name="r0" org.eventb.core.prRID="org.eventb.core.seqprover.hyp"/>
+        <org.eventb.core.prIdent name="ROOT_CONTENT_HASH" org.eventb.core.type="HASHES"/>
+        <org.eventb.core.prIdent name="SET_GID" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="SET_UID" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="STICKY_BIT" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="UEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="UREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="USER_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="UWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="XATTR_CREATE" org.eventb.core.type="XATTR_FLAGS"/>
+        <org.eventb.core.prIdent name="XATTR_REPLACE" org.eventb.core.type="XATTR_FLAGS"/>
+        <org.eventb.core.prPred name="p2" org.eventb.core.predicate="O_NDELAY=21"/>
+        <org.eventb.core.prPred name="p3" org.eventb.core.predicate="partition(USER_PERMISSIONS,{UREAD},{UWRITE},{UEXECUTE})"/>
+        <org.eventb.core.prPred name="p78" org.eventb.core.predicate="ROOT_GROUP∈GROUPS">
+            <org.eventb.core.prIdent name="GROUPS" org.eventb.core.type="ℙ(GROUPS)"/>
+            <org.eventb.core.prIdent name="ROOT_GROUP" org.eventb.core.type="GROUPS"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p8" org.eventb.core.predicate="O_LARGEFILE=18"/>
+        <org.eventb.core.prPred name="p74" org.eventb.core.predicate="INIT_EXE∈FILES"/>
+        <org.eventb.core.prPred name="p86" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩GROUP_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p80" org.eventb.core.predicate="EVM_STRING∈STRINGS">
+            <org.eventb.core.prIdent name="EVM_STRING" org.eventb.core.type="STRINGS"/>
+            <org.eventb.core.prIdent name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p77" org.eventb.core.predicate="ROOT_USER∈USERS">
+            <org.eventb.core.prIdent name="ROOT_USER" org.eventb.core.type="USERS"/>
+            <org.eventb.core.prIdent name="USERS" org.eventb.core.type="ℙ(USERS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p85" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪GROUP_PERMISSIONS∪OTHER_PERMISSIONS∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p16" org.eventb.core.predicate="PROC_FILE_LIMIT∈ℕ1"/>
+        <org.eventb.core.prPred name="p43" org.eventb.core.predicate="USER_PERMISSIONS∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p19" org.eventb.core.predicate="OPEN_FLAGS={O_RDONLY,O_WRONLY,O_RDWR,O_CLOEXEC,O_CREAT,O_DIRECTORY,O_EXCL,O_NOCTTY,O_NOFOLLOW,O_TMPFILE,O_TRUNC,O_APPEND,O_ASYNC,O_DIRECT,O_DSYNC,O_LARGEFILE,O_NOATIME,O_NOBLOCK,O_NDELAY,O_PATH,O_SYNC}"/>
+        <org.eventb.core.prPred name="p58" org.eventb.core.predicate="¬OREAD=OEXECUTE"/>
+        <org.eventb.core.prPred name="p54" org.eventb.core.predicate="¬GREAD=GEXECUTE"/>
+        <org.eventb.core.prPred name="p100" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪{GREAD,GWRITE,GEXECUTE}∪{OREAD,OWRITE,OEXECUTE}∪{SET_UID,SET_GID,STICKY_BIT}"/>
+        <org.eventb.core.prPred name="p81" org.eventb.core.predicate="ROOT_CONTENT_HASH∈HASHES"/>
+        <org.eventb.core.prPred name="p65" org.eventb.core.predicate="¬AT_FDCWD∈FILE_DESCRIPTORS"/>
+        <org.eventb.core.prPred name="p1" org.eventb.core.predicate="O_NOCTTY=10"/>
+        <org.eventb.core.prPred name="p79" org.eventb.core.predicate="IMA_STRING∈STRINGS">
+            <org.eventb.core.prIdent name="IMA_STRING" org.eventb.core.type="STRINGS"/>
+            <org.eventb.core.prIdent name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p59" org.eventb.core.predicate="¬OWRITE=OEXECUTE"/>
+        <org.eventb.core.prPred name="p5" org.eventb.core.predicate="partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD})"/>
+        <org.eventb.core.prPred name="p6" org.eventb.core.predicate="DEF_SYMLINK_PERMS={UREAD,UWRITE,UEXECUTE,GREAD,GWRITE,GEXECUTE,OREAD,OWRITE,OEXECUTE}"/>
+        <org.eventb.core.prPred name="p7" org.eventb.core.predicate="partition(PERMISSIONS,USER_PERMISSIONS,GROUP_PERMISSIONS,OTHER_PERMISSIONS,FILE_MODES)"/>
+        <org.eventb.core.prPred name="p9" org.eventb.core.predicate="partition(FILE_MODES,{SET_UID},{SET_GID},{STICKY_BIT})"/>
+        <org.eventb.core.prPred name="p10" org.eventb.core.predicate="partition(OTHER_PERMISSIONS,{OREAD},{OWRITE},{OEXECUTE})"/>
+        <org.eventb.core.prPred name="p11" org.eventb.core.predicate="MAX_FILES∈ℕ1"/>
+        <org.eventb.core.prPred name="p61" org.eventb.core.predicate="¬SET_UID=SET_GID"/>
+        <org.eventb.core.prPred name="p91" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪{GREAD,GWRITE,GEXECUTE}∪OTHER_PERMISSIONS∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p14" org.eventb.core.predicate="FILE_LIMIT∈ℕ1"/>
+        <org.eventb.core.prPred name="p41" org.eventb.core.predicate="PERMISSIONS=USER_PERMISSIONS∪GROUP_PERMISSIONS∪OTHER_PERMISSIONS∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p64" org.eventb.core.predicate="FILE_DESCRIPTORS_EXTENDED=FILE_DESCRIPTORS∪{AT_FDCWD}"/>
+        <org.eventb.core.prPred name="p69" org.eventb.core.predicate="¬FIX=OFF"/>
+        <org.eventb.core.prPred name="p89" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p50" org.eventb.core.predicate="¬UREAD=UEXECUTE"/>
+        <org.eventb.core.prPred name="p22" org.eventb.core.predicate="O_ASYNC=14"/>
+        <org.eventb.core.prPred name="p25" org.eventb.core.predicate="DEF_FOLDER_PERMS={UREAD,UWRITE,UEXECUTE,GREAD,GEXECUTE,OREAD,OEXECUTE}"/>
+        <org.eventb.core.prPred name="p26" org.eventb.core.predicate="O_DIRECTORY=8"/>
+        <org.eventb.core.prPred name="p55" org.eventb.core.predicate="¬GWRITE=GEXECUTE"/>
+        <org.eventb.core.prPred name="p92" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩{GREAD,GWRITE,GEXECUTE}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p84" org.eventb.core.predicate="INIT_EXE_META_HASH∈HASHES">
+            <org.eventb.core.prIdent name="INIT_EXE_META_HASH" org.eventb.core.type="HASHES"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p45" org.eventb.core.predicate="GROUP_PERMISSIONS∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p31" org.eventb.core.predicate="card(FILES)≤MAX_FILES"/>
+        <org.eventb.core.prPred name="p32" org.eventb.core.predicate="O_TMPFILE=7"/>
+        <org.eventb.core.prPred name="p33" org.eventb.core.predicate="O_NOBLOCK=20"/>
+        <org.eventb.core.prPred name="p39" org.eventb.core.predicate="O_CLOEXEC=9"/>
+        <org.eventb.core.prPred name="p40" org.eventb.core.predicate="DEF_FILE_PERMS={UREAD,UWRITE,GREAD,OREAD}"/>
+        <org.eventb.core.prPred name="p87" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p52" org.eventb.core.predicate="GROUP_PERMISSIONS={GREAD,GWRITE,GEXECUTE}"/>
+        <org.eventb.core.prPred name="p4" org.eventb.core.predicate="finite(FILE_DESCRIPTORS_EXTENDED)"/>
+        <org.eventb.core.prPred name="p96" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪{GREAD,GWRITE,GEXECUTE}∪{OREAD,OWRITE,OEXECUTE}∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p67" org.eventb.core.predicate="¬ENFORCE=FIX"/>
+        <org.eventb.core.prPred name="p49" org.eventb.core.predicate="¬UREAD=UWRITE"/>
+        <org.eventb.core.prPred name="p15" org.eventb.core.predicate="O_TRUNC=12"/>
+        <org.eventb.core.prPred name="p73" org.eventb.core.predicate="INIT∈PROCS">
+            <org.eventb.core.prIdent name="INIT" org.eventb.core.type="PROCS"/>
+            <org.eventb.core.prIdent name="PROCS" org.eventb.core.type="ℙ(PROCS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p57" org.eventb.core.predicate="¬OREAD=OWRITE"/>
+        <org.eventb.core.prPred name="p17" org.eventb.core.predicate="O_NOFOLLOW=11"/>
+        <org.eventb.core.prPred name="p18" org.eventb.core.predicate="partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF})"/>
+        <org.eventb.core.prPred name="p66" org.eventb.core.predicate="INTEGRITY_MODES={ENFORCE,FIX,OFF}"/>
+        <org.eventb.core.prPred name="p75" org.eventb.core.predicate="INIT_NAME∈STRINGS">
+            <org.eventb.core.prIdent name="INIT_NAME" org.eventb.core.type="STRINGS"/>
+            <org.eventb.core.prIdent name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p48" org.eventb.core.predicate="USER_PERMISSIONS={UREAD,UWRITE,UEXECUTE}"/>
+        <org.eventb.core.prPred name="p23" org.eventb.core.predicate="O_NOATIME=17"/>
+        <org.eventb.core.prPred name="p82" org.eventb.core.predicate="ROOT_META_HASH∈HASHES">
+            <org.eventb.core.prIdent name="ROOT_META_HASH" org.eventb.core.type="HASHES"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p42" org.eventb.core.predicate="USER_PERMISSIONS∩GROUP_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p27" org.eventb.core.predicate="ROOT≠INIT_EXE"/>
+        <org.eventb.core.prPred name="p47" org.eventb.core.predicate="OTHER_PERMISSIONS∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p95" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩{OREAD,OWRITE,OEXECUTE}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p34" org.eventb.core.predicate="O_RDONLY=1"/>
+        <org.eventb.core.prPred name="p76" org.eventb.core.predicate="ROOT∈FILES"/>
+        <org.eventb.core.prPred name="p83" org.eventb.core.predicate="INIT_EXE_CONTENT_HASH∈HASHES"/>
+        <org.eventb.core.prPred name="p53" org.eventb.core.predicate="¬GREAD=GWRITE"/>
+        <org.eventb.core.prPred name="p90" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p44" org.eventb.core.predicate="USER_PERMISSIONS∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p68" org.eventb.core.predicate="¬ENFORCE=OFF"/>
+        <org.eventb.core.prPred name="p71" org.eventb.core.predicate="¬XATTR_CREATE=XATTR_REPLACE"/>
+        <org.eventb.core.prPred name="p98" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩{SET_UID,SET_GID,STICKY_BIT}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p94" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩{OREAD,OWRITE,OEXECUTE}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p12" org.eventb.core.predicate="O_SYNC=15"/>
+        <org.eventb.core.prPred name="p13" org.eventb.core.predicate="O_WRONLY=2"/>
+        <org.eventb.core.prPred name="p0" org.eventb.core.predicate="{ROOT ↦ ROOT_CONTENT_HASH,INIT_EXE ↦ INIT_EXE_CONTENT_HASH}∈{ROOT,INIT_EXE} → HASHES"/>
+        <org.eventb.core.prPred name="p97" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩{SET_UID,SET_GID,STICKY_BIT}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p20" org.eventb.core.predicate="finite(FILES)"/>
+        <org.eventb.core.prPred name="p21" org.eventb.core.predicate="O_RDWR=3"/>
+        <org.eventb.core.prPred name="p24" org.eventb.core.predicate="O_PATH=19"/>
+        <org.eventb.core.prPred name="p28" org.eventb.core.predicate="partition(GROUP_PERMISSIONS,{GREAD},{GWRITE},{GEXECUTE})"/>
+        <org.eventb.core.prPred name="p63" org.eventb.core.predicate="¬SET_GID=STICKY_BIT"/>
+        <org.eventb.core.prPred name="p70" org.eventb.core.predicate="XATTR_FLAGS={XATTR_CREATE,XATTR_REPLACE}"/>
+        <org.eventb.core.prPred name="p88" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p29" org.eventb.core.predicate="O_DIRECT=6"/>
+        <org.eventb.core.prPred name="p30" org.eventb.core.predicate="O_DSYNC=16"/>
+        <org.eventb.core.prPred name="p93" org.eventb.core.predicate="{OREAD,OWRITE,OEXECUTE}∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p56" org.eventb.core.predicate="OTHER_PERMISSIONS={OREAD,OWRITE,OEXECUTE}"/>
+        <org.eventb.core.prPred name="p62" org.eventb.core.predicate="¬SET_UID=STICKY_BIT"/>
+        <org.eventb.core.prPred name="p72" org.eventb.core.predicate="¬ROOT=INIT_EXE"/>
+        <org.eventb.core.prPred name="p46" org.eventb.core.predicate="GROUP_PERMISSIONS∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p99" org.eventb.core.predicate="{OREAD,OWRITE,OEXECUTE}∩{SET_UID,SET_GID,STICKY_BIT}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p60" org.eventb.core.predicate="FILE_MODES={SET_UID,SET_GID,STICKY_BIT}"/>
+        <org.eventb.core.prPred name="p35" org.eventb.core.predicate="O_EXCL=5"/>
+        <org.eventb.core.prPred name="p51" org.eventb.core.predicate="¬UWRITE=UEXECUTE"/>
+        <org.eventb.core.prPred name="p36" org.eventb.core.predicate="O_APPEND=13"/>
+        <org.eventb.core.prPred name="p37" org.eventb.core.predicate="O_CREAT=4"/>
+        <org.eventb.core.prPred name="p38" org.eventb.core.predicate="partition(XATTR_FLAGS,{XATTR_CREATE},{XATTR_REPLACE})"/>
+        <org.eventb.core.prReas name="r0" org.eventb.core.prRID="org.eventb.core.seqprover.partitionRewrites"/>
+        <org.eventb.core.prReas name="r3" org.eventb.core.prRID="org.eventb.core.seqprover.eq:1"/>
+        <org.eventb.core.prReas name="r2" org.eventb.core.prRID="org.eventb.core.seqprover.typeRewrites:1"/>
+        <org.eventb.core.prReas name="r4" org.eventb.core.prRID="com.clearsy.atelierb.provers.core.externalML:1"/>
+        <org.eventb.core.prReas name="r1" org.eventb.core.prRID="org.eventb.core.seqprover.autoRewritesL4:0"/>
     </org.eventb.core.prProof>
     <org.eventb.core.prProof name="open_create/ContentHash_type/INV" org.eventb.core.confidence="1000" org.eventb.core.prFresh="" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p1" org.eventb.core.prSets="FILES,HASHES">
         <org.eventb.core.lang name="L"/>
@@ -1139,14 +1432,307 @@
         <org.eventb.core.prPred name="p0" org.eventb.core.predicate="ContentHash{file ↦ contentHash}∈Files∪{file} → HASHES"/>
         <org.eventb.core.prReas name="r0" org.eventb.core.prRID="org.eventb.smt.core.externalSMT"/>
     </org.eventb.core.prProof>
-    <org.eventb.core.prProof name="INITIALISATION/MetaHash_type/INV" org.eventb.core.confidence="1000" org.eventb.core.prFresh="" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p0" org.eventb.core.prSets="FILES,HASHES">
+    <org.eventb.core.prProof name="INITIALISATION/MetaHash_type/INV" org.eventb.core.confidence="1000" org.eventb.core.prFresh="" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24,p25,p26,p27,p28,p29,p30,p31,p32,p33,p34,p35,p36,p37,p38,p39,p40" org.eventb.core.prSets="FILES,FILE_DESCRIPTORS_EXTENDED,HASHES,INTEGRITY_MODES,PERMISSIONS,XATTR_FLAGS">
         <org.eventb.core.lang name="L"/>
-        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="hyp" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p0"/>
+        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(PERMISSIONS,USER_PERMISSIONS,GROUP_PERMISSIONS,OTHER_PERMISSIONS,FILE_MODES))" org.eventb.core.prHyps="">
+            <org.eventb.core.prAnte name="'">
+                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p7" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p41,p42,p43,p44,p45,p46,p47"/>
+                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p41,p42,p43,p44,p45,p46,p47"/>
+                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(USER_PERMISSIONS,{UREAD},{UWRITE},{UEXECUTE}))" org.eventb.core.prHyps="">
+                    <org.eventb.core.prAnte name="'">
+                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p3" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p48,p49,p50,p51"/>
+                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p48,p49,p50,p51"/>
+                        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(GROUP_PERMISSIONS,{GREAD},{GWRITE},{GEXECUTE}))" org.eventb.core.prHyps="">
+                            <org.eventb.core.prAnte name="'">
+                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p28" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p52,p53,p54,p55"/>
+                                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p52,p53,p54,p55"/>
+                                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(OTHER_PERMISSIONS,{OREAD},{OWRITE},{OEXECUTE}))" org.eventb.core.prHyps="">
+                                    <org.eventb.core.prAnte name="'">
+                                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p10" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p56,p57,p58,p59"/>
+                                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p56,p57,p58,p59"/>
+                                        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(FILE_MODES,{SET_UID},{SET_GID},{STICKY_BIT}))" org.eventb.core.prHyps="">
+                                            <org.eventb.core.prAnte name="'">
+                                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p9" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p60,p61,p62,p63"/>
+                                                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p60,p61,p62,p63"/>
+                                                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD}))" org.eventb.core.prHyps="">
+                                                    <org.eventb.core.prAnte name="'">
+                                                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p5" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p64,p65"/>
+                                                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p64,p65"/>
+                                                        <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF}))" org.eventb.core.prHyps="">
+                                                            <org.eventb.core.prAnte name="'">
+                                                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p18" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p66,p67,p68,p69"/>
+                                                                <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p66,p67,p68,p69"/>
+                                                                <org.eventb.core.prRule name="r0" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="Partition rewrites in hyp (partition(XATTR_FLAGS,{XATTR_CREATE},{XATTR_REPLACE}))" org.eventb.core.prHyps="">
+                                                                    <org.eventb.core.prAnte name="'">
+                                                                        <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p38" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p70,p71"/>
+                                                                        <org.eventb.core.prHypAction name="SELECT1" org.eventb.core.prHyps="p70,p71"/>
+                                                                        <org.eventb.core.prRule name="r1" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="simplification rewrites" org.eventb.core.prHyps="">
+                                                                            <org.eventb.core.prAnte name="'">
+                                                                                <org.eventb.core.prHypAction name="REWRITE0" org.eventb.core.prHidden="p27" org.eventb.core.prHyps="" org.eventb.core.prInfHyps="p72"/>
+                                                                                <org.eventb.core.prRule name="r2" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="type rewrites" org.eventb.core.prHyps="">
+                                                                                    <org.eventb.core.prAnte name="'">
+                                                                                        <org.eventb.core.prHypAction name="HIDE0" org.eventb.core.prHyps="p73"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE1" org.eventb.core.prHyps="p74"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE2" org.eventb.core.prHyps="p75"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE3" org.eventb.core.prHyps="p76"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE4" org.eventb.core.prHyps="p77"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE5" org.eventb.core.prHyps="p78"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE6" org.eventb.core.prHyps="p79"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE7" org.eventb.core.prHyps="p80"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE8" org.eventb.core.prHyps="p81"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE9" org.eventb.core.prHyps="p82"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE10" org.eventb.core.prHyps="p83"/>
+                                                                                        <org.eventb.core.prHypAction name="HIDE11" org.eventb.core.prHyps="p84"/>
+                                                                                        <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with USER_PERMISSIONS={UREAD,UWRITE,UEXECUTE}" org.eventb.core.prHyps="p48">
+                                                                                            <org.eventb.core.prAnte name="'">
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p41" org.eventb.core.prInfHyps="p85"/>
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p42" org.eventb.core.prInfHyps="p86"/>
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p43" org.eventb.core.prInfHyps="p87"/>
+                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p44" org.eventb.core.prInfHyps="p88"/>
+                                                                                                <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p41,p42,p43,p44"/>
+                                                                                                <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with GROUP_PERMISSIONS={GREAD,GWRITE,GEXECUTE}" org.eventb.core.prHyps="p52">
+                                                                                                    <org.eventb.core.prAnte name="'">
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p45" org.eventb.core.prInfHyps="p89"/>
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p46" org.eventb.core.prInfHyps="p90"/>
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p85" org.eventb.core.prInfHyps="p91"/>
+                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p86" org.eventb.core.prInfHyps="p92"/>
+                                                                                                        <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p45,p46,p85,p86"/>
+                                                                                                        <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with OTHER_PERMISSIONS={OREAD,OWRITE,OEXECUTE}" org.eventb.core.prHyps="p56">
+                                                                                                            <org.eventb.core.prAnte name="'">
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p47" org.eventb.core.prInfHyps="p93"/>
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p87" org.eventb.core.prInfHyps="p94"/>
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p89" org.eventb.core.prInfHyps="p95"/>
+                                                                                                                <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p91" org.eventb.core.prInfHyps="p96"/>
+                                                                                                                <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p47,p87,p89,p91"/>
+                                                                                                                <org.eventb.core.prRule name="r3" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="eh with FILE_MODES={SET_UID,SET_GID,STICKY_BIT}" org.eventb.core.prHyps="p60">
+                                                                                                                    <org.eventb.core.prAnte name="'">
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF0" org.eventb.core.prHyps="p88" org.eventb.core.prInfHyps="p97"/>
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF1" org.eventb.core.prHyps="p90" org.eventb.core.prInfHyps="p98"/>
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF2" org.eventb.core.prHyps="p93" org.eventb.core.prInfHyps="p99"/>
+                                                                                                                        <org.eventb.core.prHypAction name="FORWARD_INF3" org.eventb.core.prHyps="p96" org.eventb.core.prInfHyps="p100"/>
+                                                                                                                        <org.eventb.core.prHypAction name="DESELECT4" org.eventb.core.prHyps="p88,p90,p93,p96"/>
+                                                                                                                        <org.eventb.core.prRule name="r4" org.eventb.core.confidence="1000" org.eventb.core.prDisplay="ML" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p11,p20,p31,p16,p4,p14,p40,p25,p6,p34,p13,p21,p37,p35,p29,p32,p26,p39,p1,p17,p15,p36,p22,p12,p30,p23,p8,p24,p33,p2,p19,p41,p42,p43,p44,p45,p46,p47,p48,p49,p50,p51,p52,p53,p54,p55,p56,p57,p58,p59,p60,p61,p62,p63,p64,p65,p66,p67,p68,p69,p70,p71,p72,p85,p86,p87,p88,p89,p90,p91,p92,p93,p94,p95,p96,p97,p98,p99,p100">
+                                                                                                                            <org.eventb.core.prString name=".arg" org.eventb.core.prSValue="0;1:500"/>
+                                                                                                                        </org.eventb.core.prRule>
+                                                                                                                    </org.eventb.core.prAnte>
+                                                                                                                </org.eventb.core.prRule>
+                                                                                                            </org.eventb.core.prAnte>
+                                                                                                        </org.eventb.core.prRule>
+                                                                                                    </org.eventb.core.prAnte>
+                                                                                                </org.eventb.core.prRule>
+                                                                                            </org.eventb.core.prAnte>
+                                                                                        </org.eventb.core.prRule>
+                                                                                    </org.eventb.core.prAnte>
+                                                                                </org.eventb.core.prRule>
+                                                                            </org.eventb.core.prAnte>
+                                                                        </org.eventb.core.prRule>
+                                                                    </org.eventb.core.prAnte>
+                                                                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                                                </org.eventb.core.prRule>
+                                                            </org.eventb.core.prAnte>
+                                                            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                                        </org.eventb.core.prRule>
+                                                    </org.eventb.core.prAnte>
+                                                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                                </org.eventb.core.prRule>
+                                            </org.eventb.core.prAnte>
+                                            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                        </org.eventb.core.prRule>
+                                    </org.eventb.core.prAnte>
+                                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                                </org.eventb.core.prRule>
+                            </org.eventb.core.prAnte>
+                            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                        </org.eventb.core.prRule>
+                    </org.eventb.core.prAnte>
+                    <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+                </org.eventb.core.prRule>
+            </org.eventb.core.prAnte>
+            <org.eventb.core.prString name=".pos" org.eventb.core.prSValue=""/>
+        </org.eventb.core.prRule>
+        <org.eventb.core.prIdent name="AT_FDCWD" org.eventb.core.type="FILE_DESCRIPTORS_EXTENDED"/>
+        <org.eventb.core.prIdent name="DEF_FILE_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="DEF_FOLDER_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="DEF_SYMLINK_PERMS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="ENFORCE" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.prIdent name="FILE_DESCRIPTORS" org.eventb.core.type="ℙ(FILE_DESCRIPTORS_EXTENDED)"/>
+        <org.eventb.core.prIdent name="FILE_LIMIT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="FILE_MODES" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="FIX" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.prIdent name="GEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="GREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="GROUP_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="GWRITE" org.eventb.core.type="PERMISSIONS"/>
         <org.eventb.core.prIdent name="INIT_EXE" org.eventb.core.type="FILES"/>
-        <org.eventb.core.prIdent name="MetaHash'" org.eventb.core.type="ℙ(FILES×HASHES)"/>
+        <org.eventb.core.prIdent name="INIT_EXE_META_HASH" org.eventb.core.type="HASHES"/>
+        <org.eventb.core.prIdent name="MAX_FILES" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="OEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="OFF" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.prIdent name="OPEN_FLAGS" org.eventb.core.type="ℙ(ℤ)"/>
+        <org.eventb.core.prIdent name="OREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="OTHER_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="OWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="O_APPEND" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_ASYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_CLOEXEC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_CREAT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_DIRECT" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_DIRECTORY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_DSYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_EXCL" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_LARGEFILE" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NDELAY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOATIME" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOBLOCK" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOCTTY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_NOFOLLOW" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_PATH" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_RDONLY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_RDWR" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_SYNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_TMPFILE" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_TRUNC" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="O_WRONLY" org.eventb.core.type="ℤ"/>
+        <org.eventb.core.prIdent name="PROC_FILE_LIMIT" org.eventb.core.type="ℤ"/>
         <org.eventb.core.prIdent name="ROOT" org.eventb.core.type="FILES"/>
-        <org.eventb.core.prPred name="p0" org.eventb.core.predicate="MetaHash'∈{ROOT,INIT_EXE} → HASHES"/>
-        <org.eventb.core.prReas name="r0" org.eventb.core.prRID="org.eventb.core.seqprover.hyp"/>
+        <org.eventb.core.prIdent name="ROOT_META_HASH" org.eventb.core.type="HASHES"/>
+        <org.eventb.core.prIdent name="SET_GID" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="SET_UID" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="STICKY_BIT" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="UEXECUTE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="UREAD" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="USER_PERMISSIONS" org.eventb.core.type="ℙ(PERMISSIONS)"/>
+        <org.eventb.core.prIdent name="UWRITE" org.eventb.core.type="PERMISSIONS"/>
+        <org.eventb.core.prIdent name="XATTR_CREATE" org.eventb.core.type="XATTR_FLAGS"/>
+        <org.eventb.core.prIdent name="XATTR_REPLACE" org.eventb.core.type="XATTR_FLAGS"/>
+        <org.eventb.core.prPred name="p2" org.eventb.core.predicate="O_NDELAY=21"/>
+        <org.eventb.core.prPred name="p3" org.eventb.core.predicate="partition(USER_PERMISSIONS,{UREAD},{UWRITE},{UEXECUTE})"/>
+        <org.eventb.core.prPred name="p78" org.eventb.core.predicate="ROOT_GROUP∈GROUPS">
+            <org.eventb.core.prIdent name="GROUPS" org.eventb.core.type="ℙ(GROUPS)"/>
+            <org.eventb.core.prIdent name="ROOT_GROUP" org.eventb.core.type="GROUPS"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p8" org.eventb.core.predicate="O_LARGEFILE=18"/>
+        <org.eventb.core.prPred name="p74" org.eventb.core.predicate="INIT_EXE∈FILES"/>
+        <org.eventb.core.prPred name="p86" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩GROUP_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p80" org.eventb.core.predicate="EVM_STRING∈STRINGS">
+            <org.eventb.core.prIdent name="EVM_STRING" org.eventb.core.type="STRINGS"/>
+            <org.eventb.core.prIdent name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p77" org.eventb.core.predicate="ROOT_USER∈USERS">
+            <org.eventb.core.prIdent name="ROOT_USER" org.eventb.core.type="USERS"/>
+            <org.eventb.core.prIdent name="USERS" org.eventb.core.type="ℙ(USERS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p85" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪GROUP_PERMISSIONS∪OTHER_PERMISSIONS∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p16" org.eventb.core.predicate="PROC_FILE_LIMIT∈ℕ1"/>
+        <org.eventb.core.prPred name="p43" org.eventb.core.predicate="USER_PERMISSIONS∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p19" org.eventb.core.predicate="OPEN_FLAGS={O_RDONLY,O_WRONLY,O_RDWR,O_CLOEXEC,O_CREAT,O_DIRECTORY,O_EXCL,O_NOCTTY,O_NOFOLLOW,O_TMPFILE,O_TRUNC,O_APPEND,O_ASYNC,O_DIRECT,O_DSYNC,O_LARGEFILE,O_NOATIME,O_NOBLOCK,O_NDELAY,O_PATH,O_SYNC}"/>
+        <org.eventb.core.prPred name="p58" org.eventb.core.predicate="¬OREAD=OEXECUTE"/>
+        <org.eventb.core.prPred name="p54" org.eventb.core.predicate="¬GREAD=GEXECUTE"/>
+        <org.eventb.core.prPred name="p100" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪{GREAD,GWRITE,GEXECUTE}∪{OREAD,OWRITE,OEXECUTE}∪{SET_UID,SET_GID,STICKY_BIT}"/>
+        <org.eventb.core.prPred name="p81" org.eventb.core.predicate="ROOT_CONTENT_HASH∈HASHES">
+            <org.eventb.core.prIdent name="ROOT_CONTENT_HASH" org.eventb.core.type="HASHES"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p65" org.eventb.core.predicate="¬AT_FDCWD∈FILE_DESCRIPTORS"/>
+        <org.eventb.core.prPred name="p1" org.eventb.core.predicate="O_NOCTTY=10"/>
+        <org.eventb.core.prPred name="p79" org.eventb.core.predicate="IMA_STRING∈STRINGS">
+            <org.eventb.core.prIdent name="IMA_STRING" org.eventb.core.type="STRINGS"/>
+            <org.eventb.core.prIdent name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p59" org.eventb.core.predicate="¬OWRITE=OEXECUTE"/>
+        <org.eventb.core.prPred name="p5" org.eventb.core.predicate="partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD})"/>
+        <org.eventb.core.prPred name="p6" org.eventb.core.predicate="DEF_SYMLINK_PERMS={UREAD,UWRITE,UEXECUTE,GREAD,GWRITE,GEXECUTE,OREAD,OWRITE,OEXECUTE}"/>
+        <org.eventb.core.prPred name="p7" org.eventb.core.predicate="partition(PERMISSIONS,USER_PERMISSIONS,GROUP_PERMISSIONS,OTHER_PERMISSIONS,FILE_MODES)"/>
+        <org.eventb.core.prPred name="p9" org.eventb.core.predicate="partition(FILE_MODES,{SET_UID},{SET_GID},{STICKY_BIT})"/>
+        <org.eventb.core.prPred name="p10" org.eventb.core.predicate="partition(OTHER_PERMISSIONS,{OREAD},{OWRITE},{OEXECUTE})"/>
+        <org.eventb.core.prPred name="p11" org.eventb.core.predicate="MAX_FILES∈ℕ1"/>
+        <org.eventb.core.prPred name="p61" org.eventb.core.predicate="¬SET_UID=SET_GID"/>
+        <org.eventb.core.prPred name="p91" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪{GREAD,GWRITE,GEXECUTE}∪OTHER_PERMISSIONS∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p14" org.eventb.core.predicate="FILE_LIMIT∈ℕ1"/>
+        <org.eventb.core.prPred name="p41" org.eventb.core.predicate="PERMISSIONS=USER_PERMISSIONS∪GROUP_PERMISSIONS∪OTHER_PERMISSIONS∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p64" org.eventb.core.predicate="FILE_DESCRIPTORS_EXTENDED=FILE_DESCRIPTORS∪{AT_FDCWD}"/>
+        <org.eventb.core.prPred name="p69" org.eventb.core.predicate="¬FIX=OFF"/>
+        <org.eventb.core.prPred name="p89" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p50" org.eventb.core.predicate="¬UREAD=UEXECUTE"/>
+        <org.eventb.core.prPred name="p22" org.eventb.core.predicate="O_ASYNC=14"/>
+        <org.eventb.core.prPred name="p25" org.eventb.core.predicate="DEF_FOLDER_PERMS={UREAD,UWRITE,UEXECUTE,GREAD,GEXECUTE,OREAD,OEXECUTE}"/>
+        <org.eventb.core.prPred name="p26" org.eventb.core.predicate="O_DIRECTORY=8"/>
+        <org.eventb.core.prPred name="p55" org.eventb.core.predicate="¬GWRITE=GEXECUTE"/>
+        <org.eventb.core.prPred name="p92" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩{GREAD,GWRITE,GEXECUTE}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p84" org.eventb.core.predicate="INIT_EXE_META_HASH∈HASHES"/>
+        <org.eventb.core.prPred name="p45" org.eventb.core.predicate="GROUP_PERMISSIONS∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p31" org.eventb.core.predicate="card(FILES)≤MAX_FILES"/>
+        <org.eventb.core.prPred name="p32" org.eventb.core.predicate="O_TMPFILE=7"/>
+        <org.eventb.core.prPred name="p33" org.eventb.core.predicate="O_NOBLOCK=20"/>
+        <org.eventb.core.prPred name="p39" org.eventb.core.predicate="O_CLOEXEC=9"/>
+        <org.eventb.core.prPred name="p40" org.eventb.core.predicate="DEF_FILE_PERMS={UREAD,UWRITE,GREAD,OREAD}"/>
+        <org.eventb.core.prPred name="p87" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩OTHER_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p52" org.eventb.core.predicate="GROUP_PERMISSIONS={GREAD,GWRITE,GEXECUTE}"/>
+        <org.eventb.core.prPred name="p4" org.eventb.core.predicate="finite(FILE_DESCRIPTORS_EXTENDED)"/>
+        <org.eventb.core.prPred name="p96" org.eventb.core.predicate="PERMISSIONS={UREAD,UWRITE,UEXECUTE}∪{GREAD,GWRITE,GEXECUTE}∪{OREAD,OWRITE,OEXECUTE}∪FILE_MODES"/>
+        <org.eventb.core.prPred name="p67" org.eventb.core.predicate="¬ENFORCE=FIX"/>
+        <org.eventb.core.prPred name="p49" org.eventb.core.predicate="¬UREAD=UWRITE"/>
+        <org.eventb.core.prPred name="p15" org.eventb.core.predicate="O_TRUNC=12"/>
+        <org.eventb.core.prPred name="p73" org.eventb.core.predicate="INIT∈PROCS">
+            <org.eventb.core.prIdent name="INIT" org.eventb.core.type="PROCS"/>
+            <org.eventb.core.prIdent name="PROCS" org.eventb.core.type="ℙ(PROCS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p57" org.eventb.core.predicate="¬OREAD=OWRITE"/>
+        <org.eventb.core.prPred name="p17" org.eventb.core.predicate="O_NOFOLLOW=11"/>
+        <org.eventb.core.prPred name="p18" org.eventb.core.predicate="partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF})"/>
+        <org.eventb.core.prPred name="p66" org.eventb.core.predicate="INTEGRITY_MODES={ENFORCE,FIX,OFF}"/>
+        <org.eventb.core.prPred name="p75" org.eventb.core.predicate="INIT_NAME∈STRINGS">
+            <org.eventb.core.prIdent name="INIT_NAME" org.eventb.core.type="STRINGS"/>
+            <org.eventb.core.prIdent name="STRINGS" org.eventb.core.type="ℙ(STRINGS)"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p48" org.eventb.core.predicate="USER_PERMISSIONS={UREAD,UWRITE,UEXECUTE}"/>
+        <org.eventb.core.prPred name="p23" org.eventb.core.predicate="O_NOATIME=17"/>
+        <org.eventb.core.prPred name="p82" org.eventb.core.predicate="ROOT_META_HASH∈HASHES"/>
+        <org.eventb.core.prPred name="p42" org.eventb.core.predicate="USER_PERMISSIONS∩GROUP_PERMISSIONS=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p27" org.eventb.core.predicate="ROOT≠INIT_EXE"/>
+        <org.eventb.core.prPred name="p47" org.eventb.core.predicate="OTHER_PERMISSIONS∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p95" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩{OREAD,OWRITE,OEXECUTE}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p34" org.eventb.core.predicate="O_RDONLY=1"/>
+        <org.eventb.core.prPred name="p76" org.eventb.core.predicate="ROOT∈FILES"/>
+        <org.eventb.core.prPred name="p83" org.eventb.core.predicate="INIT_EXE_CONTENT_HASH∈HASHES">
+            <org.eventb.core.prIdent name="INIT_EXE_CONTENT_HASH" org.eventb.core.type="HASHES"/>
+        </org.eventb.core.prPred>
+        <org.eventb.core.prPred name="p53" org.eventb.core.predicate="¬GREAD=GWRITE"/>
+        <org.eventb.core.prPred name="p90" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p44" org.eventb.core.predicate="USER_PERMISSIONS∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p68" org.eventb.core.predicate="¬ENFORCE=OFF"/>
+        <org.eventb.core.prPred name="p71" org.eventb.core.predicate="¬XATTR_CREATE=XATTR_REPLACE"/>
+        <org.eventb.core.prPred name="p98" org.eventb.core.predicate="{GREAD,GWRITE,GEXECUTE}∩{SET_UID,SET_GID,STICKY_BIT}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p94" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩{OREAD,OWRITE,OEXECUTE}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p12" org.eventb.core.predicate="O_SYNC=15"/>
+        <org.eventb.core.prPred name="p13" org.eventb.core.predicate="O_WRONLY=2"/>
+        <org.eventb.core.prPred name="p0" org.eventb.core.predicate="{ROOT ↦ ROOT_META_HASH,INIT_EXE ↦ INIT_EXE_META_HASH}∈{ROOT,INIT_EXE} → HASHES"/>
+        <org.eventb.core.prPred name="p97" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩{SET_UID,SET_GID,STICKY_BIT}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p20" org.eventb.core.predicate="finite(FILES)"/>
+        <org.eventb.core.prPred name="p21" org.eventb.core.predicate="O_RDWR=3"/>
+        <org.eventb.core.prPred name="p24" org.eventb.core.predicate="O_PATH=19"/>
+        <org.eventb.core.prPred name="p28" org.eventb.core.predicate="partition(GROUP_PERMISSIONS,{GREAD},{GWRITE},{GEXECUTE})"/>
+        <org.eventb.core.prPred name="p63" org.eventb.core.predicate="¬SET_GID=STICKY_BIT"/>
+        <org.eventb.core.prPred name="p70" org.eventb.core.predicate="XATTR_FLAGS={XATTR_CREATE,XATTR_REPLACE}"/>
+        <org.eventb.core.prPred name="p88" org.eventb.core.predicate="{UREAD,UWRITE,UEXECUTE}∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p29" org.eventb.core.predicate="O_DIRECT=6"/>
+        <org.eventb.core.prPred name="p30" org.eventb.core.predicate="O_DSYNC=16"/>
+        <org.eventb.core.prPred name="p93" org.eventb.core.predicate="{OREAD,OWRITE,OEXECUTE}∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p56" org.eventb.core.predicate="OTHER_PERMISSIONS={OREAD,OWRITE,OEXECUTE}"/>
+        <org.eventb.core.prPred name="p62" org.eventb.core.predicate="¬SET_UID=STICKY_BIT"/>
+        <org.eventb.core.prPred name="p72" org.eventb.core.predicate="¬ROOT=INIT_EXE"/>
+        <org.eventb.core.prPred name="p46" org.eventb.core.predicate="GROUP_PERMISSIONS∩FILE_MODES=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p99" org.eventb.core.predicate="{OREAD,OWRITE,OEXECUTE}∩{SET_UID,SET_GID,STICKY_BIT}=(∅ ⦂ ℙ(PERMISSIONS))"/>
+        <org.eventb.core.prPred name="p60" org.eventb.core.predicate="FILE_MODES={SET_UID,SET_GID,STICKY_BIT}"/>
+        <org.eventb.core.prPred name="p35" org.eventb.core.predicate="O_EXCL=5"/>
+        <org.eventb.core.prPred name="p51" org.eventb.core.predicate="¬UWRITE=UEXECUTE"/>
+        <org.eventb.core.prPred name="p36" org.eventb.core.predicate="O_APPEND=13"/>
+        <org.eventb.core.prPred name="p37" org.eventb.core.predicate="O_CREAT=4"/>
+        <org.eventb.core.prPred name="p38" org.eventb.core.predicate="partition(XATTR_FLAGS,{XATTR_CREATE},{XATTR_REPLACE})"/>
+        <org.eventb.core.prReas name="r0" org.eventb.core.prRID="org.eventb.core.seqprover.partitionRewrites"/>
+        <org.eventb.core.prReas name="r3" org.eventb.core.prRID="org.eventb.core.seqprover.eq:1"/>
+        <org.eventb.core.prReas name="r2" org.eventb.core.prRID="org.eventb.core.seqprover.typeRewrites:1"/>
+        <org.eventb.core.prReas name="r4" org.eventb.core.prRID="com.clearsy.atelierb.provers.core.externalML:1"/>
+        <org.eventb.core.prReas name="r1" org.eventb.core.prRID="org.eventb.core.seqprover.autoRewritesL4:0"/>
     </org.eventb.core.prProof>
     <org.eventb.core.prProof name="open_create/MetaHash_type/INV" org.eventb.core.confidence="1000" org.eventb.core.prFresh="" org.eventb.core.prGoal="p0" org.eventb.core.prHyps="p1" org.eventb.core.prSets="FILES,HASHES">
         <org.eventb.core.lang name="L"/>

@@ -8,7 +8,15 @@
   <org.eventb.core.constant name="6" org.eventb.core.identifier="OFF" de.prob.symbolic.symbolicAttribute="false"/>
   <org.eventb.core.constant name="7" org.eventb.core.comment="security.ima" org.eventb.core.identifier="IMA_STRING" de.prob.symbolic.symbolicAttribute="false"/>
   <org.eventb.core.constant name="8" org.eventb.core.comment="security.evm" org.eventb.core.identifier="EVM_STRING" de.prob.symbolic.symbolicAttribute="false"/>
-  <org.eventb.core.axiom name="9" org.eventb.core.label="INTEGRITY_MODES_partition" org.eventb.core.predicate="partition(INTEGRITY_MODES, {ENFORCE}, {FIX}, {OFF})" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="10" org.eventb.core.label="IMA_STRING_type" org.eventb.core.predicate="IMA_STRING ∈ STRINGS" org.eventb.core.theorem="false"/>
-  <org.eventb.core.axiom name="11" org.eventb.core.label="EVM_STRING_type" org.eventb.core.predicate="EVM_STRING ∈ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.constant name="9" org.eventb.core.identifier="ROOT_CONTENT_HASH" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="10" org.eventb.core.identifier="ROOT_META_HASH" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="11" org.eventb.core.identifier="INIT_EXE_CONTENT_HASH" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.constant name="12" org.eventb.core.identifier="INIT_EXE_META_HASH" de.prob.symbolic.symbolicAttribute="false"/>
+  <org.eventb.core.axiom name="13" org.eventb.core.label="INTEGRITY_MODES_partition" org.eventb.core.predicate="partition(INTEGRITY_MODES, {ENFORCE}, {FIX}, {OFF})" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="14" org.eventb.core.label="IMA_STRING_type" org.eventb.core.predicate="IMA_STRING ∈ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="15" org.eventb.core.label="EVM_STRING_type" org.eventb.core.predicate="EVM_STRING ∈ STRINGS" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="16" org.eventb.core.label="ROOT_CONTENT_HASH_type" org.eventb.core.predicate="ROOT_CONTENT_HASH ∈ HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="17" org.eventb.core.label="ROOT_META_HASH_type" org.eventb.core.predicate="ROOT_META_HASH ∈ HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="18" org.eventb.core.label="INIT_EXE_CONTENT_HASH_type" org.eventb.core.predicate="INIT_EXE_CONTENT_HASH ∈ HASHES" org.eventb.core.theorem="false"/>
+  <org.eventb.core.axiom name="19" org.eventb.core.label="INIT_EXE_META_HASH_type" org.eventb.core.predicate="INIT_EXE_META_HASH ∈ HASHES" org.eventb.core.theorem="false"/>
 </org.eventb.core.contextFile>

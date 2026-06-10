@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<org.eventb.core.poFile org.eventb.core.poStamp="1">
-    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="1">
+<org.eventb.core.poFile org.eventb.core.poStamp="2">
+    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="2">
         <org.eventb.core.poIdentifier name="GROUPS" org.eventb.core.type="ℙ(GROUPS)"/>
         <org.eventb.core.poIdentifier name="USERS" org.eventb.core.type="ℙ(USERS)"/>
         <org.eventb.core.poIdentifier name="FILES" org.eventb.core.type="ℙ(FILES)"/>
@@ -64,15 +64,23 @@
         <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDEZ" org.eventb.core.predicate="partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#61"/>
         <org.eventb.core.poIdentifier name="HASHES" org.eventb.core.type="ℙ(HASHES)"/>
         <org.eventb.core.poIdentifier name="INTEGRITY_MODES" org.eventb.core.type="ℙ(INTEGRITY_MODES)"/>
+        <org.eventb.core.poIdentifier name="ROOT_CONTENT_HASH" org.eventb.core.type="HASHES"/>
         <org.eventb.core.poIdentifier name="ENFORCE" org.eventb.core.type="INTEGRITY_MODES"/>
         <org.eventb.core.poIdentifier name="OFF" org.eventb.core.type="INTEGRITY_MODES"/>
+        <org.eventb.core.poIdentifier name="INIT_EXE_CONTENT_HASH" org.eventb.core.type="HASHES"/>
+        <org.eventb.core.poIdentifier name="ROOT_META_HASH" org.eventb.core.type="HASHES"/>
+        <org.eventb.core.poIdentifier name="INIT_EXE_META_HASH" org.eventb.core.type="HASHES"/>
         <org.eventb.core.poIdentifier name="EVM_STRING" org.eventb.core.type="STRINGS"/>
         <org.eventb.core.poIdentifier name="IMA_STRING" org.eventb.core.type="STRINGS"/>
         <org.eventb.core.poIdentifier name="FIX" org.eventb.core.type="INTEGRITY_MODES"/>
     </org.eventb.core.poPredicateSet>
-    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/IMA_CTX.bpo|org.eventb.core.poFile#IMA_CTX|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="1">
-        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF})" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#9"/>
-        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="IMA_STRING∈STRINGS" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#10"/>
-        <org.eventb.core.poPredicate name="PRD2" org.eventb.core.predicate="EVM_STRING∈STRINGS" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#11"/>
+    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/IMA_CTX.bpo|org.eventb.core.poFile#IMA_CTX|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="2">
+        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF})" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#13"/>
+        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="IMA_STRING∈STRINGS" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#14"/>
+        <org.eventb.core.poPredicate name="PRD2" org.eventb.core.predicate="EVM_STRING∈STRINGS" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#15"/>
+        <org.eventb.core.poPredicate name="PRD3" org.eventb.core.predicate="ROOT_CONTENT_HASH∈HASHES" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#16"/>
+        <org.eventb.core.poPredicate name="PRD4" org.eventb.core.predicate="ROOT_META_HASH∈HASHES" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#17"/>
+        <org.eventb.core.poPredicate name="PRD5" org.eventb.core.predicate="INIT_EXE_CONTENT_HASH∈HASHES" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#18"/>
+        <org.eventb.core.poPredicate name="PRD6" org.eventb.core.predicate="INIT_EXE_META_HASH∈HASHES" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#19"/>
     </org.eventb.core.poPredicateSet>
 </org.eventb.core.poFile>

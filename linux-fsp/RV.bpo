@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<org.eventb.core.poFile org.eventb.core.poStamp="1">
-    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="1">
+<org.eventb.core.poFile org.eventb.core.poStamp="2">
+    <org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="2">
         <org.eventb.core.poIdentifier name="GROUPS" org.eventb.core.type="ℙ(GROUPS)"/>
         <org.eventb.core.poIdentifier name="USERS" org.eventb.core.type="ℙ(USERS)"/>
         <org.eventb.core.poIdentifier name="FILES" org.eventb.core.type="ℙ(FILES)"/>
@@ -62,16 +62,6 @@
         <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDEX" org.eventb.core.predicate="ROOT_USER∈USERS" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#59"/>
         <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDEY" org.eventb.core.predicate="ROOT_GROUP∈GROUPS" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#60"/>
         <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDEZ" org.eventb.core.predicate="partition(FILE_DESCRIPTORS_EXTENDED,FILE_DESCRIPTORS,{AT_FDCWD})" org.eventb.core.source="/linux-fsp/DAC_CTX.buc|org.eventb.core.contextFile#DAC_CTX|org.eventb.core.axiom#61"/>
-        <org.eventb.core.poIdentifier name="HASHES" org.eventb.core.type="ℙ(HASHES)"/>
-        <org.eventb.core.poIdentifier name="INTEGRITY_MODES" org.eventb.core.type="ℙ(INTEGRITY_MODES)"/>
-        <org.eventb.core.poIdentifier name="ENFORCE" org.eventb.core.type="INTEGRITY_MODES"/>
-        <org.eventb.core.poIdentifier name="OFF" org.eventb.core.type="INTEGRITY_MODES"/>
-        <org.eventb.core.poIdentifier name="EVM_STRING" org.eventb.core.type="STRINGS"/>
-        <org.eventb.core.poIdentifier name="IMA_STRING" org.eventb.core.type="STRINGS"/>
-        <org.eventb.core.poIdentifier name="FIX" org.eventb.core.type="INTEGRITY_MODES"/>
-        <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDE[" org.eventb.core.predicate="partition(INTEGRITY_MODES,{ENFORCE},{FIX},{OFF})" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#9"/>
-        <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDE\" org.eventb.core.predicate="IMA_STRING∈STRINGS" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#10"/>
-        <org.eventb.core.poPredicate name="FILE_DESCRIPTORS_EXTENDE]" org.eventb.core.predicate="EVM_STRING∈STRINGS" org.eventb.core.source="/linux-fsp/IMA_CTX.buc|org.eventb.core.contextFile#IMA_CTX|org.eventb.core.axiom#11"/>
         <org.eventb.core.poIdentifier name="S_IRUSR" org.eventb.core.type="PERMISSIONS"/>
         <org.eventb.core.poIdentifier name="S_IWOTH" org.eventb.core.type="PERMISSIONS"/>
         <org.eventb.core.poIdentifier name="S_IWGRP" org.eventb.core.type="PERMISSIONS"/>
@@ -85,28 +75,22 @@
         <org.eventb.core.poIdentifier name="S_IXGRP" org.eventb.core.type="PERMISSIONS"/>
         <org.eventb.core.poIdentifier name="S_ISGID" org.eventb.core.type="PERMISSIONS"/>
     </org.eventb.core.poPredicateSet>
-    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/RV.bpo|org.eventb.core.poFile#RV|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="1">
-        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="MAX_FILES=20" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#14"/>
-        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="finite(STRINGS)∧card(STRINGS)=20" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#15"/>
-        <org.eventb.core.poPredicate name="PRD2" org.eventb.core.predicate="finite(GROUPS)∧card(GROUPS)=10" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#16"/>
-        <org.eventb.core.poPredicate name="PRD3" org.eventb.core.predicate="finite(PROCS)∧card(PROCS)=10" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#17"/>
-        <org.eventb.core.poPredicate name="PRD4" org.eventb.core.predicate="finite(USERS)∧card(USERS)=10" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#18"/>
-        <org.eventb.core.poPredicate name="PRD5" org.eventb.core.predicate="finite(DATA)∧card(DATA)=20" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#19"/>
-        <org.eventb.core.poPredicate name="PRD6" org.eventb.core.predicate="FILE_LIMIT=20" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#20"/>
-        <org.eventb.core.poPredicate name="PRD7" org.eventb.core.predicate="PROC_FILE_LIMIT=20" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#21"/>
-        <org.eventb.core.poPredicate name="PRD8" org.eventb.core.predicate="finite(FILE_DESCRIPTORS)∧card(FILE_DESCRIPTORS)=20" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#22"/>
-        <org.eventb.core.poPredicate name="PRD9" org.eventb.core.predicate="finite(CAPABILITIES)∧card(CAPABILITIES)≤10" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#23"/>
-        <org.eventb.core.poPredicate name="PRD10" org.eventb.core.predicate="S_IRUSR=UREAD" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#24"/>
-        <org.eventb.core.poPredicate name="PRD11" org.eventb.core.predicate="S_IWUSR=UWRITE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#25"/>
-        <org.eventb.core.poPredicate name="PRD12" org.eventb.core.predicate="S_IXUSR=UEXECUTE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#26"/>
-        <org.eventb.core.poPredicate name="PRD13" org.eventb.core.predicate="S_IRGRP=GREAD" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#27"/>
-        <org.eventb.core.poPredicate name="PRD14" org.eventb.core.predicate="S_IWGRP=GWRITE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#28"/>
-        <org.eventb.core.poPredicate name="PRD15" org.eventb.core.predicate="S_IXGRP=GEXECUTE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#29"/>
-        <org.eventb.core.poPredicate name="PRD16" org.eventb.core.predicate="S_IROTH=OREAD" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#30"/>
-        <org.eventb.core.poPredicate name="PRD17" org.eventb.core.predicate="S_IWOTH=OWRITE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#31"/>
-        <org.eventb.core.poPredicate name="PRD18" org.eventb.core.predicate="S_IXOTH=OEXECUTE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#32"/>
-        <org.eventb.core.poPredicate name="PRD19" org.eventb.core.predicate="S_ISUID=SET_UID" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#33"/>
-        <org.eventb.core.poPredicate name="PRD20" org.eventb.core.predicate="S_ISGID=SET_GID" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#34"/>
-        <org.eventb.core.poPredicate name="PRD21" org.eventb.core.predicate="S_ISVTX=STICKY_BIT" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#35"/>
+    <org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/linux-fsp/RV.bpo|org.eventb.core.poFile#RV|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="2">
+        <org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="MAX_FILES=1048576" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#14"/>
+        <org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="FILE_LIMIT=1024" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#15"/>
+        <org.eventb.core.poPredicate name="PRD2" org.eventb.core.predicate="PROC_FILE_LIMIT=1024" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#16"/>
+        <org.eventb.core.poPredicate name="PRD3" org.eventb.core.predicate="finite(FILE_DESCRIPTORS)∧card(FILE_DESCRIPTORS)≤1024" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#17"/>
+        <org.eventb.core.poPredicate name="PRD4" org.eventb.core.predicate="S_IRUSR=UREAD" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#18"/>
+        <org.eventb.core.poPredicate name="PRD5" org.eventb.core.predicate="S_IWUSR=UWRITE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#19"/>
+        <org.eventb.core.poPredicate name="PRD6" org.eventb.core.predicate="S_IXUSR=UEXECUTE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#20"/>
+        <org.eventb.core.poPredicate name="PRD7" org.eventb.core.predicate="S_IRGRP=GREAD" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#21"/>
+        <org.eventb.core.poPredicate name="PRD8" org.eventb.core.predicate="S_IWGRP=GWRITE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#22"/>
+        <org.eventb.core.poPredicate name="PRD9" org.eventb.core.predicate="S_IXGRP=GEXECUTE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#23"/>
+        <org.eventb.core.poPredicate name="PRD10" org.eventb.core.predicate="S_IROTH=OREAD" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#24"/>
+        <org.eventb.core.poPredicate name="PRD11" org.eventb.core.predicate="S_IWOTH=OWRITE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#25"/>
+        <org.eventb.core.poPredicate name="PRD12" org.eventb.core.predicate="S_IXOTH=OEXECUTE" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#26"/>
+        <org.eventb.core.poPredicate name="PRD13" org.eventb.core.predicate="S_ISUID=SET_UID" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#27"/>
+        <org.eventb.core.poPredicate name="PRD14" org.eventb.core.predicate="S_ISGID=SET_GID" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#28"/>
+        <org.eventb.core.poPredicate name="PRD15" org.eventb.core.predicate="S_ISVTX=STICKY_BIT" org.eventb.core.source="/linux-fsp/RV.buc|org.eventb.core.contextFile#RV|org.eventb.core.axiom#29"/>
     </org.eventb.core.poPredicateSet>
 </org.eventb.core.poFile>
